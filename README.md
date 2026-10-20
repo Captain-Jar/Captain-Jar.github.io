@@ -19,9 +19,9 @@
 
 打开 https://github.com/new
 
-- **Repository name** 填：`agent17cpu.github.io`
-  （⚠️ 必须一模一样，`agent17cpu` 是你的 GitHub 用户名。仓库叫这个名字，
-  网址才会是 `https://agent17cpu.github.io/` 这一层根目录，而不是 `/仓库名/`）
+- **Repository name** 填：`Captain-Jar.github.io`
+  （⚠️ 必须一模一样，`Captain-Jar` 是你的 GitHub 用户名。仓库叫这个名字，
+  网址才会是 `https://captain-jar.github.io/` 这一层根目录，而不是 `/仓库名/`）
 - 选 **Public**
 - 下面三个勾（README / .gitignore / license）**都不要勾**
 - 点 `Create repository`
@@ -50,7 +50,7 @@ ba                ← 整个文件夹
 
 等 1～3 分钟，刷新页面，顶部会出现：
 
-> Your site is live at **https://agent17cpu.github.io/**
+> Your site is live at **https://captain-jar.github.io/**
 
 手机浏览器也打开一次，确认能看。
 
@@ -66,7 +66,7 @@ git init
 git add .
 git commit -m "我的主页 + 蔚蓝档案计算器"
 git branch -M main
-git remote add origin https://github.com/agent17cpu/agent17cpu.github.io.git
+git remote add origin https://github.com/Captain-Jar/Captain-Jar.github.io.git
 git push -u origin main
 ```
 
@@ -79,7 +79,7 @@ git push -u origin main
 
 ## 三、上线后检查这四条
 
-- [ ] `https://agent17cpu.github.io/` 能打开，头像、按钮都正常
+- [ ] `https://captain-jar.github.io/` 能打开，头像、按钮都正常
 - [ ] 点「打开看看 →」能进计算器，角色头像是图片而不是空白
 - [ ] 手机上打开，字不溢出、按钮能点
 - [ ] 右上角 🌙 点一下能变深色，刷新后还是深色
@@ -93,7 +93,7 @@ git push -u origin main
 | 名字 | `index.html` | `<h1>` 那一行 |
 | 一句话介绍 | `index.html` | `<p class="lead">` |
 | 邮箱 | `index.html` | 搜索 `mailto:`，**两处都要改** |
-| GitHub 链接 | `index.html` | 搜索 `github.com/agent17cpu` |
+| GitHub 链接 | `index.html` | 搜索 `github.com/Captain-Jar` |
 | 「最近在折腾」 | `index.html` | `<aside class="now">` |
 | 项目卡片 | `index.html` | 搜 `<!-- 01 -->` `<!-- 02 -->` `<!-- 03 -->` |
 | 配色 | `assets/site.css` | 最上面 `:root` 里的 `--accent` 等变量 |

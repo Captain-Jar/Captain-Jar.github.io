@@ -175,10 +175,9 @@ img { display: block; max-width: 100%; }
 
 h1 {
   margin: 0;
-  /* 名字比较长，字号上限收到 56px，桌面一行放得下 */
-  font-size: clamp(30px, 5.2vw, 56px);
-  line-height: 1.12;
-  letter-spacing: -.035em;
+  font-size: clamp(44px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: -.04em;
   font-weight: 800;
 }
 
