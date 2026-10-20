@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="f80f37f86e">
+<meta name="build" content="11827b4308">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -749,7 +749,7 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
 
 <footer class="foot">
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 f80f37f86e</div>
+  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 11827b4308</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1531,9 +1531,57 @@ window.BACalc = CALC.core;</script>
     };
   }
 
+  /**
+   * 礼物库存分配：按计划顺序，每个角色先用最爱的礼物，再用「一般紫礼 / 金礼」兜底。
+   * 同一件礼物只扣一次，避免多角色时重复抵扣。
+   */
+  function allocateGifts(per) {
+    const rem = {};
+    for (const [k, v] of Object.entries(state.inv)) {
+      if (k.startsWith('gift:') || k.startsWith('giftcat:')) rem[k] = toCount(v);
+    }
+    let total = 0;
+    for (const p of per) {
+      const s = byId[p.id];
+      const need = p.bond && p.bond.exp ? p.bond.exp : 0;
+      let left = need;
+      let used = 0;
+      if (s && need > 0) {
+        const list = favGifts(s).slice().sort((a, b) => b.value - a.value || String(a.name).localeCompare(String(b.name), 'zh'));
+        for (const g of list) {
+          if (left <= 0) break;
+          const key = 'gift:' + g.name;
+          const cnt = rem[key] || 0;
+          if (!cnt) continue;
+          const use = Math.min(cnt, Math.ceil(left / g.value));
+          if (use <= 0) continue;
+          rem[key] -= use;
+          used += use * g.value;
+          left -= use * g.value;
+        }
+        for (const [cat, val] of [['p', 120], ['g', 20]]) {
+          if (left <= 0) break;
+          const key = 'giftcat:' + cat;
+          const cnt = rem[key] || 0;
+          if (!cnt) continue;
+          const use = Math.min(cnt, Math.ceil(left / val));
+          if (use <= 0) continue;
+          rem[key] -= use;
+          used += use * val;
+          left -= use * val;
+        }
+      }
+      p.giftHave = Math.min(need, Math.max(0, used));
+      p.bondLeft = Math.max(0, need - p.giftHave);
+      total += p.giftHave;
+    }
+    return total;
+  }
+
   /* ---------------- 汇总 ---------------- */
   function computeAll() {
     const per = state.plan.map(demandOf);
+    const giftUsed = allocateGifts(per);
     const map = new Map();
     let credit = 0, exp = 0, bondExp = 0;
     const creditParts = { skill: 0, star: 0, equip: 0, exp: 0 };
@@ -1579,7 +1627,8 @@ window.BACalc = CALC.core;</script>
     }
     return {
       rows: CALC.applyInventory({ materials: [...map.values()], credit, warnings: [] }, state.inv),
-      credit, creditParts, exp, plans, bondExp, gifts: [...giftCounts.values()],
+      credit, creditParts, exp, plans, bondExp, bondLeft: Math.max(0, bondExp - giftUsed), giftUsed,
+      gifts: [...giftCounts.values()],
       warnings: [...warns].map((s) => { const [code, msg] = s.split('::'); return { code, msg }; }),
       per,
     };
@@ -2785,18 +2834,6 @@ window.BACalc = CALC.core;</script>
     const expLeft = Math.max(0, r.exp - bookExp);
     const totalExp90 = T.exp.table.slice(0, 89).reduce((a, b) => a + b, 0);
 
-    const planned = (r.per || []).map((p) => byId[p.id]).filter(Boolean);
-    const favAll = planned.flatMap((s) => favGifts(s));
-    const gvalMap = new Map(favAll.map((g) => [g.name, g.value]));
-    const giftExpHave = Object.entries(state.inv).reduce((a, [k, v]) => {
-      const n = toCount(v);
-      if (k.startsWith('gift:')) return a + (gvalMap.get(k.slice(5)) || 0) * n;
-      if (k === 'giftcat:p') return a + 120 * n;   // 一般紫礼：按最低档 120 保守折算
-      if (k === 'giftcat:g') return a + 20 * n;
-      return a;
-    }, 0);
-    const bondLeft = Math.max(0, r.bondExp - giftExpHave);
-
     /* ---------- 分组 ---------- */
     const bd = rows.filter((m) => m.kind === 'bd').sort(byRarity);
     const note = rows.filter((m) => m.kind === 'note' && m.base !== '秘仪之书').sort(byRarity);
@@ -2856,25 +2893,28 @@ window.BACalc = CALC.core;</script>
           `<div class="crow ${cls}"><span class="cname"><i></i>${name}<small>${note}</small></span><b>${num(v)}</b></div>`).join('')}</div>
       </div>`;
 
-    /* ---------- 好感度：每个角色单独一栏；礼物库存只在上方做合计估算 ---------- */
+    /* ---------- 好感度：礼物库存按角色顺序抵扣 ---------- */
     const bondPerHTML = (r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
       const s = byId[p.id];
       if (!s) return '';
       const need = p.bond.exp;
+      const left = Math.max(0, p.bondLeft ?? need);
+      const covered = Math.max(0, p.giftHave || 0);
+      const done = left <= 0;
       const entry = state.plan.find((x) => x.id === p.id) || { cur: { bond: 1 }, tgt: { bond: 100 } };
       const fs = favGifts(s);
       const best = fs[0];
-      const giftCardOf = (g) => `<div class="mcard gift hasgap" data-giftcard="${esc(g.name)}" data-gval="${g.value}" data-need="${need}" tabindex="0" role="button">
+      const giftCardOf = (g) => `<div class="mcard gift ${done ? 'ok' : 'hasgap'}" data-giftcard="${esc(g.name)}" data-gval="${g.value}" data-need="${left}" tabindex="0" role="button">
         <span class="gval">+${g.value}</span>
         ${img(iconUrl(g.icon), 'cico', g.name)}
-        <span class="badge">${num(Math.ceil(need / g.value))} 个</span>
+        <span class="badge">${done ? '已满足' : `${num(Math.ceil(left / g.value))} 个`}</span>
         <span class="tip"><b>${esc(g.name)}</b><span>单个 +${g.value}（命中 ${g.matches || 1} 个标签）</span>
-          <span>还需 ${num(need)} 好感</span></span>
+          <span>${done ? '好感已满足' : `还需 ${num(left)} 好感`}${covered ? ` · 库存已抵 ${num(covered)}` : ''}</span></span>
       </div>`;
-      const genericOf = (label, value, cls) => `<div class="mcard gift hasgap" data-giftcard="${esc(label)}" data-gval="${value}" data-need="${need}" data-giftcat="${cls}" tabindex="0" role="button">
+      const genericOf = (label, value, cls) => `<div class="mcard gift ${done ? 'ok' : 'hasgap'}" data-giftcard="${esc(label)}" data-gval="${value}" data-need="${left}" data-giftcat="${cls}" tabindex="0" role="button">
         <span class="gval">+${value}</span>
         <span class="cico generic ${cls}"><b>一般</b><b>${cls === 'p' ? '紫礼' : '金礼'}</b></span>
-        <span class="badge">${num(Math.ceil(need / value))} 个</span>
+        <span class="badge">${done ? '已满足' : `${num(Math.ceil(left / value))} 个`}</span>
         <span class="tip"><b>${esc(label)}</b><span>角色不喜欢的通用礼物 · 单个 +${value}</span></span>
       </div>`;
       const fav3 = fs.filter((g) => g.tier === 3);
@@ -2882,21 +2922,21 @@ window.BACalc = CALC.core;</script>
       return `<section class="bondsec">
         <div class="brow">
           ${img(studentIcon(s.id), 'bava', s.name)}
-          <div class="bmeta"><b>${esc(s.name)}</b><small>还需 ${num(need)} 好感</small></div>
-          ${best ? `<span class="bgift" title="${esc(best.name)} +${best.value}">${img(itemIcon(best.icon), 'gimg', best.name)}<i>×${num(Math.ceil(need / best.value))}</i></span>` : '<span class="opt off">无偏好数据</span>'}
+          <div class="bmeta"><b>${esc(s.name)}</b><small>${done ? '好感已满足' : `还需 ${num(left)} 好感`}${covered ? ` · 库存抵 ${num(covered)}` : ''}</small></div>
+          ${best ? `<span class="bgift" title="${esc(best.name)} +${best.value}">${img(itemIcon(best.icon), 'gimg', best.name)}<i>×${num(Math.ceil(left / best.value))}</i></span>` : '<span class="opt off">无偏好数据</span>'}
         </div>
         <h4 class="sub">紫礼（3★）</h4>${orList([...fav3.map(giftCardOf), genericOf('一般紫礼', 120, 'p')])}
         <h4 class="sub">金礼（2★）</h4>${orList([...fav2.map(giftCardOf), genericOf('一般金礼', 20, 'g')])}
-        <div class="mix"><b>默认全用最高好感</b><span>${best ? `${esc(best.name)} ×${num(Math.ceil(need / best.value))}（单个 +${best.value}）· 可达好感 Lv ${levelFromExp(need, T.bond.table, 100, entry.cur.bond)}` : '—'}</span></div>
-        ${mixerHTML('gift:' + p.id, GIFT_UNITS, need, { from: entry.cur.bond, to: entry.tgt.bond })}
+        <div class="mix"><b>默认全用最高好感</b><span>${best ? (done ? '好感已满足' : `${esc(best.name)} ×${num(Math.ceil(left / best.value))}（单个 +${best.value}）· 可达好感 Lv ${levelFromExp(left, T.bond.table, 100, entry.cur.bond)}`) : '—'}</span></div>
+        ${left > 0 ? mixerHTML('gift:' + p.id, GIFT_UNITS, left, { from: entry.cur.bond, to: entry.tgt.bond }) : ''}
       </section>`;
     }).join('');
 
-    const giftSummary = giftExpHave > 0
-      ? `<div class="mix"><b>礼物库存</b><span>全计划需 ${num(r.bondExp)} 好感；已有礼物约 ${num(giftExpHave)}，还需 ${num(bondLeft)}（多角色共用库存时按合计估算）</span></div>`
+    const giftSummary = r.giftUsed > 0
+      ? `<div class="mix"><b>礼物库存</b><span>全计划需 ${num(r.bondExp)} 好感；按角色顺序已抵扣 ${num(r.giftUsed)}，还需 ${num(r.bondLeft)}</span></div>`
       : '';
     const bondHTML = `<h3 class="bond">好感度礼物</h3>
-      <div class="hint">每个角色单独一栏；只列该角色喜爱的礼物（按好感从高到低），不喜欢的用「一般紫礼 / 一般金礼」兜底</div>
+      <div class="hint">每个角色单独一栏；只列该角色喜爱的礼物（按好感从高到低），不喜欢的用「一般紫礼 / 一般金礼」兜底。礼物库存按计划顺序依次抵扣，同一件礼物不会重复计算。</div>
       ${giftSummary}${bondPerHTML}`;
 
     const expHTML = `<h4 class="sub">经验书（按稀有度）</h4>${orList(bookCards.map(matCard))}
@@ -3041,7 +3081,10 @@ window.BACalc = CALC.core;</script>
     push('装备', r.rows.rows.filter((m) => ['blueprint', 'enhanceStone'].includes(m.kind)));
     L.push(`【信用点】需 ${num(r.credit)}${r.rows.credit.satisfied ? '（已满足）' : `（缺 ${num(r.rows.credit.gap)}）`}`);
     if (r.exp) L.push(`\n【角色经验】还需 ${num(r.exp)}`, ...r.plans.map((p) => `  ${p.name}：${p.p ? `紫书×${p.p} ` : ''}${p.g ? `金书×${p.g}` : ''}`));
-    if (r.bondExp) L.push(`\n【好感度】还需 ${num(r.bondExp)}`, ...r.gifts.map((g) => `  ${g.name} ×${g.count}`));
+    if (r.bondExp) {
+      L.push(`\n【好感度】还需 ${num(r.bondLeft)} 好感${r.giftUsed ? `（库存已抵 ${num(r.giftUsed)}）` : ''}`);
+      L.push(...r.gifts.map((g) => `  ${g.name} ×${g.count}`));
+    }
     return L.join('\n');
   }
 
