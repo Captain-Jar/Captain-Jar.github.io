@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="e5cf200001">
+<meta name="build" content="55da1b0137">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -709,6 +709,13 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* v49：信用点卡片里的快捷库存输入 */
+.credit-inv{display:flex;align-items:center;gap:10px;font-size:12.5px;color:rgba(255,255,255,.78);margin-top:10px}
+.credit-inv input{width:130px;padding:6px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10);color:#fff;text-align:right;font-weight:700;outline:none}
+.credit-inv input:focus{border-color:#7cc4ff;box-shadow:0 0 0 3px rgba(124,196,255,.2)}
+.credit-inv input::placeholder{color:rgba(255,255,255,.45)}
 </style>
 </head>
 <body>
@@ -749,7 +756,7 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
 
 <footer class="foot">
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 e5cf200001</div>
+  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 55da1b0137</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -798,6 +805,7 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
       </div>
       <div class="repo-acts">
         <span class="repo-count" id="shotCount"></span>
+        <button id="shotAdd" class="tbtn" type="button" title="OCR 没读到的行，手动补一行">＋ 手动一行</button>
         <button id="shotTop1" class="tbtn" type="button">应用 Top1</button>
         <button id="shotPick" class="tbtn" type="button">选择截图</button>
         <button id="shotDone" class="btn" type="button">写入库存</button>
@@ -1435,6 +1443,8 @@ window.BACalc = CALC.core;</script>
   /** 技能字段统一成 '5MMM' 这种字符串；坏数据回落到 1111 */
   function normSkill(v) {
     if (v && typeof v === 'object') {
+      // Number(x) || 1 的语义是“非法值 / 0 / NaN 一律回落 1”，不是单纯省略默认值；
+      // 改成 ?? 会让 0 进入计算，坏档可能静默变强，勿随手改。
       v = CALC.formatSkillLevels({
         ex: Number(v.ex) || 1, basic: Number(v.basic) || 1,
         enhance: Number(v.enhance) || 1, sub: Number(v.sub) || 1,
@@ -1721,7 +1731,7 @@ window.BACalc = CALC.core;</script>
           </div>
           <div class="acts">
             <button class="mini" data-act="full">目标全满</button>
-            <button class="mini" data-act="same">当前=目标</button>
+            <button class="mini" data-act="same" title="把目标设置成和当前一样，该角色不产生缺口">跳过此角色（目标=当前）</button>
             <button class="mini danger" data-act="del">移除</button>
           </div>
         </header>
@@ -2143,6 +2153,15 @@ window.BACalc = CALC.core;</script>
     resultTimer = setTimeout(() => { resultTimer = null; renderResult(); }, 300);
   }
 
+  function shotLoadingText() {
+    if (!SIG_PROMISE) return '未匹配，请手动选';
+    return SIG_TOTAL ? `识别中… ${SIG_DONE}/${SIG_TOTAL}` : '识别中…';
+  }
+
+  function updateSigHint() {
+    $$('#shotBody .mchip.hint').forEach((el) => { el.textContent = shotLoadingText(); });
+  }
+
   function refreshChips() {
     $$('#shotBody .shot-card').forEach((card) => {
       if (!card._sig) return;
@@ -2154,12 +2173,13 @@ window.BACalc = CALC.core;</script>
         card.appendChild(box);
       }
       if (!cands.length) {
-        box.innerHTML = '<span class="mchip hint">未匹配，请手动选</span>';
+        box.innerHTML = `<span class="mchip hint">${esc(shotLoadingText())}</span>`;
         return;
       }
       box.innerHTML = cands.map((c, i) => `<button class="mchip${i === 0 ? ' top' : ''}" data-pick="${esc(c.it.key)}" title="${esc(c.it.name)}">${esc(c.it.name)}<small>${Math.round(c.sc * 100)}%</small></button>`).join('');
       const nameInput = card.querySelector('[data-shot-name]');
-      if (nameInput && !nameInput.value.trim()) {
+      // 只在置信度足够高时自动填入，低置信度留给用户从候选里选，避免默默写错材料
+      if (nameInput && !nameInput.value.trim() && cands[0].sc >= 0.8) {
         nameInput.value = cands[0].it.name;
         card.classList.add('autofilled');
         updateShotCount();
@@ -2319,10 +2339,12 @@ window.BACalc = CALC.core;</script>
     return n;
   }
 
-  /* 图标指纹缓存：{key, name, dh, hue}；键 ba-sigs-v1 持久化，避免每次重算 */
-  const SIG_CACHE = new Map();
+  /* 图标指纹缓存：{key, name, dh, hue}；键 ba-sigs-v2 持久化，避免每次重算 */  const SIG_CACHE = new Map();
   const SIG_STORE_KEY = 'ba-sigs-v2';
   let SIG_READY = false;
+  let SIG_PROMISE = null;
+  let SIG_TOTAL = 0;
+  let SIG_DONE = 0;
 
   function loadSigsFromStore() {
     try {
@@ -2356,11 +2378,28 @@ window.BACalc = CALC.core;</script>
   }
 
   /** 算全量仓库素材的图标指纹：并发 6，失败静默跳过，结果持久化；整体有 20s 上限 */
-  async function ensureVaultSigs() {
-    if (SIG_READY) return;
+  /** 所有调用方共享同一个 Promise；加载完成后在内部统一 refreshChips */
+  function ensureVaultSigs() {
+    if (SIG_READY) return Promise.resolve();
+    if (SIG_PROMISE) return SIG_PROMISE;
+    SIG_PROMISE = doEnsureVaultSigs()
+      .catch(() => {})
+      .finally(() => {
+        SIG_PROMISE = null;
+        SIG_READY = true;
+        refreshChips();
+        updateSigHint();
+      });
+    return SIG_PROMISE;
+  }
+
+  async function doEnsureVaultSigs() {
     if (!SIG_CACHE.size) loadSigsFromStore();
     const todo = vaultMaterialsFlat().filter((it) => it.icon && !SIG_CACHE.has(it.key));
-    if (!todo.length) { SIG_READY = SIG_CACHE.size > 0; return; }
+    SIG_TOTAL = todo.length;
+    SIG_DONE = 0;
+    updateSigHint();
+    if (!todo.length) return;
 
     const deadline = Date.now() + 20000;
 
@@ -2384,14 +2423,16 @@ window.BACalc = CALC.core;</script>
       if (Date.now() > deadline) break;   // 超时就先用已有的，别把界面卡死
       const batch = todo.slice(i, i + 6);
       const got = await Promise.all(batch.map(fetchOne));
+      SIG_DONE += batch.length;
       for (const g of got) {
         if (!g) continue;
         const s = sigOfImage(g.im);
         if (s) SIG_CACHE.set(g.it.key, { key: g.it.key, name: g.it.name, dh: s.dh, hue: s.hue });
         try { URL.revokeObjectURL(g.url); } catch { /* ignore */ }
       }
+      updateSigHint();
     }
-    if (SIG_CACHE.size) { SIG_READY = true; saveSigsToStore(); }
+    if (SIG_CACHE.size) saveSigsToStore();
   }
 
   /** dHash 两段式匹配：先按汉明距离取前 20，再按色相重排；最近距离 ≥16 视为没认出来 */
@@ -2438,12 +2479,37 @@ window.BACalc = CALC.core;</script>
         if (card.querySelector('.mchips')) return;
         const box0 = document.createElement('div');
         box0.className = 'mchips';
-        box0.innerHTML = '<span class="mchip hint">识别中…</span>';
+        box0.innerHTML = `<span class="mchip hint">${esc(shotLoadingText())}</span>`;
         card.appendChild(box0);
       });
     }
     updateShotCount();
     refreshChips();
+  }
+
+  /** OCR 漏行/识别失败时，手动补一行；材料名可用 datalist 搜索 */
+  function addShotRow() {
+    const body = $('#shotBody');
+    let block = body.querySelector('.shot-block:last-child');
+    if (!block) {
+      block = document.createElement('div');
+      block.className = 'shot-block';
+      block.innerHTML = '<div class="shot-bar"><span>手动补充</span><span class="shot-tip">选材料名并填数量</span></div><div class="shot-grid"></div>';
+      body.appendChild(block);
+    }
+    let grid = block.querySelector('.shot-grid');
+    if (!grid) {
+      grid = document.createElement('div');
+      grid.className = 'shot-grid';
+      block.appendChild(grid);
+    }
+    const tmp = document.createElement('div');
+    tmp.innerHTML = shotRowHTML(PH, '', null);
+    const card = tmp.firstElementChild;
+    grid.appendChild(card);
+    updateShotCount();
+    const name = card.querySelector('[data-shot-name]');
+    if (name && name.focus) name.focus();
   }
 
   /* ---------- 手动框一格 → 按网格切图（分辨率无关，比自动检测稳） ---------- */
@@ -2556,7 +2622,7 @@ window.BACalc = CALC.core;</script>
         appendShot(rows2, img);
         $('#shotBody').querySelectorAll('.shot-adjust').forEach((n) => n.remove());
         toast(`自动检测到 ${rows2.length} 项`);
-        ensureVaultSigs().then(refreshChips);
+        ensureVaultSigs();
       } catch (e) {
         toast('自动检测失败：' + e.message);
       }
@@ -2593,7 +2659,7 @@ window.BACalc = CALC.core;</script>
     $('#shotBody').querySelectorAll('.shot-adjust').forEach((n) => n.remove());
     appendShot(outRows, img);
     toast(outRows.length ? `切出 ${outRows.length} 格` : '这些格子没读到数量，可调整行列数或重框第一格');
-    ensureVaultSigs().then(refreshChips);
+    ensureVaultSigs();
   }
 
   /** 读一格右下角的数量（复用 12×18 模板） */
@@ -2720,7 +2786,6 @@ window.BACalc = CALC.core;</script>
     if (oob) toast(`${oob} 项超出图片范围，建议换一张完整的仓库截图`);
     if (!SIG_CACHE.size) toast('首次使用：正在加载图标库，候选稍后出现');
     await ensureVaultSigs();
-    refreshChips();
   }
 
   function updateShotCount() {
@@ -2894,6 +2959,9 @@ window.BACalc = CALC.core;</script>
       <div class="creditbox">
         <div class="ctotal"><span>还需信用点</span><b>${num(r.rows.credit.gap)}</b>
           <small>需求 ${num(r.rows.credit.need)}${r.rows.credit.have ? ` · 已有 ${num(r.rows.credit.have)}` : ''}</small></div>
+        <label class="credit-inv">持有信用点
+          <input type="number" min="0" inputmode="numeric" data-credit-inv value="${r.rows.credit.have || ''}" placeholder="0">
+        </label>
         <div class="crows">${crows.map(([name, v, note, cls]) =>
           `<div class="crow ${cls}"><span class="cname"><i></i>${name}<small>${note}</small></span><b>${num(v)}</b></div>`).join('')}</div>
       </div>`;
@@ -3085,7 +3153,7 @@ window.BACalc = CALC.core;</script>
     push('神明文字', r.rows.rows.filter((m) => m.kind === 'secretStone'));
     push('装备', r.rows.rows.filter((m) => ['blueprint', 'enhanceStone'].includes(m.kind)));
     L.push(`【信用点】需 ${num(r.credit)}${r.rows.credit.satisfied ? '（已满足）' : `（缺 ${num(r.rows.credit.gap)}）`}`);
-    if (r.exp) L.push(`\n【角色经验】还需 ${num(r.exp)}`, ...r.plans.map((p) => `  ${p.name}：${p.p ? `紫书×${p.p} ` : ''}${p.g ? `金书×${p.g}` : ''}`));
+    if (r.exp) L.push(`\n【角色经验】还需 ${num(r.exp)}`, ...(r.plans || []).map((p) => `  ${p.name}：${p.p ? `紫书×${p.p} ` : ''}${p.g ? `金书×${p.g}` : ''}`));
     if (r.bondExp) {
       L.push(`\n【好感度】还需 ${num(r.bondLeft)} 好感${r.giftUsed ? `（库存已抵 ${num(r.giftUsed)}）` : ''}`);
       L.push(...r.gifts.map((g) => `  ${g.name} ×${g.count}`));
@@ -3217,6 +3285,20 @@ window.BACalc = CALC.core;</script>
         save();
         return;
       }
+      const ci = e.target.closest('[data-credit-inv]');
+      if (ci) {
+        setInv('credit', ci.value);
+        save();
+        const box = ci.closest('.creditbox');
+        if (box) {
+          const r = computeAll();
+          const total = box.querySelector('.ctotal b');
+          if (total) total.textContent = num(r.rows.credit.gap);
+          const small = box.querySelector('.ctotal small');
+          if (small) small.textContent = `需求 ${num(r.rows.credit.need)}${r.rows.credit.have ? ` · 已有 ${num(r.rows.credit.have)}` : ''}`;
+        }
+        return;
+      }
       const el = e.target.closest('[data-inv]');
       if (!el) return;
       const invK = invKey(el.dataset.inv);
@@ -3318,13 +3400,14 @@ window.BACalc = CALC.core;</script>
     const btnShareEl = $('#btnShare');
     if (btnShareEl) btnShareEl.addEventListener('click', async () => {
       try {
-        const encoded = encodeShare();
-        const url = `${location.href.split('#')[0]}#p=${encoded}`;
+        const url = shareUrl();
+        if (!url) { toast('配置过大，建议使用「导出」功能'); return; }
         await navigator.clipboard.writeText(url);
         toast('分享链接已复制');
       } catch {
         try {
-          const url = `${location.href.split('#')[0]}#p=${encodeShare()}`;
+          const url = shareUrl();
+          if (!url) { toast('配置过大，建议使用「导出」功能'); return; }
           if (typeof prompt === 'function') prompt('复制分享链接', url);
         } catch { toast('当前浏览器不支持自动复制，请用「导出」'); }
       }
@@ -3365,7 +3448,7 @@ window.BACalc = CALC.core;</script>
     if (repoDone) repoDone.addEventListener('click', closeRepo);
     const repoClear = $('#repoClear');
     if (repoClear) repoClear.addEventListener('click', () => {
-      if (typeof confirm === 'function' && !confirm('确定把当前录入的仓库数量全部清零？')) return;
+      if (typeof confirm === 'function' && !confirm('确定把当前录入的仓库数量全部清零？此操作不可撤销。')) return;
       $$('#repoBody [data-repo]').forEach((i) => { setInv(i.dataset.repo, 0); i.value = ''; });
       save(); updateRepoCount();
     });
@@ -3465,17 +3548,27 @@ window.BACalc = CALC.core;</script>
     if (shotBody) shotBody.addEventListener('change', updateShotCount);
     const shotDone = $('#shotDone');
     if (shotDone) shotDone.addEventListener('click', writeShot);
+    const shotAdd = $('#shotAdd');
+    if (shotAdd) shotAdd.addEventListener('click', addShotRow);
     const shotTop1 = $('#shotTop1');
     if (shotTop1) shotTop1.addEventListener('click', applyTop1);
   }
 
   /* ---------------- 分享链接：配置放进 #p=，不经过服务器 ---------------- */
+  const SHARE_MAX = 8000;
+
   function encodeShare() {
     const json = JSON.stringify({ v: 1, plan: state.plan, inv: state.inv });
     const bytes = new TextEncoder().encode(json);
     let bin = '';
     for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+  }
+
+  function shareUrl() {
+    const encoded = encodeShare();
+    if (encoded.length > SHARE_MAX) return null;
+    return `${location.href.split('#')[0]}#p=${encoded}`;
   }
 
   function decodeShare(s) {
@@ -3590,11 +3683,17 @@ window.BACalc = CALC.core;</script>
 
   document.addEventListener('DOMContentLoaded', init);
 
-  /* 调试用：控制台可手动跑识别，定位截图导入问题 */
-  window.__shotDebug = { detectShots, iconThumb };
-  /* 调试/测试用：查看状态、重算、写入库存 */
-  window.__baDebug = { state, computeAll, renderResult, setInv, invKey, parseSave, sanitizePlan, encodeShare, decodeShare, save };
+  /* 调试入口：只在本地 / file:// / 无 location 的测试环境挂到 window，生产环境不暴露 */
+  const DEBUG = typeof location === 'undefined'
+    || location.protocol === 'file:'
+    || location.hostname === 'localhost'
+    || location.hostname === '127.0.0.1';
+  if (DEBUG) {
+    window.__shotDebug = { detectShots, iconThumb };
+    window.__baDebug = { state, computeAll, renderResult, setInv, invKey, parseSave, sanitizePlan, encodeShare, decodeShare, save };
+  }
 })();
+
 </script>
 </body>
 </html>
