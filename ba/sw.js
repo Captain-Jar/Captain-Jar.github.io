@@ -1,6 +1,6 @@
-/* 蔚蓝档案计算器 · 离线缓存 */
-const CACHE = 'ba-calc-v5';
-const ASSETS = ['./', './index.html', './manifest.json', './icon.svg'];
+/* 蔚蓝档案计算器 · 离线缓存（构建 98feb12cec） */
+const CACHE = 'ba-calc-98feb12cec';
+const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './icon-180.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
@@ -13,10 +13,23 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;           // CDN 图片不拦截
+
+  // 导航请求：network-first，保证发版后老用户能拿到新 HTML
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+        return res;
+      }).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // 静态资源：cache-first，后台回填
   e.respondWith(
     caches.match(req).then((hit) => hit || fetch(req).then((res) => {
-      const copy = res.clone();
-      caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+      if (res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone())).catch(() => {});
       return res;
     }).catch(() => caches.match('./index.html')))
   );
