@@ -90,11 +90,11 @@ git push -u origin main
 
 | 想改 | 改哪个文件 | 找什么 |
 |---|---|---|
-| 名字 | `index.html` | `<h1>Agent17</h1>` 那一行 |
+| 名字 | `index.html` | `<h1>` 那一行 |
 | 一句话介绍 | `index.html` | `<p class="lead">` |
 | 邮箱 | `index.html` | 搜索 `mailto:`，**两处都要改** |
 | GitHub 链接 | `index.html` | 搜索 `github.com/agent17cpu` |
-| 「现在在做什么」 | `index.html` | `<aside class="now">` |
+| 「最近在折腾」 | `index.html` | `<aside class="now">` |
 | 项目卡片 | `index.html` | 搜 `<!-- 01 -->` `<!-- 02 -->` `<!-- 03 -->` |
 | 配色 | `assets/site.css` | 最上面 `:root` 里的 `--accent` 等变量 |
 | 头像 | `assets/avatar.jpg` | 直接替换这张图（正方形最好） |
