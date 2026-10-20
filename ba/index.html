@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="11827b4308">
+<meta name="build" content="e5cf200001">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -749,7 +749,7 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
 
 <footer class="foot">
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 11827b4308</div>
+  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 e5cf200001</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1298,11 +1298,10 @@ window.BACalc = CALC.core;</script>
   const byId = Object.fromEntries(S.map((s) => [s.id, s]));
   const SCHOOLS = [...new Set(S.map((s) => s.schoolCn))];
 
-  /* ---------------- 图片：SchaleDB 素材，jsDelivr 主源 + GitHub raw 备源 ---------------- */
+  /* ---------------- 图片：同源自托管，CDN / GitHub raw 仅作兜底 ---------------- */
   const CDN = 'https://cdn.jsdelivr.net/gh/SchaleDB/SchaleDB@main';
   const CDN2 = 'https://raw.githubusercontent.com/SchaleDB/SchaleDB/main';
-  const studentIcon = (id) => `${CDN}/images/student/icon/${id}.webp`;
-  const itemIcon = (icon) => (icon ? `${CDN}/images/item/icon/${icon}.webp` : '');
+  const LOCAL_ICONS = 'icons';
   /** 支持 "item:xxx" / "eq:xxx" 前缀，用于图纸/强化珠/神名精髓等公共素材 */
   const iconUrl = (v) => {
     if (!v) return '';
@@ -1310,17 +1309,23 @@ window.BACalc = CALC.core;</script>
     const pfx = idx > 0 ? v.slice(0, idx) : 'item';
     const name = idx > 0 ? v.slice(idx + 1) : v;
     const sub = pfx === 'eq' ? 'equipment' : 'item';
-    return `${CDN}/images/${sub}/icon/${name}.webp`;
+    return `${LOCAL_ICONS}/${sub}/icon/${name}.webp`;
   };
+  const studentIcon = (id) => `${LOCAL_ICONS}/student/icon/${id}.webp`;
+  const itemIcon = (icon) => iconUrl(icon);
   const PH = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#e9eff8"/>' +
     '<circle cx="32" cy="26" r="9" fill="#c3cfe2"/><rect x="18" y="40" width="28" height="9" rx="4.5" fill="#c3cfe2"/></svg>');
 
   function img(src, cls, alt) {
-    const fb = src && src.startsWith(CDN) ? src.replace(CDN, CDN2) : '';
-    return `<img class="${cls}" src="${src || PH}" data-fb="${fb}" alt="${esc(alt || '')}" loading="lazy" ` +
-           `referrerpolicy="no-referrer" onerror="var f=this.dataset.fb;` +
-           `if(f&&f!==this.src){this.src=f;this.dataset.fb='';}else{this.style.display='none';}">`;
+    // 本地 icons/ 路径可以还原成 CDN 路径，加载失败时先 CDN、再 GitHub raw
+    const fb = src && src.startsWith('icons/') ? `${CDN}/images/${src.slice(6)}` : '';
+    const fb2 = fb ? fb.replace(CDN, CDN2) : '';
+    return `<img class="${cls}" src="${src || PH}" data-fb="${fb}" data-fb2="${fb2}" alt="${esc(alt || '')}" loading="lazy" ` +
+           `referrerpolicy="no-referrer" onerror="var f=this.dataset.fb,f2=this.dataset.fb2;` +
+           `if(f&&f!==this.src){this.src=f;this.dataset.fb='';}` +
+           `else if(f2&&f2!==this.src){this.src=f2;this.dataset.fb2='';}` +
+           `else{this.style.display='none';}">`;
   }
 
   const GLYPH = { blueprint: '图', enhanceStone: '珠', secretStone: '神', credit: '币' };
