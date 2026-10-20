@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="98feb12cec">
+<meta name="build" content="f80f37f86e">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -21,6 +21,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <script>try{var t=localStorage.getItem('ba-theme');if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
@@ -748,7 +749,7 @@ html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color
 
 <footer class="foot">
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 98feb12cec</div>
+  <div>数据来源：SchaleDB、bluearchive.wiki · 收录 194 名角色 · 构建 f80f37f86e</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -2934,7 +2935,17 @@ window.BACalc = CALC.core;</script>
       ${bondHTML}
       ${warnHTML}`;
 
-    $('#summary').textContent = `${state.plan.length} 名角色 · 材料 ${rows.length} 项 · 信用点 ${num(r.credit)}`;
+    const gapRows = rows.filter((m) => !m.satisfied).length;
+    const hasInv = Object.keys(state.inv).length > 0;
+    const creditNeed = r.rows.credit.need;
+    const creditGap = r.rows.credit.gap;
+    const matText = hasInv
+      ? `材料 ${rows.length} 项 · ${gapRows ? `缺 ${gapRows} 项` : '全部满足'}`
+      : `材料 ${rows.length} 项`;
+    const creditText = hasInv
+      ? `信用点 ${num(creditNeed)} · ${creditGap ? `缺 ${num(creditGap)}` : '已满足'}`
+      : `信用点 ${num(r.credit)}`;
+    $('#summary').textContent = `${state.plan.length} 名角色 · ${matText} · ${creditText}`;
   }
 
   /* ---------------- 库存弹层 ---------------- */
@@ -3525,7 +3536,7 @@ window.BACalc = CALC.core;</script>
 
     // PWA：只有 http(s) 下才注册（file:// 双击打开时自动跳过）
     if ('serviceWorker' in navigator && typeof location !== 'undefined' && location.protocol.startsWith('http')) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
     }
   }
 
