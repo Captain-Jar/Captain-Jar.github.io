@@ -1,0 +1,17 @@
+{
+  "name": "蔚蓝档案 · 养成差量计算器",
+  "short_name": "BA计算器",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f9",
+  "theme_color": "#128afa",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
