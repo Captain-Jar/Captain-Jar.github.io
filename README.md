@@ -61,7 +61,7 @@ ba                ← 整个文件夹
 仓库建好之后（第 1 步照做，第 2 步不用），在 `mysite` 文件夹里开 PowerShell：
 
 ```powershell
-cd C:\Users\21167\Desktop\mysite
+cd 你存放 mysite 的目录
 git init
 git add .
 git commit -m "我的主页 + 蔚蓝档案计算器"
@@ -92,7 +92,7 @@ git push -u origin main
 |---|---|---|
 | 名字 | `index.html` | `<h1>Agent17</h1>` 那一行 |
 | 一句话介绍 | `index.html` | `<p class="lead">` |
-| 邮箱 | `index.html` | 搜索 `2116773720`，**两处都要改** |
+| 邮箱 | `index.html` | 搜索 `mailto:`，**两处都要改** |
 | GitHub 链接 | `index.html` | 搜索 `github.com/agent17cpu` |
 | 「现在在做什么」 | `index.html` | `<aside class="now">` |
 | 项目卡片 | `index.html` | 搜 `<!-- 01 -->` `<!-- 02 -->` `<!-- 03 -->` |
