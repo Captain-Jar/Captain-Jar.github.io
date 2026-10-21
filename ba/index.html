@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="b451fd6ff8">
+<meta name="build" content="06c37f7a7f">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1686,6 +1686,18 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
 }
 @media (max-width:760px){.bg-art{background-position:center 32%}}
 @media print{.bg-art{display:none!important}}
+
+/* v59: 当前好感等级输入 */
+.bond-current-num,.bond-target-num{display:flex;align-items:center;gap:5px;font-size:9.5px;color:#9d8ba8;white-space:nowrap}
+.bond-current-num input,.bond-target-num input{
+  width:62px;padding:6px 8px;border:1.5px solid #f3d9ea;border-radius:9px;
+  background:#fff;color:#9d174d;font-size:12px;font-weight:800;text-align:center;outline:none;
+}
+.bond-current-num input:focus,.bond-target-num input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
+@media (max-width:760px){.bond-current-num,.bond-target-num{flex:1 1 100%;justify-content:flex-end}}
+@media (max-width:760px){
+  .bg-art{background-image:url("bg-wallpaper-portrait.webp");background-position:center 30%}
+}
 </style>
 </head>
 <body>
@@ -1737,7 +1749,7 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 b451fd6ff8</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 06c37f7a7f</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -4285,11 +4297,14 @@ window.BACalc = CALC.core;</script>
           </div>
           <span class="bond-state ${x.done ? 'ok' : ''}">${x.done ? '✓ 已满足' : `还需 ${num(x.left)}`}</span>
           <div class="bd-target">
+            <label class="bond-current-num">当前 Lv
+              <input type="number" min="1" max="100" value="${x.curLv}" data-bond-cur="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的当前好感等级">
+            </label>
             <label class="bond-slider">
               <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
               <input type="range" min="1" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
             </label>
-            <label class="bond-target-num">Lv
+            <label class="bond-target-num">目标 Lv
               <input type="number" min="1" max="100" value="${x.tgtLv}" data-bond-target="${x.p.id}" aria-label="输入 ${esc(x.s.name)} 的好感目标等级">
             </label>
           </div>
@@ -4787,6 +4802,16 @@ window.BACalc = CALC.core;</script>
         }
       });
       bondEl.addEventListener('change', (e) => {
+        const ci = e.target.closest('[data-bond-cur]');
+        if (ci) {
+          const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(ci.dataset.bondCur));
+          if (!e0) return;
+          e0.cur.bond = clampInt(ci.value, 1, 100, e0.cur.bond);
+          save();
+          renderPlan();
+          renderResult();
+          return;
+        }
         const gi = e.target.closest('[data-bond-gift]');
         if (gi) {
           renderResult();
