@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="222028e49d">
+<meta name="build" content="e28485cb2c">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1461,6 +1461,74 @@ html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
   .gt-icon{min-height:32px}
   .giftlib-grid{grid-template-columns:1fr}
 }
+
+/* =====================================================================
+   v55 · 一行候选 / 好感专用添加 / 更大礼物格 / 礼物汇总
+   ===================================================================== */
+.bondadd-body{padding-top:4px}
+.bondadd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:7px}
+.bondadd-item{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid #eef3fa;
+  border-radius:11px;background:#fcfdff;text-align:left;cursor:pointer;font:inherit;color:#3f2a4d;
+}
+.bondadd-item:hover{border-color:#f9a8d4;background:#fff8fc}
+.bondadd-ava{width:38px;height:38px;border-radius:10px;object-fit:cover;flex:0 0 auto;background:#f5edf9}
+.bondadd-item span{display:flex;flex-direction:column;min-width:0;gap:1px}
+.bondadd-item b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bondadd-item small{font-size:9px;color:#a78bfa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:8px}
+.bond-detail .gift-tile{min-height:128px;padding:9px 6px;gap:4px}
+.bond-detail .gift-tile .gift-ico{width:48px;height:48px;border-radius:13px}
+.gt-icon{min-height:48px}
+.gt-count{font-size:11px;gap:3px}
+.gt-count b{font-size:12px}
+.gift-tile .gt-value{font-size:15px}
+.gift-tile.best{border-color:#f472b6;background:linear-gradient(180deg,#fff,#fff1f8);box-shadow:0 0 0 2px rgba(244,114,182,.14)}
+
+.gift-summary{
+  margin-top:14px;padding:18px 20px;border-radius:22px;border:1px solid #f1e6f5;
+  background:linear-gradient(180deg,#fff,#fdf9ff);box-shadow:0 22px 44px -38px rgba(131,24,67,.4);
+}
+.gs-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.gs-head h3{font-size:18px;letter-spacing:-.3px;margin:3px 0 4px;color:#3b1230}
+.gs-head p{margin:0;font-size:10.5px;color:#8b7a95}
+.gs-total{display:flex;flex-direction:column;align-items:flex-end;gap:1px;white-space:nowrap}
+.gs-total b{font-size:22px;line-height:1;color:#9d174d;font-variant-numeric:tabular-nums}
+.gs-total span{font-size:9px;color:#a78bfa}
+.gs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:7px;margin:13px 0 10px}
+.gs-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid #f3e8ff;border-radius:11px;background:#fff}
+.gs-ico{width:30px;height:30px;border-radius:8px;object-fit:contain;flex:0 0 auto;background:#faf5ff}
+.gs-item .gift-ico{width:30px;height:30px;border-radius:8px;flex:0 0 auto}
+.gs-name{display:flex;flex-direction:column;min-width:0;gap:1px;flex:1}
+.gs-name b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gs-name small{font-size:8.5px;color:#b09bbd}
+.gs-count{font-size:12px;color:#9d174d;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gs-empty{font-size:11px;color:#a78bfa;padding:8px 0}
+.gs-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px dashed #f3e8ff;padding-top:9px;font-size:10px;color:#b09bbd}
+.gs-foot .tbtn{font-size:10px;padding:5px 9px;border:1px solid #f3d9ea;background:#fffafd;color:#be185d;border-radius:999px}
+
+html[data-theme="dark"] .bondadd-item{background:#0f172a;border-color:#1e293b;color:#e9d5ff}
+html[data-theme="dark"] .bondadd-item:hover{background:#1a1226;border-color:#7e22ce}
+html[data-theme="dark"] .gift-summary{background:linear-gradient(180deg,#111827,#151022);border-color:#31233a}
+html[data-theme="dark"] .gs-head h3{color:#fbcfe8}
+html[data-theme="dark"] .gs-head p{color:#a78bfa}
+html[data-theme="dark"] .gs-item{background:#0f172a;border-color:#31233a}
+html[data-theme="dark"] .gs-name b{color:#e9d5ff}
+html[data-theme="dark"] .gs-count{color:#fda4af}
+
+@media (max-width:760px){
+  .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px}
+  .bond-detail .gift-tile{min-height:116px;padding:7px 4px}
+  .bond-detail .gift-tile .gift-ico{width:40px;height:40px}
+  .gt-icon{min-height:40px}
+  .gift-summary{padding:14px;border-radius:18px}
+  .gs-grid{grid-template-columns:1fr;gap:6px}
+  .bondadd-grid{grid-template-columns:1fr}
+}
+.bond-empty .bond-add{width:auto;margin:0 0 0 auto;padding:8px 13px;font-size:11px;white-space:nowrap}
+.bond-empty .be-arrow{margin-left:2px}
+@media (max-width:760px){.bond-empty .bond-add{margin-left:0;width:100%}.bond-empty{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -1515,7 +1583,7 @@ html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 222028e49d</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 e28485cb2c</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1575,6 +1643,22 @@ html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
 </div>
 <input type="file" id="giftShotFile" accept="image/*" hidden>
 <datalist id="giftlist"></datalist>
+
+<div id="bondadd" class="repo" role="dialog" aria-modal="true" aria-labelledby="bondAddTitle">
+  <div class="repo-box">
+    <header class="repo-head">
+      <div>
+        <b id="bondAddTitle">添加到好感规划</b>
+        <span class="repo-sub">只加入好感系统，不会出现在下面的养成计划里</span>
+      </div>
+      <div class="repo-acts">
+        <input id="bondAddSearch" class="vault-search" aria-label="搜索角色" placeholder="搜角色名…">
+        <button id="bondAddClose" class="btn" type="button">关闭</button>
+      </div>
+    </header>
+    <div id="bondAddBody" class="repo-body bondadd-body"></div>
+  </div>
+</div>
 
 <div id="shot" class="repo" role="dialog" aria-modal="true" aria-labelledby="shotTitle">
   <div class="repo-box">
@@ -2143,6 +2227,7 @@ window.BACalc = CALC.core;</script>
 
   const state = {
     plan: [],            // [{id, cur:{...}, tgt:{...}}]
+    bondOnly: [],        // 只加在好感系统、不进养成计划的角色
     inv: {},             // { matKey: number, credit: number }
     mix: {},             // { stone:{紫:n}, book:{紫:n} } 自己搭配
     q: '',
@@ -2151,6 +2236,19 @@ window.BACalc = CALC.core;</script>
     gift: '3★最爱礼物',
     theme: null,
   };
+
+  /** 好感系统的目标角色 = 养成计划 + 仅好感的角色（去重，plan 优先） */
+  function bondEntries() {
+    const seen = new Set();
+    const out = [];
+    for (const e of [...state.plan, ...state.bondOnly]) {
+      const id = String(e.id);
+      if (seen.has(id)) continue;
+      seen.add(id);
+      out.push(e);
+    }
+    return out;
+  }
 
   /* ---------------- 状态默认值 ---------------- */
   function baseCfg(s) {
@@ -2376,7 +2474,8 @@ window.BACalc = CALC.core;</script>
   /* ---------------- 汇总 ---------------- */
   function computeAll() {
     const per = state.plan.map(demandOf);
-    const giftUsed = allocateGifts(per);
+    const bondPer = bondEntries().map(demandOf);
+    const giftUsed = allocateGifts(bondPer);
     const map = new Map();
     let credit = 0, exp = 0, bondExp = 0;
     const creditParts = { skill: 0, star: 0, equip: 0, exp: 0 };
@@ -2399,6 +2498,9 @@ window.BACalc = CALC.core;</script>
       credit += r.credit;
       Object.keys(creditParts).forEach((k) => { creditParts[k] += (r.creditParts && r.creditParts[k]) || 0; });
       exp += r.exp.exp;
+      r.warnings.forEach((w) => warns.add(w.code + '::' + w.msg));
+    }
+    for (const r of bondPer) {
       bondExp += r.bond.exp;
       r.warnings.forEach((w) => warns.add(w.code + '::' + w.msg));
       for (const g of r.bond.gifts) {
@@ -2426,6 +2528,7 @@ window.BACalc = CALC.core;</script>
       gifts: [...giftCounts.values()],
       warnings: [...warns].map((s) => { const [code, msg] = s.split('::'); return { code, msg }; }),
       per,
+      bondPer,
     };
   }
 
@@ -2440,9 +2543,9 @@ window.BACalc = CALC.core;</script>
       return (s.name + s.nameJp + s.schoolCn).toLowerCase().includes(q);
     });
     const expanded = $('#candidates').classList.contains('expanded');
-    const shown = expanded || q ? list : list.slice(0, 48);
+    const shown = expanded || q ? list : list.slice(0, 6);
     const note = !expanded && !q && list.length > shown.length
-      ? `<div class="cand-note">显示前 ${shown.length} 人，共 ${list.length} 人；搜索或点「展开全部」继续</div>` : '';
+      ? `<div class="cand-note">只显示一行 ${shown.length} 人，共 ${list.length} 人；搜索或点「展开全部」继续</div>` : '';
     $('#candidates').innerHTML = (shown.length
       ? shown.map((s) => `<button class="cand" data-add="${s.id}">
            ${img(studentIcon(s.id), 'cand-ava', s.name)}
@@ -2680,6 +2783,38 @@ window.BACalc = CALC.core;</script>
   function closeGiftLib() {
     $('#giftlib').classList.remove('on');
     renderResult();
+  }
+
+  /* ---------------- 好感规划专用添加角色 ---------------- */
+  let bondAddQ = '';
+
+  function renderBondAdd() {
+    const body = $('#bondAddBody');
+    if (!body) return;
+    const inBond = new Set(bondEntries().map((e) => String(e.id)));
+    const q = bondAddQ.trim().toLowerCase();
+    const list = S.filter((s) => {
+      if (inBond.has(String(s.id))) return false;
+      if (!q) return true;
+      return (s.name + s.nameJp + s.schoolCn).toLowerCase().includes(q);
+    });
+    body.innerHTML = list.length ? `<div class="bondadd-grid">${list.map((s) => `<button class="bondadd-item" type="button" data-bond-add-id="${s.id}">
+        ${img(studentIcon(s.id), 'bondadd-ava', s.name)}
+        <span><b>${esc(s.name)}</b><small>${esc(s.schoolCn)} · ${'★'.repeat(s.initialStar)}</small></span>
+      </button>`).join('')}</div>` : '<div class="empty">没有可添加的角色（换关键词，或已经在好感规划里）</div>';
+  }
+
+  function openBondAdd() {
+    bondAddQ = '';
+    const q = $('#bondAddSearch');
+    if (q) q.value = '';
+    renderBondAdd();
+    $('#bondadd').classList.add('on');
+    setTimeout(() => { const i = $('#bondAddSearch'); if (i && i.focus) i.focus(); }, 30);
+  }
+
+  function closeBondAdd() {
+    $('#bondadd').classList.remove('on');
   }
 
 
@@ -3828,12 +3963,13 @@ window.BACalc = CALC.core;</script>
     const el = $('#bond');
     if (!el) return;
     if (html) { el.innerHTML = html; return; }
-    const msg = state.plan.length
+    const msg = state.plan.length || state.bondOnly.length
       ? '当前计划没有好感度需求（目标等级 = 当前等级）。'
-      : '把角色加入下方规划后，这里会显示每个角色的好感进度、礼物需求与库存抵扣。';
+      : '直接点「添加角色」加入好感规划；只算好感，不会进入下面的养成计划。';
     el.innerHTML = `<div class="bond-empty">
       <span class="be-heart" aria-hidden="true">♥</span>
       <div><b>好感度养成</b><p>${msg}</p></div>
+      <button class="bond-add" type="button" data-bond-add>＋ 添加角色</button>
       <span class="be-arrow" aria-hidden="true">↓</span>
     </div>`;
   }
@@ -3841,7 +3977,7 @@ window.BACalc = CALC.core;</script>
   function renderResult() {
     const r = computeAll();
     LAST = r;
-    if (!state.plan.length) {
+    if (!state.plan.length && !state.bondOnly.length) {
       $('#result').innerHTML = '<div class="empty-big">先把角色加入上方的规划列表，这里会显示材料缺口</div>';
       $('#summary').textContent = '把角色加入规划后自动计算';
       renderBond('');
@@ -3918,7 +4054,7 @@ window.BACalc = CALC.core;</script>
       </div>`;
 
     /* ---------- 好感度：总览 + 角色列表 + 单角色详情 ---------- */
-    const bondPlans = (r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
+    const bondPlans = (r.bondPer || r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
       const s = byId[p.id];
       if (!s) return null;
       const entry = state.plan.find((x) => x.id === p.id) || { cur: { bond: 1 }, tgt: { bond: 100 } };
@@ -4027,6 +4163,32 @@ window.BACalc = CALC.core;</script>
 
     const bondChars = bondPlans.length;
     const bondPct = r.bondExp > 0 ? Math.min(100, Math.round((r.giftUsed / r.bondExp) * 100)) : 100;
+
+    const needGiftMap = new Map();
+    for (const x of bondPlans) {
+      if (x.left <= 0) continue;
+      const g = x.best || { name: '一般紫礼', value: 120, cat: 'p' };
+      const n = Math.ceil(x.left / g.value);
+      const cur = needGiftMap.get(g.name) || { name: g.name, value: g.value, icon: g.icon, cat: g.cat, count: 0, who: new Set() };
+      cur.count += n;
+      cur.who.add(x.s.name);
+      needGiftMap.set(g.name, cur);
+    }
+    const needGifts = [...needGiftMap.values()].sort((a, b) => b.count - a.count);
+    const needGiftTotal = needGifts.reduce((a, g) => a + g.count, 0);
+    const giftSummaryHTML = bondChars ? `<section class="gift-summary">
+      <div class="gs-head">
+        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>还需礼物汇总</h3><p>按每个角色最高效率礼物估算，库存已抵扣后的剩余需求。</p></div>
+        <div class="gs-total"><b>${num(needGiftTotal)}</b><span>件礼物</span></div>
+      </div>
+      ${needGifts.length ? `<div class="gs-grid">${needGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
+        ${g.cat ? `<span class="gift-ico generic ${g.cat}" aria-hidden="true">${g.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(g.icon), 'gs-ico', g.name)}
+        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
+        <b class="gs-count">×${num(g.count)}</b>
+      </div>`).join('')}</div>` : '<div class="gs-empty">当前所有好感目标都已满足，不需要再喂礼物。</div>'}
+      <div class="gs-foot"><span>合计 ${num(needGiftTotal)} 件</span><button class="tbtn" type="button" data-giftlib>打开礼物库 →</button></div>
+    </section>` : '';
+
     const bondHTML = bondChars ? `<section class="bond-dash">
       <div class="bd-head">
         <div>
@@ -4057,7 +4219,7 @@ window.BACalc = CALC.core;</script>
         <div class="broster-foot">按计划顺序分配<br>同一礼物不重复</div>
       </aside>
       ${detailHTML}
-    </div>` : '';
+    </div>${giftSummaryHTML}` : '';
     const expHTML = `<h4 class="sub">经验书（按稀有度）</h4>${orList(bookCards.map(matCard))}
       <div class="mix"><b>${bookExp > 0 ? '库存抵扣后' : '默认全用最高级'}</b><span>${
         bookExp > 0
@@ -4076,7 +4238,7 @@ window.BACalc = CALC.core;</script>
       ${r.warnings.map((w) => `<div>${esc(w.msg)}</div>`).join('')}
     </div>` : '';
 
-    $('#result').innerHTML = `
+    $('#result').innerHTML = state.plan.length ? `
       <h3>技能材料</h3>
       ${sub('战术教育 BD（紫 → 白）', bd)}
       ${sub('技术笔记（紫 → 白）', note)}
@@ -4091,7 +4253,7 @@ window.BACalc = CALC.core;</script>
       <h3>角色经验<small>1→90 共 ${num(totalExp90)}</small></h3>
       ${expHTML}
       ${rows.length ? creditHTML : ''}
-      ${warnHTML}`;
+      ${warnHTML}` : '<div class="empty-big">好感规划里的角色只算好感；把角色加入下面的养成计划后，这里才显示材料缺口。</div>';
     renderBond(bondHTML);
 
     const gapRows = rows.filter((m) => !m.satisfied).length;
@@ -4107,7 +4269,9 @@ window.BACalc = CALC.core;</script>
     const bondText = bondChars
       ? ` · 好感 ${r.bondLeft ? `还需 ${num(r.bondLeft)}` : '已满足'}${r.giftUsed ? `（库存抵 ${num(r.giftUsed)}）` : ''}`
       : '';
-    $('#summary').textContent = `${state.plan.length} 名角色 · ${matText} · ${creditText}${bondText}`;
+    $('#summary').textContent = state.plan.length
+      ? `${state.plan.length} 名角色 · ${matText} · ${creditText}${bondText}`
+      : `${bondChars} 名好感角色 · 仅好感规划${bondText}`;
   }
 
   /* ---------------- 库存弹层 ---------------- */
@@ -4234,7 +4398,10 @@ window.BACalc = CALC.core;</script>
     $('#candidates').addEventListener('click', (e) => {
       const b = e.target.closest('[data-add]');
       if (!b) return;
-      state.plan.push(mkEntry(Number(b.dataset.add)));
+      const id = Number(b.dataset.add);
+      const oldBond = state.bondOnly.find((x) => x.id === id);
+      state.bondOnly = state.bondOnly.filter((x) => x.id !== id);
+      state.plan.push(oldBond || mkEntry(id));
       renderCandidates(); renderPlan(); renderResult(); save();
     });
 
@@ -4394,6 +4561,7 @@ window.BACalc = CALC.core;</script>
           const s = byId[id];
           if (typeof confirm === 'function' && !confirm(`把「${s ? s.name : id}」移出规划？会同时移除该角色的材料和好感需求。`)) return;
           state.plan = state.plan.filter((x) => String(x.id) !== id);
+          state.bondOnly = state.bondOnly.filter((x) => String(x.id) !== id);
           selectedBondId = null;
           save();
           renderPlan();
@@ -4403,11 +4571,7 @@ window.BACalc = CALC.core;</script>
         }
         const add = e.target.closest('[data-bond-add]');
         if (add) {
-          const q = $('#q');
-          if (q) {
-            if (typeof q.scrollIntoView === 'function') q.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (typeof q.focus === 'function') q.focus();
-          }
+          openBondAdd();
           return;
         }
         const gl = e.target.closest('[data-giftlib]');
@@ -4566,6 +4730,7 @@ window.BACalc = CALC.core;</script>
         const parsed = parseSave($('#ta').value);
         if (!parsed.plan.length && !Object.keys(parsed.inv).length) throw new Error('empty');
         state.plan = parsed.plan;
+        state.bondOnly = parsed.bondOnly || [];
         state.inv = parsed.inv;
         $('#modal').classList.remove('on');
         renderCandidates(); renderPlan(); renderResult(); save();
@@ -4652,6 +4817,37 @@ window.BACalc = CALC.core;</script>
     if (giftlibClose) giftlibClose.addEventListener('click', closeGiftLib);
     const giftlib = $('#giftlib');
     if (giftlib) giftlib.addEventListener('click', (e) => { if (e.target.id === 'giftlib') closeGiftLib(); });
+
+    /* 好感专用添加角色 */
+    const bondAddClose = $('#bondAddClose');
+    if (bondAddClose) bondAddClose.addEventListener('click', closeBondAdd);
+    const bondAddSearch = $('#bondAddSearch');
+    if (bondAddSearch) bondAddSearch.addEventListener('input', () => {
+      bondAddQ = bondAddSearch.value;
+      renderBondAdd();
+    });
+    const bondAddBody = $('#bondAddBody');
+    if (bondAddBody) bondAddBody.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-bond-add-id]');
+      if (!b) return;
+      const id = Number(b.dataset.bondAddId);
+      if (state.plan.some((x) => x.id === id) || state.bondOnly.some((x) => x.id === id)) {
+        selectedBondId = String(id);
+        closeBondAdd();
+        renderResult();
+        return;
+      }
+      const entry = mkEntry(id);
+      entry.tgt.bond = 100;
+      state.bondOnly.push(entry);
+      selectedBondId = String(id);
+      save();
+      closeBondAdd();
+      renderResult();
+      toast('已添加到好感规划');
+    });
+    const bondAddModal = $('#bondadd');
+    if (bondAddModal) bondAddModal.addEventListener('click', (e) => { if (e.target.id === 'bondadd') closeBondAdd(); });
     const giftlibBody = $('#giftlibBody');
     if (giftlibBody) giftlibBody.addEventListener('input', (e) => {
       const el = e.target.closest('[data-giftlib-q]');
@@ -4761,7 +4957,7 @@ window.BACalc = CALC.core;</script>
   const SHARE_MAX = 8000;
 
   function encodeShare() {
-    const json = JSON.stringify({ v: 1, plan: state.plan, inv: state.inv });
+    const json = JSON.stringify({ v: 1, plan: state.plan, bondOnly: state.bondOnly, inv: state.inv });
     const bytes = new TextEncoder().encode(json);
     let bin = '';
     for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
@@ -4779,15 +4975,16 @@ window.BACalc = CALC.core;</script>
     const bin = atob(b64);
     const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
     const d = JSON.parse(new TextDecoder().decode(bytes));
-    return { v: Number(d.v) || 1, plan: sanitizePlan(d.plan), inv: normalizeInv(d.inv) };
+    return { v: Number(d.v) || 1, plan: sanitizePlan(d.plan), bondOnly: sanitizePlan(d.bondOnly), inv: normalizeInv(d.inv) };
   }
 
   function loadShareFromHash() {
     if (typeof location === 'undefined' || !location.hash || !location.hash.startsWith('#p=')) return false;
     try {
       const d = decodeShare(location.hash.slice(3));
-      if (!d.plan.length) return false;
+      if (!d.plan.length && !(d.bondOnly || []).length) return false;
       state.plan = d.plan;
+      state.bondOnly = d.bondOnly || [];
       state.inv = d.inv;
       save();
       try {
@@ -4817,7 +5014,10 @@ window.BACalc = CALC.core;</script>
     const invRaw = (d.inv && typeof d.inv === 'object' && d.inv)
       || (d.inventory && typeof d.inventory === 'object' && d.inventory)
       || {};
-    return { plan: sanitizePlan(raws), inv: normalizeInv(invRaw), version: Number(d.v) || 0 };
+    const plan = sanitizePlan(raws);
+    const bondOnly = sanitizePlan(Array.isArray(d.bondOnly) ? d.bondOnly : [])
+      .filter((e) => !plan.some((p) => String(p.id) === String(e.id)));
+    return { plan, bondOnly, inv: normalizeInv(invRaw), version: Number(d.v) || 0 };
   }
 
   function setTheme(t) {
@@ -4843,7 +5043,7 @@ window.BACalc = CALC.core;</script>
   function save() {
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify({
-        v: SAVE_V, savedAt: Date.now(), plan: state.plan, inv: state.inv, gift: state.gift,
+        v: SAVE_V, savedAt: Date.now(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, gift: state.gift,
       }));
     } catch {}
   }
@@ -4853,11 +5053,13 @@ window.BACalc = CALC.core;</script>
       const d = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
       if (!d) return;
       state.plan = sanitizePlan(d.plan);
+      state.bondOnly = sanitizePlan(d.bondOnly).filter((e) => !state.plan.some((p) => String(p.id) === String(e.id)));
       state.inv = normalizeInv(d.inv);
       state.gift = typeof d.gift === 'string' ? d.gift : state.gift;
       if (d.v !== SAVE_V) save();   // v1 -> v2 迁移后立刻回写
     } catch {
       state.plan = [];
+      state.bondOnly = [];
       state.inv = {};
     }
   }
