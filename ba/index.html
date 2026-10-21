@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="4d8bd7431b">
+<meta name="build" content="9b6079d0de">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2204,6 +2204,34 @@ body{background:transparent!important}
 
 .bond-next-range{display:block;margin-top:2px;font-size:9px;font-weight:700;color:#c084fc;letter-spacing:.02em;line-height:1.2}
 
+
+/* v67.9: 候选角色列表：限高滚动 + 24 个分批 + 顶部吸顶收起 */
+.cand-scroll{
+  max-height:min(62vh,640px);
+  overflow-y:auto;overscroll-behavior:contain;
+  position:relative;padding:2px 6px 4px 2px;
+  scrollbar-width:thin;-webkit-overflow-scrolling:touch;
+}
+.cand-toolbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:7px 4px 8px;margin-bottom:4px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid #edf4f4;
+}
+#candCount{font-size:10.5px;color:#7b8d9a;letter-spacing:.02em}
+.cand-collapse{
+  flex:0 0 auto;border:1px solid #dcebe7;background:#f7fcfa;color:#3f9a8b;
+  border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;
+}
+.cand-collapse:hover{background:#edf9f5;border-color:#a9ded4}
+.cand-collapse[hidden]{display:none!important}
+#moreBtn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+#moreBtn[disabled]:hover{border-color:#DDEBEE;color:#4E7180;background:rgba(255,255,255,.8)}
+.cand-scroll::-webkit-scrollbar{width:8px}
+.cand-scroll::-webkit-scrollbar-thumb{background:#d9e3f0;border-radius:4px}
+@media (max-width:600px){.cand-scroll{max-height:55vh}}
 </style>
 </head>
 <body class="intro-open">
@@ -2266,8 +2294,14 @@ body{background:transparent!important}
       <div id="schools" class="chips"></div>
       <div id="stars" class="chips"></div>
     </div>
-    <div id="candidates" class="cands"></div>
-    <div class="morewrap"><button id="moreBtn" class="tbtn">加载更多 ▾</button></div>
+    <div id="candScroll" class="cand-scroll">
+      <div class="cand-toolbar" id="candToolbar">
+        <span id="candCount">共 0 名</span>
+        <button id="candCollapse" class="cand-collapse" type="button" hidden>收起列表</button>
+      </div>
+      <div id="candidates" class="cands"></div>
+      <div class="morewrap"><button id="moreBtn" class="tbtn">加载更多 ▾</button></div>
+    </div>
   </section>
 
   <section id="plan" class="plan" data-step="03 · 规划与目标"></section>
@@ -2278,7 +2312,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 4d8bd7431b</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 9b6079d0de</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2940,6 +2974,8 @@ window.BACalc = CALC.core;</script>
     star: 'all',
     gift: '3★最爱礼物',
   };
+  let candidateVisible = 12;
+  const CANDIDATE_BATCH = 24;
 
   /** 好感系统的目标角色 = 养成计划 + 仅好感的角色（去重，plan 优先） */
   function bondEntries() {
@@ -3240,25 +3276,49 @@ window.BACalc = CALC.core;</script>
       if (!q) return true;
       return (s.name + s.nameJp + s.schoolCn).toLowerCase().includes(q);
     });
-    const expanded = $('#candidates').classList.contains('expanded');
-    const shown = expanded || q ? list : list.slice(0, 12);
-    const note = list.length
-      ? `<div class="cand-note">${q || expanded ? `共 ${list.length} 名` : `还可加入 ${list.length} 名 · 当前显示 ${shown.length} 名`}</div>`
-      : '';
-    $('#candidates').innerHTML = (shown.length
+    const total = list.length;
+    candidateVisible = Math.min(Math.max(12, candidateVisible), Math.max(12, total));
+    const shown = list.slice(0, candidateVisible);
+    const sc = $('#candScroll');
+    const prevTop = sc ? sc.scrollTop : 0;
+    $('#candidates').innerHTML = shown.length
       ? shown.map((s) => `<button class="cand" data-add="${s.id}" title="加入 ${esc(s.name)}">
            ${img(studentIcon(s.id), 'cand-ava', s.name)}
            <span class="cand-txt"><span class="nm">${esc(s.name)}</span>
            <span class="meta">${esc(s.schoolCn)} · ${'★'.repeat(s.initialStar)}${s.jpOnly ? ' <i class="jp-tag" title="日服限定（国服未实装）">JP</i>' : ''}</span></span>
            <span class="cand-plus" aria-hidden="true">＋</span>
          </button>`).join('')
-      : '<div class="empty">没有可添加的角色（换关键词或清空筛选）</div>') + note;
+      : '<div class="empty">没有可添加的角色（换关键词或清空筛选）</div>';
+    const countEl = $('#candCount');
+    if (countEl) countEl.textContent = `共 ${total} 名 / 当前显示 ${shown.length} 名`;
+    const collapse = $('#candCollapse');
+    if (collapse) collapse.hidden = shown.length <= 12;
     const mb = $('#moreBtn');
     if (mb) {
-      const canMore = !q && (list.length > 12 || expanded);
-      mb.hidden = !canMore;
-      mb.textContent = expanded ? '收起列表 ▴' : '加载更多 ▾';
+      if (total <= 12) {
+        mb.hidden = true;
+        mb.disabled = false;
+      } else {
+        mb.hidden = false;
+        const rest = total - shown.length;
+        if (rest <= 0) {
+          mb.disabled = true;
+          mb.textContent = '已全部显示';
+        } else {
+          mb.disabled = false;
+          mb.textContent = `加载更多（还剩 ${rest}）`;
+        }
+      }
     }
+    if (sc) sc.scrollTop = prevTop;
+  }
+
+  /** 搜索/筛选变化：回到前 12 个并滚到候选区顶部 */
+  function resetCandidates() {
+    candidateVisible = 12;
+    renderCandidates();
+    const sc = $('#candScroll');
+    if (sc) sc.scrollTop = 0;
   }
 
   /* ---------------- 渲染：规划卡片 ---------------- */
@@ -5087,7 +5147,7 @@ window.BACalc = CALC.core;</script>
 
   /* ---------------- 事件 ---------------- */
   function bind() {
-    $('#q').addEventListener('input', (e) => { state.q = e.target.value; renderCandidates(); });
+    $('#q').addEventListener('input', (e) => { state.q = e.target.value; resetCandidates(); });
 
     loadSigsFromStore();   // 图标指纹走本地缓存，命中后候选秒出
 
@@ -5096,14 +5156,14 @@ window.BACalc = CALC.core;</script>
       if (!b) return;
       state.school = b.dataset.school;
       $$('#schools .chip').forEach((c) => c.classList.toggle('on', c.dataset.school === state.school));
-      renderCandidates();
+      resetCandidates();
     });
     $('#stars').addEventListener('click', (e) => {
       const b = e.target.closest('[data-star]');
       if (!b) return;
       state.star = b.dataset.star;
       $$('#stars .chip').forEach((c) => c.classList.toggle('on', c.dataset.star === state.star));
-      renderCandidates();
+      resetCandidates();
     });
 
     $('#candidates').addEventListener('click', (e) => {
@@ -5513,7 +5573,7 @@ window.BACalc = CALC.core;</script>
         state.inv = parsed.inv || {};
         if (parsed.mix && typeof parsed.mix === 'object') state.mix = parsed.mix;
         $('#modal').classList.remove('on');
-        renderCandidates(); renderPlan(); renderResult(); save();
+        resetCandidates(); renderPlan(); renderResult(); save();
         toast(`已导入 ${parsed.plan.length} 个角色、${Object.keys(state.inv).length} 条库存`);
       } catch { toast('未识别的配置链接/存档，已保持原数据不变'); }
     });
@@ -5538,8 +5598,19 @@ window.BACalc = CALC.core;</script>
 
     const moreBtn = $('#moreBtn');
     if (moreBtn) moreBtn.addEventListener('click', () => {
-      $('#candidates').classList.toggle('expanded');
+      candidateVisible += CANDIDATE_BATCH;
       renderCandidates();
+    });
+
+    const candCollapse = $('#candCollapse');
+    if (candCollapse) candCollapse.addEventListener('click', () => {
+      candidateVisible = 12;
+      renderCandidates();
+      const sc = $('#candScroll');
+      if (sc) {
+        if (sc.scrollTo) sc.scrollTo({ top: 0, behavior: 'smooth' });
+        else sc.scrollTop = 0;
+      }
     });
 
     const repoDone = $('#repoDone');
