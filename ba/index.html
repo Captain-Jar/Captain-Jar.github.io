@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="7b5b0fd3d3">
+<meta name="build" content="b81b8de210">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1687,6 +1687,40 @@ header.top,main,.foot{position:relative;z-index:1}
   .bd-level-inputs .bond-current-num,
   .bd-level-inputs .bond-target-num{flex:1 1 100%;justify-content:space-between}
 }
+.brand-mark{overflow:hidden}
+.brand-mark img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+
+/* v62: 礼物图标 1.5x */
+.bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:10px}
+.bond-detail .gift-tile{min-height:174px;padding:12px 8px;gap:6px}
+.bond-detail .gift-tile .gift-ico{width:66px;height:66px;border-radius:16px}
+.gift-tile .gt-icon{min-height:66px}
+.gift-tile .gt-value{font-size:18px}
+.gift-tile input[data-bond-gift]{width:78px;padding:6px 8px;font-size:13px}
+@media (max-width:760px){
+  .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .bond-detail .gift-tile{min-height:152px;padding:9px 5px}
+  .bond-detail .gift-tile .gift-ico{width:54px;height:54px}
+  .gt-icon{min-height:54px}
+  .gift-tile input[data-bond-gift]{width:68px;font-size:12px}
+}
+
+/* v62: 固定速度细雪（不随页面滚动） */
+.snow{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;opacity:.58}
+.snow::before,.snow::after{
+  content:"";position:absolute;inset:-25%;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.95) 0 1.1px,transparent 1.7px),
+    radial-gradient(circle,rgba(224,242,254,.9) 0 1px,transparent 1.5px);
+  background-size:140px 190px,230px 280px;
+  background-position:0 0,60px 90px;
+  animation:snowFall 24s linear infinite;
+}
+.snow::after{opacity:.55;background-size:200px 260px,320px 380px;animation-duration:38s;animation-delay:-12s}
+@keyframes snowFall{from{transform:translate3d(0,-10%,0)}to{transform:translate3d(-2.5%,110%,0)}}
+header.top,main,.foot{position:relative;z-index:2}
+@media (prefers-reduced-motion:reduce){.snow::before,.snow::after{animation:none}}
+@media print{.snow{display:none!important}}
 </style>
 </head>
 <body>
@@ -1696,9 +1730,10 @@ header.top,main,.foot{position:relative;z-index:1}
   <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
   <span class="bg-grid"></span><span class="bg-stars"></span>
 </div>
+<div class="snow" aria-hidden="true"></div>
 <header class="top">
   <div class="brand">
-    <div class="brand-mark" aria-hidden="true">✦</div>
+    <div class="brand-mark" aria-hidden="true"><img src="brand-face.webp" alt=""></div>
     <div class="brand-copy">
       <h1>蔚蓝档案 <em>养成差量计算器</em></h1>
       <p class="tagline">好感规划 · 礼物效率 · 库存抵扣</p>
@@ -1737,7 +1772,7 @@ header.top,main,.foot{position:relative;z-index:1}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 7b5b0fd3d3</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 b81b8de210</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
