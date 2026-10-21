@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="8fb7a47792">
+<meta name="build" content="222028e49d">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1395,6 +1395,72 @@ html[data-theme="dark"] .gt-foot{color:#7e6b8a}
 .bd-actions .tbtn.primary{background:linear-gradient(135deg,#ec4899,#a855f7);border-color:transparent;color:#fff}
 html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4d;color:#fbcfe8}
 
+
+/* =====================================================================
+   v54 · 好感角色增删 / 极简礼物格 / 礼物库
+   ===================================================================== */
+.broster-wrap{position:relative}
+.broster-wrap.active .broster{background:linear-gradient(135deg,#fff1f7,#f5f3ff);border-color:#f9a8d4;box-shadow:0 10px 22px -20px rgba(219,39,119,.55)}
+.broster-wrap .broster{padding-right:26px}
+.broster-del{
+  position:absolute;right:4px;top:5px;width:18px;height:18px;border:0;border-radius:50%;
+  background:#fff;color:#c4b5fd;font-size:13px;line-height:1;cursor:pointer;
+  opacity:0;transition:opacity .15s,background .15s,color .15s;z-index:2;
+}
+.broster-wrap:hover .broster-del,.broster-wrap.active .broster-del{opacity:1}
+.broster-del:hover{background:#fff1f2;color:#e11d48}
+.bond-add{
+  width:100%;margin-top:7px;padding:7px;border:1px dashed #f3d9ea;border-radius:10px;
+  background:#fffafd;color:#be185d;font-size:10px;font-weight:700;cursor:pointer;
+}
+.bond-add:hover{background:#fff1f7;border-color:#f9a8d4}
+
+.bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:7px}
+.bond-detail .gift-tile{
+  min-height:100px;padding:7px 5px;border-radius:13px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;
+}
+.bond-detail .gift-tile.best{
+  border-color:#f472b6;background:linear-gradient(180deg,#fff,#fff4fa);
+  box-shadow:0 0 0 2px rgba(244,114,182,.12);
+}
+.gt-icon{display:grid;place-items:center;min-height:38px}
+.bond-detail .gift-tile .gift-ico{width:38px;height:38px;border-radius:11px;object-fit:contain}
+.gt-count{display:flex;align-items:baseline;justify-content:center;gap:2px;font-size:10px;color:#a78bfa;line-height:1.1;font-variant-numeric:tabular-nums}
+.gt-count b{font-size:11px;color:#6d28d9}
+.gt-count b:first-child{color:#9d174d}
+.gt-count i{font-style:normal;color:#c4b5fd}
+.gift-tile .gt-value{font-size:13px;line-height:1.1;font-weight:800;color:#db2777;margin:0}
+.gift-tile .gt-value small{display:none}
+
+.giftlib-body{padding-top:6px}
+.giftlib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:7px}
+.giftlib-item{
+  display:grid;grid-template-columns:38px minmax(0,1fr) 66px;gap:8px;align-items:center;
+  padding:7px 9px;border:1px solid #eef3fa;border-radius:11px;background:#fcfdff;
+}
+.giftlib-ico{width:38px;height:38px;border-radius:10px;object-fit:contain;background:#faf5ff}
+.giftlib-name{display:flex;flex-direction:column;min-width:0;gap:1px}
+.giftlib-name b{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.giftlib-name small{font-size:9px;color:#a78bfa}
+.giftlib-item input{
+  width:66px;padding:6px 8px;border:1.5px solid #e4eaf3;border-radius:8px;
+  background:#fff;color:#4c1d95;text-align:right;font-weight:700;font-size:12px;outline:none;
+}
+.giftlib-item input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
+html[data-theme="dark"] .giftlib-item{background:#0f172a;border-color:#1e293b}
+html[data-theme="dark"] .giftlib-item input{background:#0b1220;border-color:#1e293b;color:#fbcfe8}
+html[data-theme="dark"] .giftlib-name b{color:#e9d5ff}
+html[data-theme="dark"] .bond-add{background:#1a1226;border-color:#4c1d4d;color:#fbcfe8}
+html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
+
+@media (max-width:760px){
+  .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px}
+  .bond-detail .gift-tile{min-height:92px;padding:6px 4px}
+  .bond-detail .gift-tile .gift-ico{width:32px;height:32px}
+  .gt-icon{min-height:32px}
+  .giftlib-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -1410,6 +1476,7 @@ html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4
   <div class="topbar">
     <div class="tb-group">
       <button id="btnVault" class="tbtn primary" title="我的仓库：保存全部素材数量">🏦 我的仓库</button>
+      <button id="btnGiftLib" class="tbtn" title="礼物库：记录全部礼物持有数量">🎁 礼物库</button>
       <button id="btnShot" class="tbtn" title="上传仓库截图，自动识别">📷 截图导入</button>
       <button id="btnRepo" class="tbtn" title="批量录入仓库数量">📦 仓库录入</button>
     </div>
@@ -1448,7 +1515,7 @@ html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 8fb7a47792</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 222028e49d</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1488,12 +1555,33 @@ html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4
   </div>
 </div>
 
+<div id="giftlib" class="repo" role="dialog" aria-modal="true" aria-labelledby="giftlibTitle">
+  <div class="repo-box">
+    <header class="repo-head">
+      <div>
+        <b id="giftlibTitle">礼物库</b>
+        <span class="repo-sub">记录所有礼物的持有数量；好感计算会按计划顺序从这里抵扣</span>
+      </div>
+      <div class="repo-acts">
+        <input id="giftlibSearch" class="vault-search" aria-label="搜索礼物" placeholder="搜索礼物名…">
+        <span class="repo-count" id="giftlibCount"></span>
+        <button id="giftlibShot" class="tbtn" type="button">📷 截图识别礼物</button>
+        <button id="giftlibClear" class="tbtn" type="button">全部清零</button>
+        <button id="giftlibClose" class="btn" type="button">关闭</button>
+      </div>
+    </header>
+    <div id="giftlibBody" class="repo-body giftlib-body"></div>
+  </div>
+</div>
+<input type="file" id="giftShotFile" accept="image/*" hidden>
+<datalist id="giftlist"></datalist>
+
 <div id="shot" class="repo" role="dialog" aria-modal="true" aria-labelledby="shotTitle">
   <div class="repo-box">
     <header class="repo-head">
       <div>
         <b id="shotTitle">截图导入</b>
-        <span class="repo-sub">上传仓库截图，自动识别图标与数量；数量可以直接改，材料名不对也能改</span>
+        <span class="repo-sub" id="shotSub">上传仓库截图，自动识别图标与数量；数量可以直接改，材料名不对也能改</span>
       </div>
       <div class="repo-acts">
         <span class="repo-count" id="shotCount"></span>
@@ -2556,6 +2644,45 @@ window.BACalc = CALC.core;</script>
   function openVault() { renderVault(); $('#vault').classList.add('on'); setTimeout(() => { const i = $('#vaultSearch'); if (i && i.focus) i.focus(); }, 30); }
   function closeVault() { $('#vault').classList.remove('on'); renderResult(); }
 
+  /* ---------------- 礼物库：只记录 59 个具体礼物 ---------------- */
+  let giftLibQ = '';
+
+  function giftLibFilled() {
+    return GIFTS.filter((g) => toCount(state.inv['gift:' + g.name]) > 0).length;
+  }
+
+  function renderGiftLib() {
+    const body = $('#giftlibBody');
+    if (!body) return;
+    const q = giftLibQ.trim().toLowerCase();
+    const list = GIFTS.slice().sort((a, b) => (b.tier || 0) - (a.tier || 0) || a.name.localeCompare(b.name, 'zh-CN'))
+      .filter((g) => !q || g.name.toLowerCase().includes(q));
+    body.innerHTML = `<div class="giftlib-grid">${list.map((g) => {
+      const n = toCount(state.inv['gift:' + g.name]);
+      return `<label class="giftlib-item" data-tier="${g.tier || 2}">
+        ${img(iconUrl(g.icon), 'giftlib-ico', g.name)}
+        <span class="giftlib-name"><b>${esc(g.name)}</b><small>${g.tier || 2}★</small></span>
+        <input type="number" min="0" inputmode="numeric" data-giftlib-q="${esc(g.name)}" value="${n || ''}" placeholder="0" aria-label="${esc(g.name)} 数量">
+      </label>`;
+    }).join('') || '<div class="empty">没有匹配的礼物</div>'}</div>`;
+    const count = $('#giftlibCount');
+    if (count) count.textContent = q ? `${list.length} 种匹配` : `${giftLibFilled()} / ${GIFTS.length} 种已填`;
+  }
+
+  function openGiftLib() {
+    renderGiftLib();
+    const q = $('#giftlibSearch');
+    if (q) q.value = giftLibQ;
+    $('#giftlib').classList.add('on');
+    setTimeout(() => { const i = $('#giftlibSearch'); if (i && i.focus) i.focus(); }, 30);
+  }
+
+  function closeGiftLib() {
+    $('#giftlib').classList.remove('on');
+    renderResult();
+  }
+
+
   /* ---------------- 截图导入：切格 + 手动/自动填 ---------------- */
   /* 数字模板（0-9 与 ×），12×18 二值 */
   const DIGITS = (() => {
@@ -2828,12 +2955,31 @@ window.BACalc = CALC.core;</script>
     return KEY_NAME;
   }
 
-  function openShot() {
+  function openShot(mode = 'mat') {
+    const isGift = mode === 'gift';
+    if (SHOT_MODE !== mode) {
+      SHOT_MODE = mode;
+      const body = $('#shotBody');
+      if (body) body.innerHTML = '';
+    }
     const dl = $('#matlist');
-    if (dl && !dl.childElementCount) {
+    if (!isGift && dl && !dl.childElementCount) {
       dl.innerHTML = vaultMaterialsFlat().map((it) => `<option value="${esc(it.name)}"></option>`).join('');
     }
+    const gdl = $('#giftlist');
+    if (isGift && gdl && !gdl.childElementCount) {
+      gdl.innerHTML = GIFTS.map((g) => `<option value="${esc(g.name)}"></option>`).join('');
+    }
+    const title = $('#shotTitle');
+    const sub = $('#shotSub');
+    const done = $('#shotDone');
+    if (title) title.textContent = isGift ? '礼物截图识别' : '截图导入';
+    if (sub) sub.textContent = isGift
+      ? '上传礼物仓库截图，只识别礼物图标与数量；数量可以直接改，礼物名不对也能改'
+      : '上传仓库截图，自动识别图标与数量；数量可以直接改，材料名不对也能改';
+    if (done) done.textContent = isGift ? '写入礼物库' : '写入库存';
     $('#shot').classList.add('on');
+    updateShotCount();
     setTimeout(() => { const b = $('#shotPick'); if (b && b.focus) b.focus(); }, 30);
   }
 
@@ -2846,7 +2992,15 @@ window.BACalc = CALC.core;</script>
     resultTimer = setTimeout(() => { resultTimer = null; renderResult(); }, 300);
   }
 
+  function ensureShotSigs() {
+    return SHOT_MODE === 'gift' ? ensureGiftSigs() : ensureVaultSigs();
+  }
+
   function shotLoadingText() {
+    if (SHOT_MODE === 'gift') {
+      if (!GIFT_SIG_PROMISE) return '未匹配，请手动选';
+      return GIFT_SIG_TOTAL ? `识别中… ${GIFT_SIG_DONE}/${GIFT_SIG_TOTAL}` : '识别中…';
+    }
     if (!SIG_PROMISE) return '未匹配，请手动选';
     return SIG_TOTAL ? `识别中… ${SIG_DONE}/${SIG_TOTAL}` : '识别中…';
   }
@@ -2858,7 +3012,7 @@ window.BACalc = CALC.core;</script>
   function refreshChips() {
     $$('#shotBody .shot-card').forEach((card) => {
       if (!card._sig) return;
-      const cands = guessMaterials(card._sig, 5);
+      const cands = SHOT_MODE === 'gift' ? guessGifts(card._sig, 5) : guessMaterials(card._sig, 5);
       let box = card.querySelector('.mchips');
       if (!box) {
         box = document.createElement('div');
@@ -3039,6 +3193,14 @@ window.BACalc = CALC.core;</script>
   let SIG_TOTAL = 0;
   let SIG_DONE = 0;
 
+  /* 截图模式：mat=材料仓库，gift=礼物库 */
+  let SHOT_MODE = 'mat';
+  const GIFT_SIG_CACHE = new Map();
+  let GIFT_SIG_READY = false;
+  let GIFT_SIG_PROMISE = null;
+  let GIFT_SIG_TOTAL = 0;
+  let GIFT_SIG_DONE = 0;
+
   function loadSigsFromStore() {
     try {
       const raw = JSON.parse(localStorage.getItem(SIG_STORE_KEY) || '{}');
@@ -3145,12 +3307,80 @@ window.BACalc = CALC.core;</script>
     return top.slice(0, n || 5).map((x) => ({ it: x.it, sc: 1 - x.ham / 64 }));
   }
 
+  /* ---------- 礼物指纹：只索引 59 个具体礼物 ---------- */
+  function ensureGiftSigs() {
+    if (GIFT_SIG_READY) return Promise.resolve();
+    if (GIFT_SIG_PROMISE) return GIFT_SIG_PROMISE;
+    GIFT_SIG_PROMISE = doEnsureGiftSigs()
+      .catch(() => {})
+      .finally(() => {
+        GIFT_SIG_PROMISE = null;
+        GIFT_SIG_READY = true;
+        refreshChips();
+        updateSigHint();
+      });
+    return GIFT_SIG_PROMISE;
+  }
+
+  async function doEnsureGiftSigs() {
+    const todo = GIFTS.filter((g) => g.icon && !GIFT_SIG_CACHE.has(g.name));
+    GIFT_SIG_TOTAL = todo.length;
+    GIFT_SIG_DONE = 0;
+    updateSigHint();
+    if (!todo.length) return;
+    const deadline = Date.now() + 15000;
+    const fetchOne = (g) => new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(null), 6000);
+      fetch(iconUrl(g.icon), { mode: 'cors' })
+        .then((r) => (r.ok ? r.blob() : null))
+        .then((blob) => {
+          if (!blob) { clearTimeout(timer); resolve(null); return; }
+          const url = URL.createObjectURL(blob);
+          const el = new Image();
+          el.onload = () => { clearTimeout(timer); resolve({ g, im: el, url }); };
+          el.onerror = () => { clearTimeout(timer); URL.revokeObjectURL(url); resolve(null); };
+          el.src = url;
+        })
+        .catch(() => { clearTimeout(timer); resolve(null); });
+    });
+    for (let i = 0; i < todo.length; i += 6) {
+      if (Date.now() > deadline) break;
+      const batch = todo.slice(i, i + 6);
+      const got = await Promise.all(batch.map(fetchOne));
+      GIFT_SIG_DONE += batch.length;
+      for (const x of got) {
+        if (!x) continue;
+        const s = sigOfImage(x.im);
+        if (s) GIFT_SIG_CACHE.set(x.g.name, { key: 'gift:' + x.g.name, name: x.g.name, dh: s.dh, hue: s.hue });
+        try { URL.revokeObjectURL(x.url); } catch { /* ignore */ }
+      }
+      updateSigHint();
+    }
+  }
+
+  function guessGifts(feat, n) {
+    if (!feat || !feat.dh || !GIFT_SIG_CACHE.size) return [];
+    const scored = [];
+    for (const it of GIFT_SIG_CACHE.values()) {
+      const ham = hamming(it.dh, feat.dh);
+      let hueSim = 0;
+      if (it.hue && feat.hue) for (let i = 0; i < 12; i++) hueSim += it.hue[i] * feat.hue[i];
+      scored.push({ it, ham, hueSim });
+    }
+    scored.sort((a, b) => a.ham - b.ham);
+    const top = scored.slice(0, 10);
+    top.sort((a, b) => b.hueSim - a.hueSim);
+    if (!top.length || top[0].ham >= 20) return [];
+    return top.slice(0, n || 5).map((x) => ({ it: x.it, sc: 1 - x.ham / 64 }));
+  }
+
   function shotRowHTML(thumb, count, sig) {
-    const cands = sig ? guessMaterials(sig, 5) : [];
+    const isGift = SHOT_MODE === 'gift';
+    const cands = sig ? (isGift ? guessGifts(sig, 5) : guessMaterials(sig, 5)) : [];
     const chips = cands.map((c, i) => `<button class="mchip${i === 0 ? ' top' : ''}" data-pick="${esc(c.it.key)}" title="${esc(c.it.name)}">${esc(c.it.name)}</button>`).join('');
     return `<div class="shot-card">
         <img src="${thumb}" alt="">
-        <input class="shot-name" list="matlist" data-shot-name placeholder="材料名（可搜索）">
+        <input class="shot-name" list="${isGift ? 'giftlist' : 'matlist'}" data-shot-name placeholder="${isGift ? '礼物名（可搜索）' : '材料名（可搜索）'}">
         <input type="number" min="0" inputmode="numeric" data-shot-num value="${count || ''}" placeholder="数量">
         ${chips ? `<div class="mchips">${chips}</div>` : ''}
       </div>`;
@@ -3158,16 +3388,18 @@ window.BACalc = CALC.core;</script>
 
   function appendShot(rows, img) {
     const body = $('#shotBody');
+    const isGift = SHOT_MODE === 'gift';
+    const ready = isGift ? GIFT_SIG_READY : SIG_READY;
     const wrap = document.createElement('div');
     wrap.className = 'shot-block';
     wrap.innerHTML = `<div class="shot-bar"><span>${img.naturalWidth}×${img.naturalHeight} · 识别到 ${rows.length} 项</span>
-        <span class="shot-tip">写入时会覆盖对应材料的库存数量，不是累加</span></div>
+        <span class="shot-tip">写入时会覆盖对应${isGift ? '礼物' : '材料'}的库存数量，不是累加</span></div>
       <div class="shot-grid">${rows.map((r) => shotRowHTML(r.thumb.url, r.count, r.feat)).join('')}</div>`;
     body.appendChild(wrap);
     const cards = wrap.querySelectorAll('.shot-card');
     rows.forEach((r, i) => { if (cards[i]) cards[i]._sig = r.feat; });
     // 图标库还没算完时先占位，避免看起来「没有候选」
-    if (!SIG_READY) {
+    if (!ready) {
       wrap.querySelectorAll('.shot-card').forEach((card) => {
         if (card.querySelector('.mchips')) return;
         const box0 = document.createElement('div');
@@ -3315,7 +3547,7 @@ window.BACalc = CALC.core;</script>
         appendShot(rows2, img);
         $('#shotBody').querySelectorAll('.shot-adjust').forEach((n) => n.remove());
         toast(`自动检测到 ${rows2.length} 项`);
-        ensureVaultSigs();
+        ensureShotSigs();
       } catch (e) {
         toast('自动检测失败：' + e.message);
       }
@@ -3352,7 +3584,7 @@ window.BACalc = CALC.core;</script>
     $('#shotBody').querySelectorAll('.shot-adjust').forEach((n) => n.remove());
     appendShot(outRows, img);
     toast(outRows.length ? `切出 ${outRows.length} 格` : '这些格子没读到数量，可调整行列数或重框第一格');
-    ensureVaultSigs();
+    ensureShotSigs();
   }
 
   /** 读一格右下角的数量（复用 12×18 模板） */
@@ -3478,7 +3710,7 @@ window.BACalc = CALC.core;</script>
     toast(rows.length ? `识别到 ${rows.length} 项` : '这张图没找到数量文字');
     if (oob) toast(`${oob} 项超出图片范围，建议换一张完整的仓库截图`);
     if (!SIG_CACHE.size) toast('首次使用：正在加载图标库，候选稍后出现');
-    await ensureVaultSigs();
+    await ensureShotSigs();
   }
 
   function updateShotCount() {
@@ -3490,11 +3722,13 @@ window.BACalc = CALC.core;</script>
 
   function writeShot() {
     let n = 0;
+    const isGift = SHOT_MODE === 'gift';
     const map = materialMap();
+    const giftNames = new Set(GIFTS.map((g) => g.name));
     $$('#shotBody .shot-card').forEach((c) => {
       const name = c.querySelector('[data-shot-name]').value.trim();
       const val = Number(c.querySelector('[data-shot-num]').value) || 0;
-      const key = map.get(name);
+      const key = isGift ? (giftNames.has(name) ? 'gift:' + name : '') : map.get(name);
       if (!key || val <= 0) return;
       // 覆盖而不是累加：重复导入同一张截图不会翻倍
       setInv(key, val);
@@ -3510,7 +3744,8 @@ window.BACalc = CALC.core;</script>
     save();
     renderResult();
     updateShotCount();
-    toast(n ? `已写入 ${n} 项库存` : '没有可写入的行：材料名要选列表里的那一项');
+    if (isGift) renderGiftLib();
+    toast(n ? `已写入 ${n} 项${isGift ? '礼物' : '库存'}` : `没有可写入的行：${isGift ? '礼物名' : '材料名'}要选列表里的那一项`);
   }
 
   /* ---------------- 渲染：结果（网格卡片） ---------------- */
@@ -3724,29 +3959,24 @@ window.BACalc = CALC.core;</script>
 
     const giftTileOf = (x) => (d) => {
       const isBest = d === x.bestGift;
-      const low = !isBest && d.count > 0 && d.overflow === x.minOverflow;
-      return `<button class="gift-tile ${d.gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(d.name)}" data-gval="${d.value}" data-need="${x.left}"${d.cat ? ` data-giftcat="${d.cat}"` : ''} title="${esc(d.name)} · 单个 +${d.value} · ${d.gap ? `缺 ${num(d.gap)}` : '已够'}${d.overflow ? ` · 溢出 ${num(d.overflow)}` : ''}">
-        <span class="gt-top">
+      return `<button class="gift-tile ${isBest ? 'best' : ''} ${d.gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(d.name)}" data-gval="${d.value}" data-need="${x.left}"${d.cat ? ` data-giftcat="${d.cat}"` : ''} title="${esc(d.name)} · 单个 +${d.value} · 持有 ${num(d.owned)} / 需求 ${d.count ? num(d.count) : '—'}${d.gap ? ` · 缺 ${num(d.gap)}` : ' · 已够'}">
+        <span class="gt-icon">
           ${d.cat ? `<span class="gift-ico generic ${d.cat}" aria-hidden="true">${d.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(d.icon), 'gift-ico', d.name)}
-          <span class="gt-title"><b>${esc(d.name)}</b><small>${esc(d.tierLabel)}${d.matches ? ` · 命中 ${d.matches} 标签` : ''}</small></span>
-          ${isBest ? '<span class="gt-best">推荐</span>' : (low ? '<span class="gt-low">低溢出</span>' : '')}
         </span>
-        <span class="gt-value gval">+${d.value}<small>好感</small></span>
-        <span class="gt-stats">
-          <span><i>需求</i><b>${d.count ? num(d.count) : '—'}</b></span>
-          <span><i>持有</i><b>${num(d.owned)}</b></span>
-          <span><i>缺口</i><b class="${d.gap ? 'bad' : 'good'}">${d.gap ? num(d.gap) : '✓'}</b></span>
-        </span>
-        <span class="gt-foot">${x.done ? '已满足' : d.overflow ? `溢出 ${num(d.overflow)} 好感` : '无溢出'}</span>
+        <span class="gt-count"><b>${num(d.owned)}</b><i>/</i><b>${d.count ? num(d.count) : '—'}</b></span>
+        <span class="gt-value gval">+${d.value}</span>
       </button>`;
     };
 
-    const rosterHTML = bondPlans.map((x) => `<button class="broster ${x === activeBond ? 'active' : ''}" type="button" data-bond-select="${x.p.id}">
-      ${img(studentIcon(x.s.id), 'broster-ava', x.s.name)}
-      <span class="broster-main"><b>${esc(x.s.name)}</b><small>Lv ${x.curLv} → Lv ${x.tgtLv}</small></span>
-      <span class="broster-need">${x.done ? '✓' : num(x.left)}</span>
-      <span class="broster-bar"><i style="width:${x.pct}%"></i></span>
-    </button>`).join('');
+    const rosterHTML = bondPlans.map((x) => `<div class="broster-wrap ${x === activeBond ? 'active' : ''}">
+      <button class="broster" type="button" data-bond-select="${x.p.id}">
+        ${img(studentIcon(x.s.id), 'broster-ava', x.s.name)}
+        <span class="broster-main"><b>${esc(x.s.name)}</b><small>Lv ${x.curLv} → Lv ${x.tgtLv}</small></span>
+        <span class="broster-need">${x.done ? '✓' : num(x.left)}</span>
+        <span class="broster-bar"><i style="width:${x.pct}%"></i></span>
+      </button>
+      <button class="broster-del" type="button" data-bond-remove="${x.p.id}" title="移出好感规划" aria-label="把 ${esc(x.s.name)} 移出规划">×</button>
+    </div>`).join('');
 
     const detailHTML = activeBond ? (() => {
       const x = activeBond;
@@ -3791,10 +4021,7 @@ window.BACalc = CALC.core;</script>
         ${group('3★ 礼物', t3)}
         ${group('2★ 礼物', t2)}
 
-        <details class="bond-mixer">
-          <summary>自己搭配 / 库存抵扣明细</summary>
-          ${x.left > 0 ? mixerHTML('gift:' + x.p.id, GIFT_UNITS, x.left, { from: x.curLv, to: x.tgtLv }) : '<div class="hint">好感已满足，无需再喂礼物。</div>'}
-        </details>
+        ${x.left > 0 ? mixerHTML('gift:' + x.p.id, GIFT_UNITS, x.left, { from: x.curLv, to: x.tgtLv }) : '<div class="hint">好感已满足，无需再喂礼物。</div>'}
       </section>`;
     })() : '';
 
@@ -3818,6 +4045,7 @@ window.BACalc = CALC.core;</script>
       <div class="bd-bar"><i style="width:${bondPct}%"></i></div>
       <div class="bd-actions">
         <button class="tbtn primary" type="button" data-bond-all="100">全部 Lv100</button>
+        <button class="tbtn" type="button" data-giftlib>🎁 礼物库</button>
         <button class="tbtn" type="button" data-bond-clear>清空礼物库存</button>
       </div>
     </section>
@@ -3825,6 +4053,7 @@ window.BACalc = CALC.core;</script>
       <aside class="bond-roster">
         <div class="broster-title"><span>角色</span><b>${bondChars}</b></div>
         <div class="broster-list">${rosterHTML}</div>
+        <button class="bond-add" type="button" data-bond-add>＋ 添加角色</button>
         <div class="broster-foot">按计划顺序分配<br>同一礼物不重复</div>
       </aside>
       ${detailHTML}
@@ -4157,6 +4386,32 @@ window.BACalc = CALC.core;</script>
     const bondEl = $('#bond');
     if (bondEl) {
       bondEl.addEventListener('click', (e) => {
+        const rm = e.target.closest('[data-bond-remove]');
+        if (rm) {
+          const id = rm.dataset.bondRemove;
+          const p = state.plan.find((x) => String(x.id) === id);
+          if (!p) return;
+          const s = byId[id];
+          if (typeof confirm === 'function' && !confirm(`把「${s ? s.name : id}」移出规划？会同时移除该角色的材料和好感需求。`)) return;
+          state.plan = state.plan.filter((x) => String(x.id) !== id);
+          selectedBondId = null;
+          save();
+          renderPlan();
+          renderResult();
+          toast('已移出规划');
+          return;
+        }
+        const add = e.target.closest('[data-bond-add]');
+        if (add) {
+          const q = $('#q');
+          if (q) {
+            if (typeof q.scrollIntoView === 'function') q.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (typeof q.focus === 'function') q.focus();
+          }
+          return;
+        }
+        const gl = e.target.closest('[data-giftlib]');
+        if (gl) { openGiftLib(); return; }
         const allBtn = e.target.closest('[data-bond-all]');
         if (allBtn) {
           const lv = Math.min(100, Math.max(1, Number(allBtn.dataset.bondAll) || 100));
@@ -4390,6 +4645,59 @@ window.BACalc = CALC.core;</script>
       toast('仓库已全部清零');
     });
 
+    /* 礼物库 */
+    const giftLibBtn = $('#btnGiftLib');
+    if (giftLibBtn) giftLibBtn.addEventListener('click', openGiftLib);
+    const giftlibClose = $('#giftlibClose');
+    if (giftlibClose) giftlibClose.addEventListener('click', closeGiftLib);
+    const giftlib = $('#giftlib');
+    if (giftlib) giftlib.addEventListener('click', (e) => { if (e.target.id === 'giftlib') closeGiftLib(); });
+    const giftlibBody = $('#giftlibBody');
+    if (giftlibBody) giftlibBody.addEventListener('input', (e) => {
+      const el = e.target.closest('[data-giftlib-q]');
+      if (!el) return;
+      setInv('gift:' + el.dataset.giftlibQ, el.value);
+      save();
+      const count = $('#giftlibCount');
+      if (count) count.textContent = `${giftLibFilled()} / ${GIFTS.length} 种已填`;
+      renderResultSoon();
+    });
+    const giftlibSearch = $('#giftlibSearch');
+    if (giftlibSearch) giftlibSearch.addEventListener('input', () => {
+      giftLibQ = giftlibSearch.value;
+      renderGiftLib();
+    });
+    const giftlibClear = $('#giftlibClear');
+    if (giftlibClear) giftlibClear.addEventListener('click', () => {
+      if (typeof confirm === 'function' && !confirm('确定清空礼物库？只会清空礼物和通用礼物。')) return;
+      for (const k of Object.keys(state.inv)) {
+        if (k.startsWith('gift:') || k.startsWith('giftcat:')) delete state.inv[k];
+      }
+      save();
+      renderGiftLib();
+      renderResult();
+      toast('礼物库已清空');
+    });
+    const giftShotFile = $('#giftShotFile');
+    const giftlibShot = $('#giftlibShot');
+    if (giftlibShot && giftShotFile) {
+      giftlibShot.addEventListener('click', () => {
+        closeGiftLib();
+        openShot('gift');
+        giftShotFile.click();
+      });
+      giftShotFile.addEventListener('change', async () => {
+        const f = [...giftShotFile.files].find((x) => x.type.startsWith('image/'));
+        giftShotFile.value = '';
+        if (!f) return;
+        try {
+          const img = await loadImageFile(f);
+          openShot('gift');
+          importImage(img);
+        } catch { toast('这张图读取失败，换一张试试'); }
+      });
+    }
+
     /* 截图导入 */
     const shotBtn = $('#btnShot');
     if (shotBtn) shotBtn.addEventListener('click', openShot);
@@ -4428,7 +4736,9 @@ window.BACalc = CALC.core;</script>
       if (!chip) return;
       const card = chip.closest('.shot-card');
       const key = chip.dataset.pick;
-      const name = keyToName().get(key) || '';
+      const name = SHOT_MODE === 'gift' && key.startsWith('gift:')
+        ? key.slice(5)
+        : (keyToName().get(key) || '');
       const input = card.querySelector('[data-shot-name]');
       if (input) {
         input.value = name;
@@ -4586,6 +4896,8 @@ window.BACalc = CALC.core;</script>
     window.__baDebug = { state, computeAll, renderResult, setInv, invKey, parseSave, sanitizePlan, encodeShare, decodeShare, save };
   }
 })();
+
+
 
 </script>
 </body>
