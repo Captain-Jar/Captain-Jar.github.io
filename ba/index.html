@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="933e40cc9a">
+<meta name="build" content="22fbaba1aa">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2142,6 +2142,20 @@ body.intro-open{overflow:hidden}
 
 body{background:transparent!important}
 
+
+/* v67.4: 礼物汇总数量输入，与角色礼物格双向同步 */
+.gs-item{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:3px 8px;align-items:center}
+.gs-item .gs-ico{grid-row:1/3}
+.gs-item .gs-name{grid-column:2;grid-row:1}
+.gs-item .gs-value{grid-column:3;grid-row:1;align-self:center}
+.gs-input{
+  grid-column:2/4;grid-row:2;justify-self:end;width:76px;height:28px;padding:0 8px;
+  border:1px solid #f3d9ea;border-radius:8px;background:#fff;color:#9d174d;
+  font-size:12px;font-weight:700;text-align:center;outline:none;
+}
+.gs-input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.10)}
+.gs-input::placeholder{color:#c4a9b7;font-weight:500}
+@media print{.gs-input{display:none!important}}
 </style>
 </head>
 <body class="intro-open">
@@ -2216,7 +2230,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 933e40cc9a</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 22fbaba1aa</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -4719,8 +4733,10 @@ window.BACalc = CALC.core;</script>
       };
       const giftReachedLv = levelFromExp(enteredExp, T.bond.table, 100, curLv);
       const actualExp = totalTo(curLv) + enteredExp;
-      const nextTotalExp = totalTo(Math.min(100, giftReachedLv + 1));
-      const nextGap = Math.abs(actualExp - nextTotalExp);
+      const nextLv = Math.min(100, giftReachedLv + 1);
+      const nextNeed = totalTo(nextLv) - totalTo(giftReachedLv);
+      const progress = actualExp - totalTo(giftReachedLv);
+      const nextGap = nextNeed - progress;
       return {
         p, s, entry, curLv, tgtLv, need, left, covered, done, pct,
         fs, best, enteredExp, giftReachedLv, nextGap,
@@ -4804,22 +4820,23 @@ window.BACalc = CALC.core;</script>
     }
     const allGifts = [...giftUse.values()].sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, 'zh-CN'));
     const commonGifts = allGifts.filter((g) => g.who.size > 1);
+    const gsItem = (g) => {
+      const owned = toCount(state.inv['gift:' + g.name]) || 0;
+      return `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
+        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
+        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
+        <b class="gs-value">+${g.value}</b>
+        <input class="gs-input" type="number" min="0" inputmode="numeric" data-summary-gift="${esc(g.name)}" data-gift-value="${g.value}" value="${owned || ''}" placeholder="0" aria-label="${esc(g.name)} 数量">
+      </div>`;
+    };
     const giftSummaryHTML = bondChars ? `<section class="gift-summary">
       <div class="gs-head">
-        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物；不显示数量，库存直接在角色礼物格里填。</p></div>
+        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物；数量可以直接在下面填，和角色礼物格双向同步。</p></div>
         <button class="tbtn gs-print" type="button" data-print-gifts>🖨 打印</button>
       </div>
-      ${allGifts.length ? `<div class="gs-grid">${allGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
-        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
-        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
-        <b class="gs-value">+${g.value}</b>
-      </div>`).join('')}</div>` : '<div class="gs-empty">暂无需要保留的礼物。</div>'}
+      ${allGifts.length ? `<div class="gs-grid">${allGifts.map(gsItem).join('')}</div>` : '<div class="gs-empty">暂无需要保留的礼物。</div>'}
       <div class="gs-subhead"><span>共同需要的礼物</span><small>${commonGifts.length ? `${commonGifts.length} 种` : ''}</small></div>
-      ${commonGifts.length ? `<div class="gs-grid">${commonGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
-        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
-        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
-        <b class="gs-value">+${g.value}</b>
-      </div>`).join('')}</div>` : '<div class="gs-empty">暂无共同需要的礼物。</div>'}
+      ${commonGifts.length ? `<div class="gs-grid">${commonGifts.map(gsItem).join('')}</div>` : '<div class="gs-empty">暂无共同需要的礼物。</div>'}
     </section>` : '';
 
     const bondHTML = bondChars ? `<section class="bond-dash">
@@ -5257,13 +5274,36 @@ window.BACalc = CALC.core;</script>
       });
 
       bondEl.addEventListener('input', (e) => {
+        const sg = e.target.closest('[data-summary-gift]');
+        if (sg) {
+          const name = sg.dataset.summaryGift;
+          const val = sg.value;
+          setInv('gift:' + name, val);
+          $$('[data-summary-gift]').forEach((el) => {
+            if (el.dataset.summaryGift === name) el.value = val;
+          });
+          const detail = document.querySelector('.bond-detail');
+          const tile = detail && [...detail.querySelectorAll('[data-bond-gift]')].find((el) => el.dataset.bondGift === name);
+          if (tile) { tile.value = val; updateBondReach(tile); }
+          save();
+          return;
+        }
         const gi = e.target.closest('[data-bond-gift]');
         if (!gi) return;
-        setInv('gift:' + gi.dataset.bondGift, gi.value);
+        const name = gi.dataset.bondGift;
+        setInv('gift:' + name, gi.value);
+        $$('[data-summary-gift]').forEach((el) => {
+          if (el.dataset.summaryGift === name) el.value = gi.value;
+        });
         save();
         updateBondReach(gi);
       });
       bondEl.addEventListener('change', (e) => {
+        const sg = e.target.closest('[data-summary-gift]');
+        if (sg) {
+          renderResult();
+          return;
+        }
         const ci = e.target.closest('[data-bond-cur]');
         if (ci) {
           const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(ci.dataset.bondCur));
