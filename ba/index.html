@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="f9bb5bb630">
+<meta name="build" content="8fb7a47792">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <script>try{var t=localStorage.getItem('ba-theme');if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
-<style>:root{
+<style>﻿:root{
   --bg:#f4f6f9;
   --card:#ffffff;
   --ink:#1c2430;
@@ -1265,6 +1265,136 @@ html[data-theme="dark"] .gift-title span{color:#b7a4c4}
   .gift-tile{min-height:106px;padding:7px}
   .gt-name{font-size:10px}
 }
+
+/* =====================================================================
+   v53 · 好感度 master-detail
+   ===================================================================== */
+.bond-shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px;align-items:start}
+.bond-roster{
+  background:#fff;border:1px solid #f1e6f5;border-radius:20px;padding:10px;
+  box-shadow:0 18px 36px -34px rgba(131,24,67,.35);
+  position:sticky;top:140px;
+}
+.broster-title{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 9px;font-size:10px;font-weight:800;letter-spacing:.12em;color:#b09bbd}
+.broster-title b{font-size:11px;color:#9d174d;background:#fff1f7;border-radius:999px;padding:2px 7px}
+.broster-list{display:flex;flex-direction:column;gap:5px;max-height:calc(100vh - 260px);overflow:auto;padding:1px}
+.broster{
+  position:relative;display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:8px;align-items:center;
+  padding:8px 8px 12px;border:1px solid transparent;border-radius:14px;
+  background:#fff;text-align:left;cursor:pointer;color:#3f2a4d;font:inherit;
+  transition:background .15s,border-color .15s,box-shadow .15s;
+}
+.broster:hover{background:#fdf7ff;border-color:#f3e8ff}
+.broster.active{background:linear-gradient(135deg,#fff1f7,#f5f3ff);border-color:#f9a8d4;box-shadow:0 10px 22px -20px rgba(219,39,119,.55)}
+.broster-ava{width:38px;height:38px;border-radius:11px;object-fit:cover;background:#f5edf9}
+.broster-main{display:flex;flex-direction:column;min-width:0;gap:1px}
+.broster-main b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.broster-main small{font-size:9px;color:#9d8ba8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.broster-need{font-size:9.5px;font-weight:800;color:#be123c;font-variant-numeric:tabular-nums;white-space:nowrap}
+.broster-bar{position:absolute;left:8px;right:8px;bottom:5px;height:3px;border-radius:999px;background:#f3e8ff;overflow:hidden}
+.broster-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#f472b6,#a855f7)}
+.broster-foot{margin-top:10px;padding:9px 4px 2px;border-top:1px dashed #f3e8ff;font-size:8.5px;line-height:1.6;color:#b09bbd}
+
+.bond-detail{
+  min-width:0;background:#fff;border:1px solid #f1e6f5;border-radius:22px;padding:20px;
+  box-shadow:0 22px 44px -38px rgba(131,24,67,.4);
+}
+.bd-person{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bd-ava{width:64px;height:64px;border-radius:18px;object-fit:cover;background:#f5edf9;flex:0 0 auto;box-shadow:0 12px 22px -18px rgba(219,39,119,.6)}
+.bd-id{flex:1 1 260px;min-width:0}
+.bd-id h2{font-size:25px;letter-spacing:-.6px;line-height:1.1;margin:1px 0 3px;color:#3b1230}
+.bd-id small{font-size:10.5px;color:#8b7a95}
+.bd-person .bond-state{margin-left:0}
+.bd-person .bond-slider{flex:1 1 240px;min-width:190px}
+.bd-progress{position:relative;height:10px;border-radius:999px;background:#f5edf9;margin:17px 0 9px;overflow:visible}
+.bd-progress i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#f472b6,#a855f7)}
+.bd-progress span{position:absolute;right:0;top:-16px;font-size:9.5px;color:#a78bfa;font-variant-numeric:tabular-nums}
+.bd-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 14px}
+.bd-kpis .bk{padding:9px 11px}
+.bd-kpis .bk b{font-size:15px}
+
+.best-banner{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  padding:9px 11px;margin:0 0 4px;border-radius:14px;
+  background:linear-gradient(135deg,#fff1f7,#f5f3ff);border:1px solid #fbcfe8;
+}
+.bb-count{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:1px;white-space:nowrap}
+.bb-count b{font-size:13px;color:#9d174d}
+.bb-count span{font-size:9px;color:#a78bfa}
+.best-banner.empty{background:#fbfdff;border-color:#edf2f9}
+
+.gift-group{margin-top:14px}
+.gift-group h4{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800;letter-spacing:.1em;color:#9d8ba8;margin:0 0 7px}
+.gift-group h4 small{font-size:8.5px;font-weight:500;color:#c4b5fd;letter-spacing:0}
+.bond-detail .gift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+.bond-detail .gift-tile{
+  min-height:145px;padding:10px;border-radius:15px;
+  display:flex;flex-direction:column;gap:3px;
+}
+.gt-top{display:flex;align-items:center;gap:7px;min-height:34px;min-width:0;padding-right:2px}
+.bond-detail .gift-tile .gift-ico{width:34px;height:34px;border-radius:10px}
+.gt-title{display:flex;flex-direction:column;min-width:0;gap:1px;flex:1}
+.gt-title b{font-size:11.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gt-title small{font-size:8px;color:#a78bfa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gift-tile .gt-best{position:static;margin-left:auto;flex:0 0 auto;font-size:7px;padding:2px 5px}
+.gift-tile .gt-low{position:static;margin-left:auto;flex:0 0 auto;font-size:7.5px;color:#059669;background:#ecfdf5;border-radius:999px;padding:2px 5px;white-space:nowrap}
+.gift-tile .gt-value{font-size:20px;line-height:1;font-weight:800;color:#db2777;margin-top:1px}
+.gift-tile .gt-value small{font-size:8px;font-weight:500;color:#b09bbd;margin-left:3px}
+.gt-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-top:1px dashed #f3e8ff;padding-top:5px;margin-top:2px}
+.gt-stats>span{display:flex;flex-direction:column;gap:1px;min-width:0}
+.gt-stats i{font-size:7.5px;font-style:normal;color:#b09bbd}
+.gt-stats b{font-size:10px;color:#4c1d95;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gt-stats b.bad{color:#be123c}
+.gt-stats b.good{color:#059669}
+.gt-foot{font-size:8px;color:#b09bbd;margin-top:auto}
+.bond-detail .bond-mixer{margin-top:14px}
+
+html[data-theme="dark"] .bond-roster,
+html[data-theme="dark"] .bond-detail{background:#111827;border-color:#31233a;box-shadow:0 20px 40px -36px rgba(0,0,0,.85)}
+html[data-theme="dark"] .broster{background:#0f172a;color:#e9d5ff}
+html[data-theme="dark"] .broster:hover{background:#1a1226;border-color:#31233a}
+html[data-theme="dark"] .broster.active{background:linear-gradient(135deg,#241226,#1b1630);border-color:#7e22ce}
+html[data-theme="dark"] .broster-main small{color:#a78bfa}
+html[data-theme="dark"] .broster-need{color:#fda4af}
+html[data-theme="dark"] .broster-bar{background:#2a1b35}
+html[data-theme="dark"] .broster-foot{border-color:#31233a;color:#7e6b8a}
+html[data-theme="dark"] .bd-id h2{color:#fbcfe8}
+html[data-theme="dark"] .bd-id small{color:#a78bfa}
+html[data-theme="dark"] .bd-progress{background:#2a1b35}
+html[data-theme="dark"] .gift-group h4{color:#b7a4c4}
+html[data-theme="dark"] .gift-tile .gt-value small{color:#7e6b8a}
+html[data-theme="dark"] .gt-stats{border-color:#31233a}
+html[data-theme="dark"] .gt-stats b{color:#e9d5ff}
+html[data-theme="dark"] .gt-stats i,
+html[data-theme="dark"] .gt-foot{color:#7e6b8a}
+
+@media (max-width:1100px){
+  .bond-shell{grid-template-columns:230px minmax(0,1fr)}
+  .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr))}
+}
+@media (max-width:760px){
+  .bond-shell{grid-template-columns:1fr}
+  .bond-roster{position:static;padding:8px}
+  .broster-list{flex-direction:row;max-height:none;overflow-x:auto;gap:5px;padding-bottom:3px;scrollbar-width:none}
+  .broster-list::-webkit-scrollbar{display:none}
+  .broster{min-width:188px;grid-template-columns:34px minmax(0,1fr) auto;padding:7px 7px 11px}
+  .broster-ava{width:34px;height:34px;border-radius:10px}
+  .broster-foot{display:none}
+  .bond-detail{padding:14px;border-radius:18px}
+  .bd-ava{width:50px;height:50px;border-radius:14px}
+  .bd-id h2{font-size:21px}
+  .bd-person .bond-slider{flex-basis:100%;min-width:0}
+  .bd-kpis{grid-template-columns:repeat(2,1fr)}
+  .bond-detail .gift-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .bond-detail .gift-tile{min-height:138px;padding:8px}
+  .gt-title b{font-size:11px}
+}
+.bd-actions{display:flex;gap:8px;margin-top:12px;position:relative;z-index:1;flex-wrap:wrap}
+.bd-actions .tbtn{background:rgba(255,255,255,.72);border:1px solid rgba(236,72,153,.18);color:#9d174d;font-size:11px;padding:7px 11px}
+.bd-actions .tbtn:hover{background:#fff;color:#be185d;border-color:#f9a8d4}
+.bd-actions .tbtn.primary{background:linear-gradient(135deg,#ec4899,#a855f7);border-color:transparent;color:#fff}
+html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4d;color:#fbcfe8}
+
 </style>
 </head>
 <body>
@@ -1318,7 +1448,7 @@ html[data-theme="dark"] .gift-title span{color:#b7a4c4}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 f9bb5bb630</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 8fb7a47792</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -2321,6 +2451,7 @@ window.BACalc = CALC.core;</script>
 
   /* ---------------- 渲染：结果 ---------------- */
   let LAST = null;
+  let selectedBondId = null;
 
   function giftItems() {
     return (GIFTS || []).slice().sort((a, b) => b.tier - a.tier || String(a.name).localeCompare(String(b.name), 'zh'));
@@ -3551,10 +3682,10 @@ window.BACalc = CALC.core;</script>
           `<div class="crow ${cls}"><span class="cname"><i></i>${name}<small>${note}</small></span><b>${num(v)}</b></div>`).join('')}</div>
       </div>`;
 
-    /* ---------- 好感度：专属养成面板 ---------- */
-    const bondPerHTML = (r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
+    /* ---------- 好感度：总览 + 角色列表 + 单角色详情 ---------- */
+    const bondPlans = (r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
       const s = byId[p.id];
-      if (!s) return '';
+      if (!s) return null;
       const entry = state.plan.find((x) => x.id === p.id) || { cur: { bond: 1 }, tgt: { bond: 100 } };
       const curLv = Math.min(100, Math.max(1, Number(entry.cur.bond) || 1));
       const tgtLv = Math.min(100, Math.max(curLv, Number(entry.tgt.bond) || 100));
@@ -3570,84 +3701,111 @@ window.BACalc = CALC.core;</script>
 
       const giftData = [
         ...fs.map((g) => ({
-          name: g.name, value: g.value, icon: g.icon, tier: `${g.tier}★`, matches: g.matches || 1,
+          name: g.name, value: g.value, icon: g.icon, tierValue: g.tier,
+          tierLabel: `${g.tier}★`, matches: g.matches || 1,
           owned: toCount(state.inv['gift:' + g.name]),
         })),
-        { name: '一般紫礼', value: 120, cat: 'p', tier: '3★ 通用', owned: toCount(state.inv['giftcat:p']) },
-        { name: '一般金礼', value: 20, cat: 'g', tier: '2★ 通用', owned: toCount(state.inv['giftcat:g']) },
+        { name: '一般紫礼', value: 120, cat: 'p', tierValue: 3, tierLabel: '3★ 通用', owned: toCount(state.inv['giftcat:p']) },
+        { name: '一般金礼', value: 20, cat: 'g', tierValue: 2, tierLabel: '2★ 通用', owned: toCount(state.inv['giftcat:g']) },
       ].map((d) => {
         const count = left > 0 ? Math.ceil(left / d.value) : 0;
-        return {
-          ...d,
-          count,
-          gap: Math.max(0, count - d.owned),
-          overflow: count ? count * d.value - left : 0,
-        };
+        return { ...d, count, gap: Math.max(0, count - d.owned), overflow: count ? count * d.value - left : 0 };
       });
-      const bestValue = giftData.length ? Math.max(...giftData.map((d) => d.value)) : 0;
-      const bestGift = giftData.find((d) => d.value === bestValue) || null;
+      const bestGift = giftData.slice().sort((a, b) => b.value - a.value)[0] || null;
       const minOverflow = Math.min(...giftData.filter((d) => d.count > 0).map((d) => d.overflow));
-      const giftTile = (d) => `<button class="gift-tile ${d.gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(d.name)}" data-gval="${d.value}" data-need="${left}"${d.cat ? ` data-giftcat="${d.cat}"` : ''} title="${esc(d.name)} · 单个 +${d.value} · ${d.gap ? `缺 ${num(d.gap)}` : '已够'}${d.overflow ? ` · 溢出 ${num(d.overflow)}` : ''}">
-        <span class="gt-head">
-          ${d.cat ? `<span class="gift-ico generic ${d.cat}" aria-hidden="true">${d.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(d.icon), 'gift-ico', d.name)}
-          <span class="gt-tier">${esc(d.tier)}</span>
-          ${d === bestGift ? '<span class="gt-best">推荐</span>' : ''}
-        </span>
-        <b class="gt-name">${esc(d.name)}</b>
-        <span class="gval">+${d.value}</span>
-        <span class="gt-meta"><span>需 ${d.count ? num(d.count) : '—'}</span><span>持有 ${num(d.owned)}</span></span>
-        <span class="gt-gap ${d.gap ? 'bad' : 'good'}">${d.gap ? `缺 ${num(d.gap)}` : '✓ 已够'}${d.overflow ? `<i>溢出 ${num(d.overflow)}</i>` : ''}</span>
-        ${d !== bestGift && d.count > 0 && d.overflow === minOverflow ? '<span class="gt-low">低溢出</span>' : ''}
-      </button>`;
+      return {
+        p, s, entry, curLv, tgtLv, need, left, covered, done, pct, reachedLv,
+        fs, best, bestCount, giftData, bestGift, minOverflow,
+      };
+    }).filter(Boolean);
 
-      return `<article class="bondsec" data-bond-id="${p.id}">
-        <header class="bond-top">
-          <div class="brow">
-            ${img(studentIcon(s.id), 'bava', s.name)}
-            <div class="bmeta">
-              <b>${esc(s.name)}</b>
-              <small>Lv ${curLv} → Lv ${tgtLv} · 库存已抵 ${num(covered)}</small>
-            </div>
-            <span class="bond-state ${done ? 'ok' : ''}">${done ? '✓ 已满足' : `还需 ${num(left)}`}</span>
+    const activeBond = bondPlans.find((x) => String(x.p.id) === String(selectedBondId)) || bondPlans[0] || null;
+    selectedBondId = activeBond ? String(activeBond.p.id) : null;
+
+    const giftTileOf = (x) => (d) => {
+      const isBest = d === x.bestGift;
+      const low = !isBest && d.count > 0 && d.overflow === x.minOverflow;
+      return `<button class="gift-tile ${d.gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(d.name)}" data-gval="${d.value}" data-need="${x.left}"${d.cat ? ` data-giftcat="${d.cat}"` : ''} title="${esc(d.name)} · 单个 +${d.value} · ${d.gap ? `缺 ${num(d.gap)}` : '已够'}${d.overflow ? ` · 溢出 ${num(d.overflow)}` : ''}">
+        <span class="gt-top">
+          ${d.cat ? `<span class="gift-ico generic ${d.cat}" aria-hidden="true">${d.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(d.icon), 'gift-ico', d.name)}
+          <span class="gt-title"><b>${esc(d.name)}</b><small>${esc(d.tierLabel)}${d.matches ? ` · 命中 ${d.matches} 标签` : ''}</small></span>
+          ${isBest ? '<span class="gt-best">推荐</span>' : (low ? '<span class="gt-low">低溢出</span>' : '')}
+        </span>
+        <span class="gt-value gval">+${d.value}<small>好感</small></span>
+        <span class="gt-stats">
+          <span><i>需求</i><b>${d.count ? num(d.count) : '—'}</b></span>
+          <span><i>持有</i><b>${num(d.owned)}</b></span>
+          <span><i>缺口</i><b class="${d.gap ? 'bad' : 'good'}">${d.gap ? num(d.gap) : '✓'}</b></span>
+        </span>
+        <span class="gt-foot">${x.done ? '已满足' : d.overflow ? `溢出 ${num(d.overflow)} 好感` : '无溢出'}</span>
+      </button>`;
+    };
+
+    const rosterHTML = bondPlans.map((x) => `<button class="broster ${x === activeBond ? 'active' : ''}" type="button" data-bond-select="${x.p.id}">
+      ${img(studentIcon(x.s.id), 'broster-ava', x.s.name)}
+      <span class="broster-main"><b>${esc(x.s.name)}</b><small>Lv ${x.curLv} → Lv ${x.tgtLv}</small></span>
+      <span class="broster-need">${x.done ? '✓' : num(x.left)}</span>
+      <span class="broster-bar"><i style="width:${x.pct}%"></i></span>
+    </button>`).join('');
+
+    const detailHTML = activeBond ? (() => {
+      const x = activeBond;
+      const giftTile = giftTileOf(x);
+      const t3 = x.giftData.filter((d) => d.tierValue === 3);
+      const t2 = x.giftData.filter((d) => d.tierValue === 2);
+      const group = (title, list) => list.length
+        ? `<section class="gift-group"><h4>${title}<small>${list.length} 种</small></h4><div class="gift-grid">${list.map(giftTile).join('')}</div></section>`
+        : '';
+      return `<section class="bond-detail" data-bond-id="${x.p.id}">
+        <header class="bd-person">
+          ${img(studentIcon(x.s.id), 'bd-ava', x.s.name)}
+          <div class="bd-id">
+            <span class="bd-eyebrow">AFFECTION TARGET</span>
+            <h2>${esc(x.s.name)}</h2>
+            <small>Lv ${x.curLv} → Lv ${x.tgtLv} · 需求 ${num(x.need)} EXP · 库存已抵 ${num(x.covered)}</small>
           </div>
+          <span class="bond-state ${x.done ? 'ok' : ''}">${x.done ? '✓ 已满足' : `还需 ${num(x.left)}`}</span>
           <label class="bond-slider">
-            <span>目标 <b data-bond-label>Lv ${tgtLv}</b></span>
-            <input type="range" min="${curLv}" max="100" value="${tgtLv}" data-bond-range="${p.id}" aria-label="设置 ${esc(s.name)} 的好感目标等级">
+            <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
+            <input type="range" min="${x.curLv}" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
           </label>
         </header>
-        <div class="bond-progress" title="库存覆盖 ${pct}%">
-          <i style="width:${pct}%"></i><span>${pct}%</span>
-        </div>
-        <div class="bond-kpis">
-          <div class="bk"><b>${num(need)}</b><span>需求 EXP</span></div>
-          <div class="bk"><b>${num(covered)}</b><span>库存已抵</span></div>
-          <div class="bk"><b>${num(left)}</b><span>还需</span></div>
-          <div class="bk"><b>Lv ${reachedLv}</b><span>库存可达</span></div>
-        </div>
-        <div class="bond-best">
-          <span class="bb-label">最高效率</span>
-          ${best ? `${img(itemIcon(best.icon), 'bb-ico', best.name)}
-            <span class="bb-name">${esc(best.name)}<small>单个 +${best.value}</small></span>
-            ${done ? '<b>✓</b>' : `<b>×${num(bestCount)}</b>`}
-            <span class="bb-level">${done ? '已满足' : `可到 Lv ${levelFromExp(left, T.bond.table, 100, curLv)}`}</span>`
-            : '<span class="bb-empty">该角色暂无礼物偏好数据，可用下方通用礼物</span>'}
-        </div>
-        <div class="gift-title"><span>礼物效率</span><small>点击任一格填持有</small></div>
-        <div class="gift-grid">${giftData.map(giftTile).join('')}</div>
-        <details class="bond-mixer"><summary>自己搭配 / 库存抵扣明细</summary>
-          ${left > 0 ? mixerHTML('gift:' + p.id, GIFT_UNITS, left, { from: curLv, to: tgtLv }) : '<div class="hint">好感已满足，无需再喂礼物。</div>'}
-        </details>
-      </article>`;
-    }).join('');
 
-    const bondChars = (r.per || []).filter((p) => p.bond && p.bond.exp > 0).length;
+        <div class="bd-progress"><i style="width:${x.pct}%"></i><span>${x.pct}% 库存覆盖</span></div>
+
+        <div class="bd-kpis">
+          <div class="bk"><b>${num(x.need)}</b><span>需求 EXP</span></div>
+          <div class="bk"><b>${num(x.covered)}</b><span>库存已抵</span></div>
+          <div class="bk"><b>${num(x.left)}</b><span>还需</span></div>
+          <div class="bk"><b>Lv ${x.reachedLv}</b><span>库存可达</span></div>
+        </div>
+
+        ${x.best ? `<div class="best-banner">
+          <span class="bb-label">最高效率</span>
+          ${img(itemIcon(x.best.icon), 'bb-ico', x.best.name)}
+          <div class="bb-name"><b>${esc(x.best.name)}</b><small>单个 +${x.best.value} · 命中 ${x.best.matches || 1} 个标签</small></div>
+          <div class="bb-count"><b>${x.done ? '✓' : `×${num(x.bestCount)}`}</b><span>${x.done ? '已满足' : `可到 Lv ${levelFromExp(x.left, T.bond.table, 100, x.curLv)}`}</span></div>
+        </div>` : '<div class="best-banner empty"><span class="bb-empty">该角色暂无礼物偏好，可用下方通用礼物</span></div>'}
+
+        <div class="gift-title"><span>礼物效率</span><small>点击任一格填「已有」</small></div>
+        ${group('3★ 礼物', t3)}
+        ${group('2★ 礼物', t2)}
+
+        <details class="bond-mixer">
+          <summary>自己搭配 / 库存抵扣明细</summary>
+          ${x.left > 0 ? mixerHTML('gift:' + x.p.id, GIFT_UNITS, x.left, { from: x.curLv, to: x.tgtLv }) : '<div class="hint">好感已满足，无需再喂礼物。</div>'}
+        </details>
+      </section>`;
+    })() : '';
+
+    const bondChars = bondPlans.length;
     const bondPct = r.bondExp > 0 ? Math.min(100, Math.round((r.giftUsed / r.bondExp) * 100)) : 100;
     const bondHTML = bondChars ? `<section class="bond-dash">
       <div class="bd-head">
         <div>
           <span class="bd-eyebrow">AFFECTION PLANNER</span>
           <h2>好感度养成</h2>
-          <p>把礼物库存分配到每个角色，按顺序抵扣，同一件礼物不会重复计算。</p>
+          <p>总览所有角色的好感缺口；左侧切换角色，右侧选礼物。库存按计划顺序分配，同一件礼物不重复。</p>
         </div>
         <div class="bd-ring" style="--p:${bondPct}"><b>${bondPct}%</b><small>库存覆盖</small></div>
       </div>
@@ -3658,8 +3816,19 @@ window.BACalc = CALC.core;</script>
         <div><b>${num(r.bondLeft)}</b><span>还需</span></div>
       </div>
       <div class="bd-bar"><i style="width:${bondPct}%"></i></div>
-    </section><div class="bond-list">${bondPerHTML}</div>` : '';
-
+      <div class="bd-actions">
+        <button class="tbtn primary" type="button" data-bond-all="100">全部 Lv100</button>
+        <button class="tbtn" type="button" data-bond-clear>清空礼物库存</button>
+      </div>
+    </section>
+    <div class="bond-shell">
+      <aside class="bond-roster">
+        <div class="broster-title"><span>角色</span><b>${bondChars}</b></div>
+        <div class="broster-list">${rosterHTML}</div>
+        <div class="broster-foot">按计划顺序分配<br>同一礼物不重复</div>
+      </aside>
+      ${detailHTML}
+    </div>` : '';
     const expHTML = `<h4 class="sub">经验书（按稀有度）</h4>${orList(bookCards.map(matCard))}
       <div class="mix"><b>${bookExp > 0 ? '库存抵扣后' : '默认全用最高级'}</b><span>${
         bookExp > 0
@@ -3988,6 +4157,33 @@ window.BACalc = CALC.core;</script>
     const bondEl = $('#bond');
     if (bondEl) {
       bondEl.addEventListener('click', (e) => {
+        const allBtn = e.target.closest('[data-bond-all]');
+        if (allBtn) {
+          const lv = Math.min(100, Math.max(1, Number(allBtn.dataset.bondAll) || 100));
+          state.plan.forEach((e0) => { e0.tgt.bond = lv; });
+          save();
+          renderPlan();
+          renderResult();
+          toast(`已把 ${state.plan.length} 个角色的好感目标设为 Lv ${lv}`);
+          return;
+        }
+        const clearBtn = e.target.closest('[data-bond-clear]');
+        if (clearBtn) {
+          if (typeof confirm === 'function' && !confirm('确定清空礼物库存？只清礼物和通用礼物，不清其他材料。')) return;
+          for (const k of Object.keys(state.inv)) {
+            if (k.startsWith('gift:') || k.startsWith('giftcat:')) delete state.inv[k];
+          }
+          save();
+          renderResult();
+          toast('礼物库存已清空');
+          return;
+        }
+        const sel = e.target.closest('[data-bond-select]');
+        if (sel) {
+          selectedBondId = sel.dataset.bondSelect;
+          renderResult();
+          return;
+        }
         const gc = e.target.closest('[data-giftcard]');
         if (!gc) return;
         openPop('gift', gc.dataset.giftcard, {
