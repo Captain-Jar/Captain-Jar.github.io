@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="b81b8de210">
+<meta name="build" content="16af127ace">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1721,6 +1721,20 @@ header.top,main,.foot{position:relative;z-index:1}
 header.top,main,.foot{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){.snow::before,.snow::after{animation:none}}
 @media print{.snow{display:none!important}}
+
+/* v63: 背景音乐按钮 */
+.bgm-btn{
+  position:fixed;right:18px;bottom:18px;z-index:50;width:42px;height:42px;padding:0;
+  border-radius:50%;border:1px solid rgba(255,255,255,.65);
+  background:rgba(255,255,255,.72);backdrop-filter:blur(12px);
+  color:#9d174d;font-size:18px;font-weight:800;cursor:pointer;
+  box-shadow:0 10px 24px -14px rgba(76,29,149,.55);
+}
+.bgm-btn:hover{background:#fff;color:#be185d;transform:translateY(-1px)}
+.bgm-btn.playing{background:linear-gradient(135deg,#f472b6,#a855f7);color:#fff;border-color:transparent}
+.bgm-btn.missing{opacity:.38}
+.foot-legal{font-size:10.5px;color:#98a2b3}
+@media print{.bgm-btn{display:none!important}}
 </style>
 </head>
 <body>
@@ -1731,6 +1745,8 @@ header.top,main,.foot{position:relative;z-index:2}
   <span class="bg-grid"></span><span class="bg-stars"></span>
 </div>
 <div class="snow" aria-hidden="true"></div>
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"><img src="brand-face.webp" alt=""></div>
@@ -1772,7 +1788,9 @@ header.top,main,.foot{position:relative;z-index:2}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 b81b8de210</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 16af127ace</div>
+  <div class="foot-legal">技术原因，不支持图片识别。</div>
+  <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1817,12 +1835,11 @@ header.top,main,.foot{position:relative;z-index:2}
     <header class="repo-head">
       <div>
         <b id="giftlibTitle">礼物库</b>
-        <span class="repo-sub">记录所有礼物的持有数量；好感计算会按计划顺序从这里抵扣</span>
+        <span class="repo-sub">记录所有礼物的持有数量；技术原因，不支持图片识别，请手动填写</span>
       </div>
       <div class="repo-acts">
         <input id="giftlibSearch" class="vault-search" aria-label="搜索礼物" placeholder="搜索礼物名…">
         <span class="repo-count" id="giftlibCount"></span>
-        <button id="giftlibShot" class="tbtn" type="button">📷 截图识别礼物</button>
         <button id="giftlibClear" class="tbtn" type="button">全部清零</button>
         <button id="giftlibClose" class="btn" type="button">关闭</button>
       </div>
@@ -1830,8 +1847,6 @@ header.top,main,.foot{position:relative;z-index:2}
     <div id="giftlibBody" class="repo-body giftlib-body"></div>
   </div>
 </div>
-<input type="file" id="giftShotFile" accept="image/*" hidden>
-<datalist id="giftlist"></datalist>
 
 <div id="bondadd" class="repo" role="dialog" aria-modal="true" aria-labelledby="bondAddTitle">
   <div class="repo-box">
@@ -4704,10 +4719,14 @@ window.BACalc = CALC.core;</script>
         const rm = e.target.closest('[data-bond-remove]');
         if (rm) {
           const id = rm.dataset.bondRemove;
-          const p = state.plan.find((x) => String(x.id) === id);
+          const p = state.plan.concat(state.bondOnly).find((x) => String(x.id) === id);
           if (!p) return;
           const s = byId[id];
-          if (typeof confirm === 'function' && !confirm(`把「${s ? s.name : id}」移出规划？会同时移除该角色的材料和好感需求。`)) return;
+          const inPlan = state.plan.some((x) => String(x.id) === id);
+          const tip = inPlan
+            ? `把「${s ? s.name : id}」移出规划？会同时移除该角色的材料和好感需求。`
+            : `把「${s ? s.name : id}」移出好感规划？`;
+          if (typeof confirm === 'function' && !confirm(tip)) return;
           state.plan = state.plan.filter((x) => String(x.id) !== id);
           state.bondOnly = state.bondOnly.filter((x) => String(x.id) !== id);
           selectedBondId = null;
@@ -5049,25 +5068,6 @@ window.BACalc = CALC.core;</script>
       renderResult();
       toast('礼物库已清空');
     });
-    const giftShotFile = $('#giftShotFile');
-    const giftlibShot = $('#giftlibShot');
-    if (giftlibShot && giftShotFile) {
-      giftlibShot.addEventListener('click', () => {
-        closeGiftLib();
-        openShot('gift');
-        giftShotFile.click();
-      });
-      giftShotFile.addEventListener('change', async () => {
-        const f = [...giftShotFile.files].find((x) => x.type.startsWith('image/'));
-        giftShotFile.value = '';
-        if (!f) return;
-        try {
-          const img = await loadImageFile(f);
-          openShot('gift');
-          importImage(img);
-        } catch { toast('这张图读取失败，换一张试试'); }
-      });
-    }
 
     /* 截图导入 */
     const shotClose = $('#shotClose');
@@ -5223,6 +5223,29 @@ window.BACalc = CALC.core;</script>
     w.document.close();
   }
 
+  function initBGM() {
+    const a = $('#bgm');
+    const b = $('#bgmBtn');
+    if (!a || !b || typeof a.play !== 'function') return;
+    a.volume = 0.3;
+    const sync = () => b.classList.toggle('playing', !a.paused);
+    const play = () => { const p = a.play(); if (p && p.catch) p.catch(() => {}); };
+    a.addEventListener('play', sync);
+    a.addEventListener('pause', sync);
+    a.addEventListener('error', () => { b.classList.add('missing'); b.title = '未找到 bgm.mp3'; });
+    a.addEventListener('canplay', () => { b.classList.remove('missing'); });
+    b.addEventListener('click', () => { if (a.paused) play(); else a.pause(); });
+    play();
+    const once = (ev) => {
+      if (ev.target && ev.target.closest && ev.target.closest('#bgmBtn')) return;
+      if (a.paused) play();
+      document.removeEventListener('pointerdown', once);
+      document.removeEventListener('keydown', once);
+    };
+    document.addEventListener('pointerdown', once, { once: true });
+    document.addEventListener('keydown', once, { once: true });
+  }
+
   function toast(msg) {
     const t = document.createElement('div');
     t.className = 'toast';
@@ -5273,6 +5296,7 @@ window.BACalc = CALC.core;</script>
     try { localStorage.removeItem('ba-theme'); } catch {}
 
     bind();
+    initBGM();
     renderCandidates(); renderPlan(); renderResult();
 
     // PWA：只有 http(s) 下才注册（file:// 双击打开时自动跳过）
