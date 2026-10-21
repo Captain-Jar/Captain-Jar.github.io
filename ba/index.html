@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="16af127ace">
+<meta name="build" content="338c6d0bf4">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1735,6 +1735,17 @@ header.top,main,.foot{position:relative;z-index:2}
 .bgm-btn.missing{opacity:.38}
 .foot-legal{font-size:10.5px;color:#98a2b3}
 @media print{.bgm-btn{display:none!important}}
+
+/* v64: 音乐开关固定在顶部工具条右上角 */
+.topbar .bgm-btn{
+  position:static;width:30px;height:30px;min-width:30px;padding:0;border-radius:50%;
+  border:1px solid #e8eef7;background:#fff;color:#9d174d;font-size:15px;
+  box-shadow:none;display:grid;place-items:center;
+}
+.topbar .bgm-btn:hover{background:#fff1f7;color:#be185d;transform:none}
+.topbar .bgm-btn.playing{background:linear-gradient(135deg,#f472b6,#a855f7);color:#fff;border-color:transparent}
+.topbar .bgm-btn.missing{opacity:.4}
+@media print{.topbar .bgm-btn{display:none!important}}
 </style>
 </head>
 <body>
@@ -1746,7 +1757,6 @@ header.top,main,.foot{position:relative;z-index:2}
 </div>
 <div class="snow" aria-hidden="true"></div>
 <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
-<button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"><img src="brand-face.webp" alt=""></div>
@@ -1762,6 +1772,7 @@ header.top,main,.foot{position:relative;z-index:2}
       <button id="btnShare" class="tbtn" title="复制分享链接">🔗 分享</button>
     </div>
     <div class="tb-group compact">
+      <button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
       <button id="foldBtn" class="tbtn" title="折叠配置区">▴ 收起</button>
     </div>
   </div>
@@ -1788,7 +1799,7 @@ header.top,main,.foot{position:relative;z-index:2}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 16af127ace</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 338c6d0bf4</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -4342,7 +4353,6 @@ window.BACalc = CALC.core;</script>
     })() : '';
 
     const bondChars = bondPlans.length;
-    const bondPct = r.bondExp > 0 ? Math.min(100, Math.round((r.giftUsed / r.bondExp) * 100)) : 100;
 
     const giftUse = new Map();
     for (const x of bondPlans) {
@@ -4380,7 +4390,6 @@ window.BACalc = CALC.core;</script>
           <h2>好感度养成</h2>
           <p>总览所有角色的好感缺口；左侧切换角色，右侧选礼物。库存按计划顺序分配，同一件礼物不重复。</p>
         </div>
-        <div class="bd-ring" style="--p:${bondPct}"><b>${bondPct}%</b><small>库存覆盖</small></div>
       </div>
       <div class="bd-stats">
         <div><b>${bondChars}</b><span>角色</span></div>
@@ -4388,7 +4397,6 @@ window.BACalc = CALC.core;</script>
         <div><b>${num(r.giftUsed)}</b><span>库存已抵</span></div>
         <div><b>${num(r.bondLeft)}</b><span>还需</span></div>
       </div>
-      <div class="bd-bar"><i style="width:${bondPct}%"></i></div>
       <div class="bd-actions">
         <button class="tbtn primary" type="button" data-bond-all="100">全部 Lv100</button>
         <button class="tbtn" type="button" data-giftlib>🎁 礼物库</button>
