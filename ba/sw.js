@@ -1,5 +1,5 @@
-/* 蔚蓝档案计算器 · 离线缓存（构建 9b6079d0de） */
-const CACHE = 'ba-calc-9b6079d0de';
+/* 蔚蓝档案计算器 · 离线缓存（构建 43d8a5d3b4） */
+const CACHE = 'ba-calc-43d8a5d3b4';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './icon-180.png', './brand-face.webp', './bg-wallpaper.webp', './bg-wallpaper-portrait.webp'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
