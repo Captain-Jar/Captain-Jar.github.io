@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="8cc66f36c0">
+<meta name="build" content="0dd3d4d61f">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1188,6 +1188,8 @@ html[data-theme="dark"] .bond-mixer{border-color:#31233a}
   .gift-name b{font-size:11px}
   .gift-need,.gift-gap{font-size:9.5px}
 }
+.gift-gap small{display:block;font-size:8.5px;font-weight:500;color:#a78bfa;margin-top:1px}
+.gift-row.ok .gift-gap small{color:#34d399}
 </style>
 </head>
 <body>
@@ -1239,7 +1241,7 @@ html[data-theme="dark"] .bond-mixer{border-color:#31233a}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 8cc66f36c0</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 0dd3d4d61f</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -3478,26 +3480,28 @@ window.BACalc = CALC.core;</script>
         const owned = toCount(state.inv[key]);
         const count = left > 0 ? Math.ceil(left / value) : 0;
         const gap = Math.max(0, count - owned);
+        const overflow = count ? count * value - left : 0;
         return `<button class="gift-row ${gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(label)}" data-gval="${value}" data-need="${left}" data-giftcat="${cls}">
           <span class="gift-ico generic ${cls}" aria-hidden="true">${cls === 'p' ? '紫' : '金'}</span>
           <span class="gift-name"><b>${esc(label)}</b><small>通用 · 单个 +${value}</small></span>
           <span class="gval">+${value}</span>
           <span class="gift-need">${count ? `需 ${num(count)}` : '已满足'}</span>
           <span class="gift-own">持有 ${num(owned)}</span>
-          <span class="gift-gap">${gap ? `缺 ${num(gap)}` : '✓'}</span>
+          <span class="gift-gap">${gap ? `缺 ${num(gap)}` : '✓'}${overflow > 0 ? `<small>溢出 ${num(overflow)}</small>` : ''}</span>
         </button>`;
       };
       const giftRow = (g) => {
         const owned = toCount(state.inv['gift:' + g.name]);
         const count = left > 0 ? Math.ceil(left / g.value) : 0;
         const gap = Math.max(0, count - owned);
+        const overflow = count ? count * g.value - left : 0;
         return `<button class="gift-row ${gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(g.name)}" data-gval="${g.value}" data-need="${left}">
           ${img(iconUrl(g.icon), 'gift-ico', g.name)}
           <span class="gift-name"><b>${esc(g.name)}</b><small>${g.tier}★ · 命中 ${g.matches || 1} 个标签</small></span>
           <span class="gval">+${g.value}</span>
           <span class="gift-need">${count ? `需 ${num(count)}` : '已满足'}</span>
           <span class="gift-own">持有 ${num(owned)}</span>
-          <span class="gift-gap">${gap ? `缺 ${num(gap)}` : '✓'}</span>
+          <span class="gift-gap">${gap ? `缺 ${num(gap)}` : '✓'}${overflow > 0 ? `<small>溢出 ${num(overflow)}</small>` : ''}</span>
         </button>`;
       };
       const rows = [
