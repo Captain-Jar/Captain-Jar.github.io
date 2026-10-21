@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="27f54b221e">
+<meta name="build" content="5e92f929a0">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2084,9 +2084,82 @@ header.top,main,.foot{opacity:var(--ui-opacity,1);transition:opacity .14s ease}
   vertical-align:1px;
 }
 .cand .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* v67.1: 入场说明页 + 新背景 */
+body.intro-open{overflow:hidden}
+.intro{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;
+  padding:24px;background:url("bg-wallpaper.webp") center/cover no-repeat;
+  transition:opacity .35s ease,visibility .35s ease;
+}
+.intro::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(8,18,35,.78),rgba(20,32,58,.52) 55%,rgba(8,18,35,.72));
+  backdrop-filter:blur(2px);
+}
+.intro-card{
+  position:relative;z-index:1;width:min(620px,94vw);padding:30px 34px 26px;
+  border:1px solid rgba(255,255,255,.24);border-radius:22px;
+  background:rgba(11,22,40,.72);backdrop-filter:blur(16px);
+  color:#f4f8ff;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+}
+.intro-kicker{font-size:10px;font-weight:800;letter-spacing:.18em;color:#9fdcd1;margin-bottom:10px}
+.intro-card h2{font-size:clamp(22px,3vw,30px);letter-spacing:.02em;margin:0 0 10px;color:#fff}
+.intro-lead{font-size:14px;line-height:1.8;color:#dbe7f4;margin:0 0 14px}
+.intro-list{list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:8px}
+.intro-list li{position:relative;padding-left:18px;font-size:13px;line-height:1.75;color:#cfdeec}
+.intro-list li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:50%;background:#8ee3d3}
+.intro-list b{color:#fff;font-weight:800}
+.intro-enter{
+  width:100%;height:46px;border:0;border-radius:12px;cursor:pointer;
+  background:linear-gradient(135deg,#8ee3d3,#5bb8a6);color:#0b2b2a;
+  font-size:14px;font-weight:800;letter-spacing:.04em;
+  box-shadow:0 14px 30px -16px rgba(142,227,211,.75);
+}
+.intro-enter:hover{filter:brightness(1.05)}
+.intro-card small{display:block;text-align:center;margin-top:12px;font-size:10px;color:#8fa8bd}
+.intro.out{opacity:0;visibility:hidden}
+@media (max-width:600px){
+  .intro{padding:16px}
+  .intro-card{padding:24px 20px 20px;border-radius:18px}
+  .intro-lead{font-size:13px}
+  .intro-list li{font-size:12px}
+}
+@media print{.intro{display:none!important}}
+
+/* v67.1: 让新背景图更清晰（卡片仍可读） */
+.bg-art{filter:saturate(1.08) contrast(1.04) brightness(.88)}
+.bg-art::after{
+  background:
+    linear-gradient(180deg,rgba(248,250,255,.30) 0%,rgba(243,247,253,.20) 40%,rgba(240,246,255,.46) 100%),
+    radial-gradient(900px 520px at 20% 12%,rgba(255,255,255,.20),transparent 65%);
+}
+
+/* v67.1: 降低光斑对教室背景的遮盖 */
+.bg-anim .orb{opacity:.08!important}
+.bg-anim .bg-stars{opacity:.12!important}
+.bg-anim .bg-grid{opacity:.05!important}
+
+body{background:transparent!important}
+
 </style>
 </head>
-<body>
+<body class="intro-open">
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div class="intro-card">
+    <div class="intro-kicker">NOTICE · 使用前说明</div>
+    <h2 id="introTitle">蔚蓝档案 · 养成差量计算器</h2>
+    <p class="intro-lead">该网站仅用来学习技术实现和个人需求定制。</p>
+    <ul class="intro-list">
+      <li>能满足你一切需求的只有 <b>arona.icu</b></li>
+      <li>数据来源于公开的夏莱BD、图书馆以及部分的手动填入</li>
+      <li>如有侵权请联系</li>
+      <li>该网站只是用于群友需求而制作的，主要针对好感系统</li>
+    </ul>
+    <button id="introEnter" class="intro-enter" type="button">已了解，进入网站</button>
+    <small>背景图由用户提供 · v67.1</small>
+  </div>
+</div>
 <a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
 <div class="bg-art" aria-hidden="true"></div>
 <div class="bg-anim" aria-hidden="true">
@@ -2143,7 +2216,7 @@ header.top,main,.foot{opacity:var(--ui-opacity,1);transition:opacity .14s ease}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB JP / 夏莱BD · 日服 194/194 · 国服 172 · 国际服 116 · 含 22 名日服限定 · 同步 2026-10-21 · 构建 27f54b221e</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB JP / 夏莱BD · 日服 194/194 · 国服 172 · 国际服 116 · 含 22 名日服限定 · 同步 2026-10-21 · 构建 5e92f929a0</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -5297,6 +5370,18 @@ window.BACalc = CALC.core;</script>
         toast(`已导入 ${parsed.plan.length} 个角色、${Object.keys(parsed.inv).length} 条库存`);
       } catch { toast('未识别的存档格式，已保持原数据不变'); }
     });
+
+    const intro = $('#intro');
+    const introEnter = $('#introEnter');
+    if (intro && introEnter) {
+      introEnter.addEventListener('click', () => {
+        intro.classList.add('out');
+        document.body.classList.remove('intro-open');
+        const bgm = $('#bgm');
+        if (bgm && bgm.paused) { const p = bgm.play(); if (p && p.catch) p.catch(() => {}); }
+        setTimeout(() => intro.remove(), 380);
+      });
+    }
 
     const foldBtn = $('#foldBtn');
     if (foldBtn) foldBtn.addEventListener('click', () => {
