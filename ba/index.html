@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="4584c13ae6">
+<meta name="build" content="598457884c">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1943,6 +1943,133 @@ main{max-width:1240px;padding:22px 16px 88px}
 .bd-actions .tbtn:hover{border-color:#A9DED4;color:#2F9B88;background:#F5FCFA}
 .bd-actions .tbtn.primary{background:linear-gradient(135deg,#6BCBBC,#3FAE9D);border-color:transparent;color:#fff}
 .plan .card .acts .mini.danger{color:#B56A7B}
+
+/* v66: 规划表更透气，当前/目标用颜色和竖线分隔 */
+.pt-head,.pt-row{grid-template-columns:78px minmax(0,1fr) minmax(0,1fr) 58px;gap:18px;padding:10px 14px}
+.pt-head{padding-top:11px;padding-bottom:11px}
+.pt-row{min-height:56px}
+.pt-cell:not(.tgt){background:#F8FBFD;border-radius:9px;padding:4px 6px}
+.pt-cell.tgt{
+  background:#EFFAF6;border-left:2px solid #9FDCD1;
+  border-radius:0 9px 9px 0;padding:4px 8px 4px 16px;margin-left:2px;
+}
+.pt-head span:nth-child(3){border-left:2px solid #9FDCD1;padding-left:16px}
+.pt-label{color:#557A8C;font-size:12px}
+.pt-delta{background:#EAF8F4;border-radius:999px;padding:3px 7px;color:#2F9B88}
+.pt-group{margin-top:2px;padding:7px 14px}
+.pt-cell input,.pt-cell select{height:34px;font-size:12.5px}
+@media (max-width:760px){
+  .pt-head,.pt-row{grid-template-columns:52px minmax(0,1fr) minmax(0,1fr) 44px;gap:8px;padding:8px}
+  .pt-cell.tgt{padding-left:9px;border-left-width:2px}
+  .pt-head span:nth-child(3){padding-left:9px}
+  .pt-cell input,.pt-cell select{height:30px;font-size:11px}
+  .pt-delta{padding:2px 5px}
+}
+
+/* v66: 信用点消耗卡 */
+.creditbox{
+  background:
+    radial-gradient(circle at 88% 0%,rgba(111,214,196,.22),transparent 38%),
+    linear-gradient(135deg,#0E3B43 0%,#145C61 100%);
+  border:1px solid rgba(126,214,201,.22);
+  border-radius:18px;padding:20px 22px;color:#fff;
+  box-shadow:0 24px 44px -30px rgba(10,58,63,.75);
+}
+.ctop{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ctotal{display:block;padding:0;border:0}
+.ctotal span{font-size:11px;letter-spacing:.08em;color:#A9DED4;opacity:1}
+.ctotal b{display:block;font-size:38px;line-height:1.15;letter-spacing:.5px;color:#fff}
+.cdemand{text-align:right;display:flex;flex-direction:column;gap:2px}
+.cdemand span{font-size:10px;color:#9ACFC8;letter-spacing:.08em}
+.cdemand b{font-size:15px;color:#D8F7F1}
+.cdemand small{font-size:10px;color:#9ACFC8}
+.cprogress{
+  position:relative;height:8px;border-radius:999px;background:rgba(255,255,255,.12);
+  margin:14px 0 4px;overflow:visible;
+}
+.cprogress i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#8EE3D3,#FFD18A)}
+.cprogress em{
+  position:absolute;right:0;top:-19px;font-style:normal;font-size:9.5px;color:#A9DED4;
+}
+.cmeta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+.credit-inv{display:flex;align-items:center;gap:8px;font-size:11px;color:#BDE9E2;margin:0}
+.credit-inv input{
+  width:128px;height:32px;padding:0 10px;border-radius:8px;
+  border:1px solid rgba(167,232,223,.28);background:rgba(255,255,255,.08);color:#fff;
+}
+.credit-inv input:focus{border-color:#8EE3D3;box-shadow:0 0 0 3px rgba(142,227,211,.18)}
+.chint{font-size:10px;color:#7FBDB6}
+.crows{gap:7px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)}
+.crow{font-size:12px;padding:2px 0}
+.crow .cname{gap:8px;color:#D8F7F1}
+.crow .cname small{font-size:9.5px;color:#86C8C0;opacity:1}
+.crow b{font-size:13px}
+@media (max-width:760px){
+  .creditbox{padding:16px}
+  .ctotal b{font-size:30px}
+  .cdemand{text-align:left}
+  .ctop{align-items:flex-start}
+}
+
+/* v66: 右侧悬浮音乐 + 透明度控制 */
+header.top,main,.foot{opacity:var(--ui-opacity,1);transition:opacity .14s ease}
+.edge-controls{
+  position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:60;
+  width:136px;display:flex;flex-direction:column;align-items:center;gap:10px;
+  pointer-events:none;
+}
+.edge-controls>*{pointer-events:auto}
+.edge-controls .bgm-btn{
+  position:relative;width:46px;height:46px;flex:0 0 auto;border-radius:50%;
+  border:1px solid rgba(255,255,255,.8);background:rgba(255,255,255,.82);
+  color:#2F9B88;font-size:18px;box-shadow:0 12px 28px -16px rgba(41,88,99,.6);
+  backdrop-filter:blur(12px);display:grid;place-items:center;
+}
+.edge-controls .bgm-btn:hover{background:#fff;color:#238C7B;transform:none}
+.edge-controls .bgm-btn.playing{
+  background:linear-gradient(135deg,#6BCBBC,#3FAE9D);color:#fff;border-color:transparent;
+}
+.edge-controls .bgm-btn::before,.edge-controls .bgm-btn::after{
+  content:"";position:absolute;inset:-1px;border-radius:50%;
+  border:1px solid rgba(91,184,166,.5);opacity:0;pointer-events:none;
+  animation:bgmRipple 2.8s ease-out infinite;animation-play-state:paused;
+}
+.edge-controls .bgm-btn::after{animation-delay:1.4s}
+.edge-controls .bgm-btn.playing::before,
+.edge-controls .bgm-btn.playing::after{animation-play-state:running}
+@keyframes bgmRipple{
+  0%{transform:scale(1);opacity:.55}
+  70%{opacity:.12}
+  100%{transform:scale(2.25);opacity:0}
+}
+.edge-opacity{
+  width:136px;display:flex;flex-direction:column;align-items:center;gap:1px;
+  padding:6px 10px 5px;border:1px solid rgba(255,255,255,.7);border-radius:12px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);
+  color:#7D8CA3;font-size:9px;line-height:1.2;box-shadow:0 10px 24px -22px rgba(41,88,99,.6);
+}
+.edge-opacity input{width:116px;height:14px;margin:0;accent-color:#5BB8A6;cursor:pointer}
+.edge-opacity b{font-size:9px;color:#2F9B88;font-variant-numeric:tabular-nums}
+.edge-controls .bgm-btn.missing{opacity:.42}
+@media (max-width:760px){
+  .edge-controls{right:4px;width:100px}
+  .edge-opacity{width:100px;padding:5px 7px}
+  .edge-opacity input{width:84px}
+  .edge-controls .bgm-btn{width:42px;height:42px}
+}
+@media (prefers-reduced-motion:reduce){.edge-controls .bgm-btn::before,.edge-controls .bgm-btn::after{animation:none}}
+
+.edge-controls .bgm-btn{right:auto;bottom:auto;left:auto;top:auto}
+
+
+.edge-controls{right:10px;width:110px}
+.edge-opacity{width:110px;padding:5px 8px}
+.edge-opacity input{width:92px}
+@media (max-width:760px){
+  .edge-controls{right:4px;width:96px}
+  .edge-opacity{width:96px;padding:5px 6px}
+  .edge-opacity input{width:80px}
+}
 </style>
 </head>
 <body>
@@ -1954,6 +2081,13 @@ main{max-width:1240px;padding:22px 16px 88px}
 </div>
 <div class="snow" aria-hidden="true"></div>
 <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<div class="edge-controls" aria-label="背景音乐与界面透明度">
+  <button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
+  <label class="edge-opacity">透明度
+    <input id="uiOpacity" type="range" min="1" max="100" value="1" step="1" aria-label="界面透明度，1 为不透明，100 为全透明">
+    <b id="uiOpacityVal">1</b>
+  </label>
+</div>
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"><img src="brand-face.webp" alt=""></div>
@@ -1969,7 +2103,6 @@ main{max-width:1240px;padding:22px 16px 88px}
       <button id="btnShare" class="tbtn" title="复制分享链接">🔗 分享</button>
     </div>
     <div class="tb-group compact">
-      <button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
       <button id="foldBtn" class="tbtn" title="折叠配置区">▴ 收起</button>
     </div>
   </div>
@@ -1996,7 +2129,7 @@ main{max-width:1240px;padding:22px 16px 88px}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 4584c13ae6</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 598457884c</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2651,15 +2784,7 @@ window.BACalc = CALC.core;</script>
 
   /** 好感系统的目标角色 = 养成计划 + 仅好感的角色（去重，plan 优先） */
   function bondEntries() {
-    const seen = new Set();
-    const out = [];
-    for (const e of [...state.plan, ...state.bondOnly]) {
-      const id = String(e.id);
-      if (seen.has(id)) continue;
-      seen.add(id);
-      out.push(e);
-    }
-    return out;
+    return state.bondOnly.slice();
   }
 
   /* ---------------- 状态默认值 ---------------- */
@@ -2995,7 +3120,6 @@ window.BACalc = CALC.core;</script>
     </div>`;
     const dStar = tgt.star > cur.star ? `+${tgt.star - cur.star}★` : '—';
     const dLevel = tgt.level > cur.level ? `+${tgt.level - cur.level} 级` : '—';
-    const dBond = tgt.bond > cur.bond ? `+${tgt.bond - cur.bond}` : '—';
     const eqRows = s.equipment.map((slot, i) => {
       const c = cur.equips[i] || { tier: 1, level: 1 };
       const t = tgt.equips[i] || { tier: 1, level: 1 };
@@ -3018,7 +3142,6 @@ window.BACalc = CALC.core;</script>
       <div class="pt-row"><span class="pt-label">星级</span><div class="pt-cell">${starSel(cur, 'cur')}</div><div class="pt-cell tgt">${starSel(tgt, 'tgt')}</div><span class="pt-delta">${dStar}</span></div>
       <div class="pt-row"><span class="pt-label">技能</span>${skillCell(cur, 'cur')}${skillCell(tgt, 'tgt')}<span class="pt-delta">${cur.skill === tgt.skill ? '—' : '变更'}</span></div>
       <div class="pt-row"><span class="pt-label">等级</span>${numCell('level', cur, 'cur', 90)}${numCell('level', tgt, 'tgt', 90)}<span class="pt-delta">${dLevel}</span></div>
-      <div class="pt-row"><span class="pt-label">好感</span>${numCell('bond', cur, 'cur', 100)}${numCell('bond', tgt, 'tgt', 100)}<span class="pt-delta">${dBond}</span></div>
       <div class="pt-group">装备</div>
       ${eqRows}
     </div>`;
@@ -4388,9 +4511,7 @@ window.BACalc = CALC.core;</script>
     const el = $('#bond');
     if (!el) return;
     if (html) { el.innerHTML = html; return; }
-    const msg = state.plan.length || state.bondOnly.length
-      ? '当前计划没有好感度需求（目标等级 = 当前等级）。'
-      : '直接点「添加角色」加入好感规划；只算好感，不会进入下面的养成计划。';
+    const msg = '直接点「添加角色」加入好感规划；好感系统和养成计划互相独立，不会自动同步。';
     el.innerHTML = `<div class="bond-empty">
       <span class="be-heart" aria-hidden="true">♥</span>
       <div><b>好感度养成</b><p>${msg}</p></div>
@@ -4466,13 +4587,22 @@ window.BACalc = CALC.core;</script>
       ['技能消耗', cp.skill, '按技能等级累计', 'c-skill'],
       ['升星 / 专武', cp.star, '按星级阶段累计', 'c-star'],
     ].filter(([, v]) => v > 0);
+    const creditNeed = r.rows.credit.need || 0;
+    const creditHave = r.rows.credit.have || 0;
+    const creditPct = creditNeed ? Math.min(100, Math.round((creditHave / creditNeed) * 100)) : 100;
     const creditHTML = `<h3>信用点消耗</h3>
       <div class="creditbox">
-        <div class="ctotal"><span>还需信用点</span><b>${num(r.rows.credit.gap)}</b>
-          <small>需求 ${num(r.rows.credit.need)}${r.rows.credit.have ? ` · 已有 ${num(r.rows.credit.have)}` : ''}</small></div>
-        <label class="credit-inv">持有信用点
-          <input type="number" min="0" inputmode="numeric" data-credit-inv value="${r.rows.credit.have || ''}" placeholder="0">
-        </label>
+        <div class="ctop">
+          <div class="ctotal"><span>还需信用点</span><b>${num(r.rows.credit.gap)}</b></div>
+          <div class="cdemand"><span>总需求</span><b>${num(creditNeed)}</b><small>${creditHave ? `已有 ${num(creditHave)}` : '未填写持有量'}</small></div>
+        </div>
+        <div class="cprogress"><i style="width:${creditPct}%"></i><em>${creditPct}%</em></div>
+        <div class="cmeta">
+          <label class="credit-inv">持有信用点
+            <input type="number" min="0" inputmode="numeric" data-credit-inv value="${creditHave || ''}" placeholder="0">
+          </label>
+          <span class="chint">填入持有量后自动抵扣</span>
+        </div>
         <div class="crows">${crows.map(([name, v, note, cls]) =>
           `<div class="crow ${cls}"><span class="cname"><i></i>${name}<small>${note}</small></span><b>${num(v)}</b></div>`).join('')}</div>
       </div>`;
@@ -4602,7 +4732,7 @@ window.BACalc = CALC.core;</script>
         <div>
           <span class="bd-eyebrow">AFFECTION PLANNER</span>
           <h2>好感度养成</h2>
-          <p>总览所有角色的好感缺口；左侧切换角色，右侧选礼物。库存按计划顺序分配，同一件礼物不重复。</p>
+          <p>好感系统独立于养成计划；左侧切换角色，右侧选礼物。礼物库存按好感列表顺序分配，同一件不重复。</p>
         </div>
       </div>
       <div class="bd-stats">
@@ -4944,12 +5074,8 @@ window.BACalc = CALC.core;</script>
           const p = state.plan.concat(state.bondOnly).find((x) => String(x.id) === id);
           if (!p) return;
           const s = byId[id];
-          const inPlan = state.plan.some((x) => String(x.id) === id);
-          const tip = inPlan
-            ? `把「${s ? s.name : id}」移出规划？会同时移除该角色的材料和好感需求。`
-            : `把「${s ? s.name : id}」移出好感规划？`;
+          const tip = `把「${s ? s.name : id}」移出好感规划？只移除好感需求，不影响养成计划。`;
           if (typeof confirm === 'function' && !confirm(tip)) return;
-          state.plan = state.plan.filter((x) => String(x.id) !== id);
           state.bondOnly = state.bondOnly.filter((x) => String(x.id) !== id);
           selectedBondId = null;
           save();
@@ -5245,7 +5371,7 @@ window.BACalc = CALC.core;</script>
       const b = e.target.closest('[data-bond-add-id]');
       if (!b) return;
       const id = Number(b.dataset.bondAddId);
-      if (state.plan.some((x) => x.id === id) || state.bondOnly.some((x) => x.id === id)) {
+      if (state.bondOnly.some((x) => x.id === id)) {
         selectedBondId = String(id);
         closeBondAdd();
         renderResult();
@@ -5467,6 +5593,25 @@ window.BACalc = CALC.core;</script>
     document.addEventListener('keydown', once, { once: true });
   }
 
+  function initOpacity() {
+    const s = $('#uiOpacity');
+    const v = $('#uiOpacityVal');
+    if (!s) return;
+    const apply = (raw) => {
+      const n = clampInt(raw, 1, 100, 1);
+      const opacity = 1 - (n - 1) / 99;
+      const root = document.documentElement;
+      if (root.style && root.style.setProperty) root.style.setProperty('--ui-opacity', String(Math.max(0, opacity)));
+      s.value = n;
+      if (v) v.textContent = n;
+      try { localStorage.setItem('ba-ui-opacity', String(n)); } catch {}
+    };
+    let saved = 1;
+    try { saved = Number(localStorage.getItem('ba-ui-opacity')) || 1; } catch {}
+    apply(saved);
+    s.addEventListener('input', () => apply(s.value));
+  }
+
   function toast(msg) {
     const t = document.createElement('div');
     t.className = 'toast';
@@ -5518,6 +5663,7 @@ window.BACalc = CALC.core;</script>
 
     bind();
     initBGM();
+    initOpacity();
     renderCandidates(); renderPlan(); renderResult();
 
     // PWA：只有 http(s) 下才注册（file:// 双击打开时自动跳过）
