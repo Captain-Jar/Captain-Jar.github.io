@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="0568b85e32">
+<meta name="build" content="c97119a77c">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1591,10 +1591,74 @@ html[data-theme="dark"] .bond-like-head span{color:#b7a4c4}
   .bond-detail .gift-tile .gift-ico{width:38px;height:38px}
   .gt-icon{min-height:38px}
 }
+
+/* =====================================================================
+   v57 · 自绘动态背景 / 极简头部
+   ===================================================================== */
+html{background:var(--bg)}
+body{background:transparent}
+.bg-anim{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bg-anim .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+.bg-anim .o1{width:46vw;height:46vw;left:-12vw;top:-18vw;background:radial-gradient(circle,#93c5fd,#3b82f6 55%,transparent 72%);animation:orbA 24s ease-in-out infinite alternate}
+.bg-anim .o2{width:38vw;height:38vw;right:-10vw;top:-8vw;background:radial-gradient(circle,#f9a8d4,#c084fc 55%,transparent 72%);animation:orbB 28s ease-in-out infinite alternate}
+.bg-anim .o3{width:44vw;height:44vw;left:24vw;bottom:-26vw;background:radial-gradient(circle,#a5f3fc,#22d3ee 55%,transparent 72%);opacity:.35;animation:orbC 32s ease-in-out infinite alternate}
+.bg-anim .bg-grid{
+  position:absolute;inset:-20%;opacity:.22;
+  background-image:linear-gradient(rgba(37,99,235,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.08) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(circle at 50% 30%,#000 0,transparent 72%);
+  -webkit-mask-image:radial-gradient(circle at 50% 30%,#000 0,transparent 72%);
+  animation:gridDrift 40s linear infinite;
+}
+.bg-anim .bg-stars{
+  position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.6px),radial-gradient(circle,rgba(191,219,254,.9) 0 1px,transparent 1.6px);
+  background-size:120px 120px,190px 190px;background-position:0 0,60px 80px;
+  animation:starsTwinkle 9s ease-in-out infinite alternate;
+}
+header.top,main,.foot{position:relative;z-index:1}
+@keyframes orbA{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(5vw,4vw,0) scale(1.12)}}
+@keyframes orbB{from{transform:translate3d(0,0,0) scale(1.05)}to{transform:translate3d(-4vw,5vw,0) scale(.94)}}
+@keyframes orbC{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(3vw,-4vw,0) scale(1.1)}}
+@keyframes gridDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(44px,44px,0)}}
+@keyframes starsTwinkle{from{opacity:.25}to{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.bg-anim *{animation:none!important}}
+
+@media print{
+  @page{size:A4;margin:10mm}
+  html,body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bg-anim,.topbar,.foot,.picker,.plan,.bd-actions,.bond-add,.broster-del,.bond-slider input[type="range"],.repo,.popup,.toast,.morewrap,.giftlib{display:none!important}
+  main{padding:0;max-width:none}
+  header.top{position:static;margin:0 0 6mm;padding:0;border:0;box-shadow:none;background:#fff}
+  header.top .sub{border-top:1px solid #e4eaf3;padding-top:6px}
+  #bond,.bond-dash,.bond-detail,.gift-summary,.result{border:1px solid #e4eaf3!important;box-shadow:none!important;background:#fff!important;break-inside:avoid}
+  .bond-dash{background:linear-gradient(135deg,#fff7fb,#f7f3ff)!important}
+  .bond-shell{display:block!important}
+  .bond-roster{display:none!important}
+  .gift-tile input[data-bond-gift]{border:0!important;background:transparent!important;box-shadow:none!important}
+  .bond-statusbar>div,.bk,.gift-tile,.gs-item{border:1px solid #eef3fa!important;background:#fff!important}
+  .result{margin-top:6mm}
+}
+.gs-subhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:14px 0 7px;padding-top:10px;border-top:1px dashed #f3e8ff}
+.gs-subhead span{font-size:10px;font-weight:800;letter-spacing:.1em;color:#9d8ba8}
+.gs-subhead small{font-size:9px;color:#c4b5fd}
+
+@media print{
+  .bond-roster{display:block!important;position:static!important;border:1px solid #e4eaf3!important;box-shadow:none!important;margin:0 0 5mm!important;padding:8px!important}
+  .broster-list{display:flex!important;flex-wrap:wrap!important;max-height:none!important;gap:4px!important;overflow:visible!important}
+  .broster-wrap{width:48%!important}
+  .broster-foot{display:block!important}
+  .bond-shell{display:block!important}
+  .gift-summary{break-before:auto!important}
+}
 </style>
 </head>
 <body>
 <a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
+<div class="bg-anim" aria-hidden="true">
+  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+  <span class="bg-grid"></span><span class="bg-stars"></span>
+</div>
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true">✦</div>
@@ -1605,20 +1669,12 @@ html[data-theme="dark"] .bond-like-head span{color:#b7a4c4}
   </div>
   <div class="topbar">
     <div class="tb-group">
-      <button id="btnVault" class="tbtn primary" title="我的仓库：保存全部素材数量">🏦 我的仓库</button>
-      <button id="btnGiftLib" class="tbtn" title="礼物库：记录全部礼物持有数量">🎁 礼物库</button>
-      <button id="btnShot" class="tbtn" title="上传仓库截图，自动识别">📷 截图导入</button>
-      <button id="btnRepo" class="tbtn" title="批量录入仓库数量">📦 仓库录入</button>
-    </div>
-    <div class="tb-group">
-      <button id="btnCopy" class="tbtn" title="复制材料清单文本">📋 复制</button>
-      <button id="btnExport" class="tbtn" title="导出配置 JSON">💾 导出</button>
-      <button id="btnImport" class="tbtn" title="导入配置 JSON">📂 导入</button>
+      <button id="btnExport" class="tbtn primary" title="导出本次配置 JSON">💾 导出配置</button>
+      <button id="btnImport" class="tbtn" title="导入上次的配置 JSON">📂 导入配置</button>
       <button id="btnShare" class="tbtn" title="复制分享链接">🔗 分享</button>
     </div>
     <div class="tb-group compact">
       <button id="foldBtn" class="tbtn" title="折叠配置区">▴ 收起</button>
-      <button id="themeBtn" class="tbtn" title="切换夜间模式">🌙 夜间</button>
     </div>
   </div>
   <div class="sub" id="summary" aria-live="polite"></div>
@@ -1645,7 +1701,7 @@ html[data-theme="dark"] .bond-like-head span{color:#b7a4c4}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 0568b85e32</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 c97119a77c</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -4133,9 +4189,9 @@ window.BACalc = CALC.core;</script>
     const bondPlans = (r.bondPer || r.per || []).filter((p) => p.bond).map((p) => {
       const s = byId[p.id];
       if (!s) return null;
-      const entry = state.plan.find((x) => x.id === p.id) || { cur: { bond: 1 }, tgt: { bond: 100 } };
+      const entry = state.plan.concat(state.bondOnly).find((x) => String(x.id) === String(p.id)) || { cur: { bond: 1 }, tgt: { bond: 100 } };
       const curLv = Math.min(100, Math.max(1, Number(entry.cur.bond) || 1));
-      const tgtLv = Math.min(100, Math.max(curLv, Number(entry.tgt.bond) || 100));
+      const tgtLv = Math.min(100, Math.max(1, Number(entry.tgt.bond) || 100));
       const need = p.bond.exp;
       const left = Math.max(0, p.bondLeft ?? need);
       const covered = Math.max(0, p.giftHave || 0);
@@ -4214,24 +4270,32 @@ window.BACalc = CALC.core;</script>
     const bondChars = bondPlans.length;
     const bondPct = r.bondExp > 0 ? Math.min(100, Math.round((r.giftUsed / r.bondExp) * 100)) : 100;
 
-    const needGiftMap = new Map();
+    const giftUse = new Map();
     for (const x of bondPlans) {
-      if (x.left <= 0 || !x.best) continue;
-      const g = x.best;
-      const cur = needGiftMap.get(g.name) || { name: g.name, value: g.value, icon: g.icon, who: new Set() };
-      cur.who.add(x.s.name);
-      needGiftMap.set(g.name, cur);
+      if (x.left <= 0) continue;
+      for (const g of x.fs) {
+        const cur = giftUse.get(g.name) || { name: g.name, value: g.value, icon: g.icon, who: new Set() };
+        cur.who.add(x.s.name);
+        giftUse.set(g.name, cur);
+      }
     }
-    const needGifts = [...needGiftMap.values()].sort((a, b) => b.value - a.value);
+    const allGifts = [...giftUse.values()].sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, 'zh-CN'));
+    const commonGifts = allGifts.filter((g) => g.who.size > 1);
     const giftSummaryHTML = bondChars ? `<section class="gift-summary">
       <div class="gs-head">
-        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>按每个角色的最高效率礼物估算；这里只看加值，数量直接在角色礼物格里填。</p></div>
+        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物；不显示数量，库存直接在角色礼物格里填。</p></div>
       </div>
-      ${needGifts.length ? `<div class="gs-grid">${needGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
+      ${allGifts.length ? `<div class="gs-grid">${allGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
         ${img(iconUrl(g.icon), 'gs-ico', g.name)}
         <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
         <b class="gs-value">+${g.value}</b>
-      </div>`).join('')}</div>` : '<div class="gs-empty">当前没有需要额外保留的礼物。</div>'}
+      </div>`).join('')}</div>` : '<div class="gs-empty">暂无需要保留的礼物。</div>'}
+      <div class="gs-subhead"><span>共同需要的礼物</span><small>${commonGifts.length ? `${commonGifts.length} 种` : ''}</small></div>
+      ${commonGifts.length ? `<div class="gs-grid">${commonGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
+        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
+        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
+        <b class="gs-value">+${g.value}</b>
+      </div>`).join('')}</div>` : '<div class="gs-empty">暂无共同需要的礼物。</div>'}
       <div class="gs-foot"><span></span><button class="tbtn" type="button" data-giftlib>打开礼物库 →</button></div>
     </section>` : '';
 
@@ -4254,6 +4318,7 @@ window.BACalc = CALC.core;</script>
       <div class="bd-actions">
         <button class="tbtn primary" type="button" data-bond-all="100">全部 Lv100</button>
         <button class="tbtn" type="button" data-giftlib>🎁 礼物库</button>
+        <button class="tbtn" type="button" data-bond-pdf>🖨 导出 PDF</button>
         <button class="tbtn" type="button" data-bond-clear>清空礼物库存</button>
       </div>
     </section>
@@ -4622,6 +4687,8 @@ window.BACalc = CALC.core;</script>
         }
         const gl = e.target.closest('[data-giftlib]');
         if (gl) { openGiftLib(); return; }
+        const pdf = e.target.closest('[data-bond-pdf]');
+        if (pdf) { exportPDF(); return; }
         const allBtn = e.target.closest('[data-bond-all]');
         if (allBtn) {
           const lv = Math.min(100, Math.max(1, Number(allBtn.dataset.bondAll) || 100));
@@ -4770,7 +4837,7 @@ window.BACalc = CALC.core;</script>
     });
     const btnExportEl = $('#btnExport');
     if (btnExportEl) btnExportEl.addEventListener('click', () => {
-      const payload = { v: 2, savedAt: new Date().toISOString(), plan: state.plan, inv: state.inv, gift: state.gift };
+      const payload = { v: 2, savedAt: new Date().toISOString(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, mix: state.mix, gift: state.gift };
       const blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -4804,16 +4871,13 @@ window.BACalc = CALC.core;</script>
         state.plan = parsed.plan;
         state.bondOnly = parsed.bondOnly || [];
         state.inv = parsed.inv;
+        if (parsed.mix && typeof parsed.mix === 'object') state.mix = parsed.mix;
         $('#modal').classList.remove('on');
         renderCandidates(); renderPlan(); renderResult(); save();
         toast(`已导入 ${parsed.plan.length} 个角色、${Object.keys(parsed.inv).length} 条库存`);
       } catch { toast('未识别的存档格式，已保持原数据不变'); }
     });
 
-    const themeBtn = $('#themeBtn');
-    if (themeBtn) themeBtn.addEventListener('click', () => {
-      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
-    });
     const foldBtn = $('#foldBtn');
     if (foldBtn) foldBtn.addEventListener('click', () => {
       const on = document.body.classList.toggle('folded');
@@ -5089,7 +5153,7 @@ window.BACalc = CALC.core;</script>
     const plan = sanitizePlan(raws);
     const bondOnly = sanitizePlan(Array.isArray(d.bondOnly) ? d.bondOnly : [])
       .filter((e) => !plan.some((p) => String(p.id) === String(e.id)));
-    return { plan, bondOnly, inv: normalizeInv(invRaw), version: Number(d.v) || 0 };
+    return { plan, bondOnly, inv: normalizeInv(invRaw), mix: (d.mix && typeof d.mix === 'object' ? d.mix : {}), version: Number(d.v) || 0 };
   }
 
   function setTheme(t) {
@@ -5098,6 +5162,18 @@ window.BACalc = CALC.core;</script>
     try { localStorage.setItem('ba-theme', t); } catch {}
     const b = $('#themeBtn');
     if (b) b.textContent = t === 'dark' ? '☀️ 日间' : '🌙 夜间';
+  }
+
+  function exportPDF() {
+    if (typeof window === 'undefined' || typeof window.print !== 'function') {
+      toast('当前浏览器不支持打印，请用浏览器菜单导出 PDF');
+      return;
+    }
+    try {
+      window.print();
+    } catch {
+      toast('打印失败，请用浏览器菜单导出 PDF');
+    }
   }
 
   function toast(msg) {
@@ -5115,7 +5191,7 @@ window.BACalc = CALC.core;</script>
   function save() {
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify({
-        v: SAVE_V, savedAt: Date.now(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, gift: state.gift,
+        v: SAVE_V, savedAt: Date.now(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, mix: state.mix, gift: state.gift,
       }));
     } catch {}
   }
@@ -5127,12 +5203,14 @@ window.BACalc = CALC.core;</script>
       state.plan = sanitizePlan(d.plan);
       state.bondOnly = sanitizePlan(d.bondOnly).filter((e) => !state.plan.some((p) => String(p.id) === String(e.id)));
       state.inv = normalizeInv(d.inv);
+      state.mix = (d.mix && typeof d.mix === 'object') ? d.mix : {};
       state.gift = typeof d.gift === 'string' ? d.gift : state.gift;
       if (d.v !== SAVE_V) save();   // v1 -> v2 迁移后立刻回写
     } catch {
       state.plan = [];
       state.bondOnly = [];
       state.inv = {};
+      state.mix = {};
     }
   }
 
@@ -5144,10 +5222,8 @@ window.BACalc = CALC.core;</script>
       .map((s) => `<button class="chip${s === 'all' ? ' on' : ''}" data-star="${s}">${s === 'all' ? '全部星级' : s + '★'}</button>`).join('');
     load();
     loadShareFromHash();
-    let theme = state.theme;
-    try { theme = theme || localStorage.getItem('ba-theme'); } catch {}
-    if (!theme) theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    setTheme(theme);
+    setTheme('light');
+    try { localStorage.removeItem('ba-theme'); } catch {}
 
     bind();
     renderCandidates(); renderPlan(); renderResult();
