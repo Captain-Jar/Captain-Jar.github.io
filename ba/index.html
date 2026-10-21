@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="47847805ea">
+<meta name="build" content="3e4f055c15">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <script>try{var t=localStorage.getItem('ba-theme');if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
-<style>﻿:root{
+<style>:root{
   --bg:#f4f6f9;
   --card:#ffffff;
   --ink:#1c2430;
@@ -2156,6 +2156,46 @@ body{background:transparent!important}
 .gs-input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.10)}
 .gs-input::placeholder{color:#c4a9b7;font-weight:500}
 @media print{.gs-input{display:none!important}}
+
+/* v67.6: 通用礼物（不挑角色）——紫礼 / 金礼 */
+.gift-ico.generic,.gs-ico.generic{
+  position:relative;overflow:hidden;display:block;flex:0 0 auto;
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 8px 18px -12px rgba(88,28,135,.65);
+}
+.gift-ico.generic.p,.gs-ico.generic.p{background:linear-gradient(145deg,#d8b4fe 0%,#a855f7 48%,#6d28d9 100%)}
+.gift-ico.generic.g,.gs-ico.generic.g{background:linear-gradient(145deg,#fde68a 0%,#f59e0b 48%,#b45309 100%)}
+.gift-ico.generic::before,.gs-ico.generic::before{
+  content:"";position:absolute;left:8%;right:8%;top:43%;height:13%;
+  background:rgba(255,255,255,.92);border-radius:2px;
+  box-shadow:0 1px 0 rgba(255,255,255,.4);
+}
+.gift-ico.generic::after,.gs-ico.generic::after{
+  content:"";position:absolute;left:43.5%;top:14%;width:13%;bottom:9%;
+  background:rgba(255,255,255,.9);border-radius:2px;
+}
+.gift-ico.generic i,.gs-ico.generic i{
+  position:absolute;left:50%;top:18%;width:34%;height:20%;transform:translateX(-50%);
+  border-radius:999px 999px 30% 30%;
+  background:linear-gradient(180deg,#fff,#f5d0fe);
+  box-shadow:0 0 0 2px rgba(255,255,255,.22);
+  z-index:1;
+}
+.gift-ico.generic.g i,.gs-ico.generic.g i{background:linear-gradient(180deg,#fff,#fef3c7)}
+.gift-tile.generic-tile{border-color:#eadcff;background:linear-gradient(180deg,#fff,#fcf8ff)}
+.gt-generic{
+  position:absolute;left:8px;top:8px;z-index:2;
+  padding:2px 6px;border-radius:999px;background:#fff;color:#8b5cf6;
+  font-size:8px;font-weight:800;letter-spacing:.5px;box-shadow:0 2px 8px -4px rgba(109,40,217,.45);
+}
+.gift-tile.generic-tile .gt-value{color:#7c3aed}
+.generic-head{margin-top:14px;border-top:1px dashed #f1e6f5;padding-top:12px}
+.generic-head small{color:#a78bfa}
+.generic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-width:520px}
+.gs-item.gs-generic{background:linear-gradient(180deg,#fff,#fcf8ff);border-color:#efe4ff}
+.gs-ico.generic{width:30px;height:30px;border-radius:8px}
+@media (max-width:560px){.generic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-width:none}}
+@media print{.gt-generic{display:none!important}}
 </style>
 </head>
 <body class="intro-open">
@@ -2230,7 +2270,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 47847805ea</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 3e4f055c15</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2853,6 +2893,11 @@ window.BACalc = CALC.core;</script>
   const GIFTS = DATA.gifts || [];
   /* SSR(3★)：120 起，每命中 1 个 tag +60，上限 300；SR(2★)：20 起，每命中 +20，上限 80 */
   const GIFT_RULE = { 3: { base: 120, step: 60, max: 300 }, 2: { base: 20, step: 20, max: 80 } };
+  /* 不挑角色的通用礼物：紫礼 +120，金礼 +20 */
+  const GENERIC_GIFTS = [
+    { id: 'generic-p', name: '一般紫礼', tier: 3, value: 120, rarity: 'SSR', generic: 'p', icon: '', tags: [], who: [] },
+    { id: 'generic-g', name: '一般金礼', tier: 2, value: 20, rarity: 'SR', generic: 'g', icon: '', tags: [], who: [] },
+  ];
 
   /** 该学生喜欢的礼物，value 按命中 tag 数计算 */
   function favGifts(s) {
@@ -2870,6 +2915,11 @@ window.BACalc = CALC.core;</script>
       out.push({ ...g, value, matches });
     }
     return out.sort((a, b) => b.value - a.value || a.id - b.id);
+  }
+
+  /** 好感详情：喜欢礼物在前，通用紫礼/金礼固定在后 */
+  function bondGifts(s) {
+    return favGifts(s).concat(GENERIC_GIFTS);
   }
 
   const state = {
@@ -3064,7 +3114,7 @@ window.BACalc = CALC.core;</script>
   }
 
   /**
-   * 礼物库存分配：按计划顺序，每个角色先用最爱的礼物，再用「一般紫礼 / 金礼」兜底。
+   * 礼物库存分配：按价值从高到低使用喜欢礼物和通用礼物；
    * 同一件礼物只扣一次，避免多角色时重复抵扣。
    */
   function allocateGifts(per) {
@@ -3079,7 +3129,7 @@ window.BACalc = CALC.core;</script>
       let left = need;
       let used = 0;
       if (s && need > 0) {
-        const list = favGifts(s).slice().sort((a, b) => b.value - a.value || String(a.name).localeCompare(String(b.name), 'zh'));
+        const list = bondGifts(s).slice().sort((a, b) => b.value - a.value || String(a.name).localeCompare(String(b.name), 'zh'));
         for (const g of list) {
           if (left <= 0) break;
           const key = 'gift:' + g.name;
@@ -3091,6 +3141,7 @@ window.BACalc = CALC.core;</script>
           used += use * g.value;
           left -= use * g.value;
         }
+        // 兼容旧存档/旧导入的 giftcat:p / giftcat:g
         for (const [cat, val] of [['p', 120], ['g', 20]]) {
           if (left <= 0) break;
           const key = 'giftcat:' + cat;
@@ -4740,7 +4791,7 @@ window.BACalc = CALC.core;</script>
       const covered = Math.max(0, p.giftHave || 0);
       const done = left <= 0;
       const pct = need > 0 ? Math.min(100, Math.round((covered / need) * 100)) : 100;
-      const fs = favGifts(s);
+      const fs = bondGifts(s);
       const best = fs[0];
 
       const enteredExp = fs.reduce((a, g) => a + toCount(state.inv['gift:' + g.name]) * g.value, 0);
@@ -4756,9 +4807,13 @@ window.BACalc = CALC.core;</script>
 
     const giftTileOf = (x) => (g) => {
       const owned = toCount(state.inv['gift:' + g.name]);
-      return `<label class="gift-tile" title="${esc(g.name)} · 单个 +${g.value}">
+      const ico = g.generic
+        ? `<span class="gift-ico generic ${g.generic}" aria-hidden="true"><i></i></span>`
+        : img(iconUrl(g.icon), 'gift-ico', g.name);
+      return `<label class="gift-tile ${g.generic ? 'generic-tile' : ''}" title="${esc(g.name)} · 单个 +${g.value}${g.generic ? ' · 不挑角色' : ''}">
         <span class="gt-value gval">+${g.value}</span>
-        <span class="gt-icon">${img(iconUrl(g.icon), 'gift-ico', g.name)}</span>
+        <span class="gt-icon">${ico}</span>
+        ${g.generic ? '<span class="gt-generic">通用</span>' : ''}
         <input type="number" min="0" inputmode="numeric" data-bond-gift="${esc(g.name)}" data-gift-value="${g.value}" value="${owned || ''}" placeholder="0" aria-label="${esc(g.name)} 库存数量">
       </label>`;
     };
@@ -4776,6 +4831,8 @@ window.BACalc = CALC.core;</script>
     const detailHTML = activeBond ? (() => {
       const x = activeBond;
       const giftTile = giftTileOf(x);
+      const favs = x.fs.filter((g) => !g.generic);
+      const gens = x.fs.filter((g) => g.generic);
       const curMax = x.curLv >= 100 ? 100 : Math.max(1, x.tgtLv - 1);
       const tgtMin = x.curLv >= 100 ? 100 : Math.min(100, x.curLv + 1);
       return `<section class="bond-detail" data-bond-id="${x.p.id}" data-bond-cur="${x.curLv}">
@@ -4811,7 +4868,9 @@ window.BACalc = CALC.core;</script>
         </div>
 
         <div class="bond-like-head"><span>喜欢礼物</span><small>库存数量可直接改</small></div>
-        ${x.fs.length ? `<div class="gift-grid">${x.fs.map(giftTile).join('')}</div>` : '<div class="hint">暂无礼物偏好数据</div>'}
+        ${favs.length ? `<div class="gift-grid">${favs.map(giftTile).join('')}</div>` : '<div class="hint">暂无礼物偏好数据</div>'}
+        <div class="bond-like-head generic-head"><span>通用礼物</span><small>不挑角色 · 紫礼 +120 / 金礼 +20</small></div>
+        <div class="gift-grid generic-grid">${gens.map(giftTile).join('')}</div>
       </section>`;
     })() : '';
 
@@ -4830,16 +4889,19 @@ window.BACalc = CALC.core;</script>
     const commonGifts = allGifts.filter((g) => g.who.size > 1);
     const gsItem = (g) => {
       const owned = toCount(state.inv['gift:' + g.name]) || 0;
-      return `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
-        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
-        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
+      const ico = g.generic
+        ? `<span class="gs-ico generic ${g.generic}" aria-hidden="true"><i></i></span>`
+        : img(iconUrl(g.icon), 'gs-ico', g.name);
+      return `<div class="gs-item ${g.generic ? 'gs-generic' : ''}" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
+        ${ico}
+        <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色${g.generic ? ' · 通用' : ''}</small></span>
         <b class="gs-value">+${g.value}</b>
         <input class="gs-input" type="number" min="0" inputmode="numeric" data-summary-gift="${esc(g.name)}" data-gift-value="${g.value}" value="${owned || ''}" placeholder="0" aria-label="${esc(g.name)} 数量">
       </div>`;
     };
     const giftSummaryHTML = bondChars ? `<section class="gift-summary">
       <div class="gs-head">
-        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物；数量可以直接在下面填，和角色礼物格双向同步。</p></div>
+        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物，以及不挑角色的通用紫礼/金礼；数量可直接在下面填，和角色礼物格双向同步。</p></div>
         <button class="tbtn gs-print" type="button" data-print-gifts>🖨 打印</button>
       </div>
       ${allGifts.length ? `<div class="gs-grid">${allGifts.map(gsItem).join('')}</div>` : '<div class="gs-empty">暂无需要保留的礼物。</div>'}
