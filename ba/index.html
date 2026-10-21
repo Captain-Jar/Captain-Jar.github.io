@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="3b27dd6823">
+<meta name="build" content="4d8bd7431b">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2201,6 +2201,9 @@ body{background:transparent!important}
 .intro-list li.intro-inline{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 22px}
 .intro-list li.intro-inline span:last-child{color:#8ee3d3}
 @media (max-width:600px){.intro-list li.intro-inline{gap:2px 12px}}
+
+.bond-next-range{display:block;margin-top:2px;font-size:9px;font-weight:700;color:#c084fc;letter-spacing:.02em;line-height:1.2}
+
 </style>
 </head>
 <body class="intro-open">
@@ -2275,7 +2278,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 3b27dd6823</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 4d8bd7431b</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -4631,7 +4634,7 @@ window.BACalc = CALC.core;</script>
     const nextLv = Math.min(100, reached + 1);
     const a = totalExpTo(table, nextLv) - totalExpTo(table, reached);
     const b = (totalExpTo(table, curLv) + (Number(giftExp) || 0)) - totalExpTo(table, reached);
-    return { reached, gap: a - b };
+    return { reached, nextLevel: nextLv, gap: a - b };
   }
 
   /** 混搭结果文字：覆盖进度 + 从当前等级起能到多少级、离目标还差多少 */
@@ -4681,6 +4684,8 @@ window.BACalc = CALC.core;</script>
     if (target) target.textContent = `Lv ${next.reached}`;
     const gap = detail.querySelector('[data-bond-next]');
     if (gap) gap.textContent = num(next.gap);
+    const range = detail.querySelector('[data-bond-next-level]');
+    if (range) range.textContent = next.nextLevel > next.reached ? `Lv ${next.reached} → Lv ${next.nextLevel}` : 'Lv 100 · 已满级';
   }
 
   function renderBond(html) {
@@ -4803,7 +4808,7 @@ window.BACalc = CALC.core;</script>
       const next = bondNextGap(T.bond.table, curLv, enteredExp);
       return {
         p, s, entry, curLv, tgtLv, need, left, covered, done, pct,
-        fs, best, enteredExp, giftReachedLv: next.reached, nextGap: next.gap,
+        fs, best, enteredExp, giftReachedLv: next.reached, giftNextLv: next.nextLevel, nextGap: next.gap,
       };
     }).filter(Boolean);
 
@@ -4868,7 +4873,7 @@ window.BACalc = CALC.core;</script>
 
         <div class="bond-statusbar">
           <div><span>所需总经验</span><b>${num(x.need)}</b></div>
-          <div><span>升到下一级所需</span><b data-bond-next>${num(x.nextGap)}</b></div>
+          <div><span>升到下一级所需</span><b data-bond-next>${num(x.nextGap)}</b><small class="bond-next-range" data-bond-next-level>${x.giftReachedLv >= 100 ? 'Lv 100 · 已满级' : `Lv ${x.giftReachedLv} → Lv ${x.giftNextLv}`}</small></div>
           <div><span>礼物可达等级</span><b data-bond-reach>Lv ${x.giftReachedLv}</b></div>
         </div>
 
