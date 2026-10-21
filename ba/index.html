@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="e28485cb2c">
+<meta name="build" content="0568b85e32">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1529,6 +1529,68 @@ html[data-theme="dark"] .gs-count{color:#fda4af}
 .bond-empty .bond-add{width:auto;margin:0 0 0 auto;padding:8px 13px;font-size:11px;white-space:nowrap}
 .bond-empty .be-arrow{margin-left:2px}
 @media (max-width:760px){.bond-empty .bond-add{margin-left:0;width:100%}.bond-empty{flex-wrap:wrap}}
+
+/* =====================================================================
+   v56 · 好感目标输入 / 状态栏 / 礼物库存格
+   ===================================================================== */
+.bd-target{display:flex;align-items:flex-end;gap:10px;flex:1 1 100%;margin-top:2px}
+.bd-target .bond-slider{flex:1 1 240px;min-width:0}
+.bond-target-num{display:flex;align-items:center;gap:5px;font-size:9.5px;color:#9d8ba8;white-space:nowrap}
+.bond-target-num input{
+  width:62px;padding:6px 8px;border:1.5px solid #f3d9ea;border-radius:9px;
+  background:#fff;color:#9d174d;font-size:12px;font-weight:800;text-align:center;outline:none;
+}
+.bond-target-num input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
+
+.bond-statusbar{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:15px 0 14px}
+.bond-statusbar>div{background:linear-gradient(180deg,#fdf8ff,#fbf7fe);border:1px solid #f3e8ff;border-radius:14px;padding:10px 13px}
+.bond-statusbar span{display:block;font-size:9px;letter-spacing:.04em;color:#a78bfa;margin-bottom:3px}
+.bond-statusbar b{display:block;font-size:18px;line-height:1.1;color:#6d28d9;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.bond-statusbar b[data-bond-reach]{color:#db2777}
+
+.bond-like-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:2px 0 8px}
+.bond-like-head span{font-size:10px;font-weight:800;letter-spacing:.1em;color:#9d8ba8}
+.bond-like-head small{font-size:9px;color:#c4b5fd}
+
+.bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.bond-detail .gift-tile{
+  min-height:124px;padding:8px 6px;border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  text-align:center;cursor:default;
+}
+.bond-detail .gift-tile:hover{transform:none;box-shadow:none;border-color:#f3e8ff;background:#fff}
+.gift-tile .gt-value{order:1;font-size:15px;line-height:1;font-weight:800;color:#db2777}
+.gift-tile .gt-icon{order:2;display:grid;place-items:center;min-height:44px}
+.bond-detail .gift-tile .gift-ico{width:44px;height:44px;border-radius:12px;object-fit:contain}
+.gift-tile input[data-bond-gift]{
+  order:3;width:62px;padding:5px 6px;border:1.5px solid #e4eaf3;border-radius:8px;
+  background:#fff;color:#4c1d95;text-align:center;font-size:11px;font-weight:800;outline:none;
+}
+.gift-tile input[data-bond-gift]:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
+.gift-tile input[data-bond-gift]::placeholder{color:#c4b5fd;font-weight:500}
+
+.gift-summary .gs-value{margin-left:auto;font-size:12px;font-weight:800;color:#db2777;white-space:nowrap}
+.gift-summary .gs-foot{justify-content:flex-end}
+
+html[data-theme="dark"] .bond-statusbar>div{background:#1a1226;border-color:#31233a}
+html[data-theme="dark"] .bond-statusbar b{color:#e9d5ff}
+html[data-theme="dark"] .bond-statusbar b[data-bond-reach]{color:#f9a8d4}
+html[data-theme="dark"] .bond-target-num input,
+html[data-theme="dark"] .gift-tile input[data-bond-gift]{background:#0b1220;border-color:#31233a;color:#fbcfe8}
+html[data-theme="dark"] .gift-tile .gt-value{color:#f9a8d4}
+html[data-theme="dark"] .bond-like-head span{color:#b7a4c4}
+
+@media (max-width:760px){
+  .bond-statusbar{grid-template-columns:repeat(3,1fr);gap:6px}
+  .bond-statusbar b{font-size:14px}
+  .bond-statusbar>div{padding:8px 9px}
+  .bd-target{flex-wrap:wrap}
+  .bond-target-num{width:100%;justify-content:flex-end}
+  .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}
+  .bond-detail .gift-tile{min-height:112px;padding:7px 4px}
+  .bond-detail .gift-tile .gift-ico{width:38px;height:38px}
+  .gt-icon{min-height:38px}
+}
 </style>
 </head>
 <body>
@@ -1583,7 +1645,7 @@ html[data-theme="dark"] .gs-count{color:#fda4af}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 e28485cb2c</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 0568b85e32</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -3959,6 +4021,20 @@ window.BACalc = CALC.core;</script>
   }
 
   /** 好感度独立置顶：没有需求时给引导，不让顶部空一块 */
+  /** 礼物格输入变化时，只更新当前角色的「礼物可达」等级，避免重建 DOM 丢焦点 */
+  function updateBondReach(input) {
+    const detail = input.closest('.bond-detail');
+    if (!detail) return;
+    const cur = Number(detail.dataset.bondCur) || 1;
+    let exp = 0;
+    $$('.gift-tile input[data-bond-gift]', detail).forEach((el) => {
+      exp += (Number(el.value) || 0) * (Number(el.dataset.giftValue) || 0);
+    });
+    const lv = levelFromExp(exp, T.bond.table, 100, cur);
+    const target = detail.querySelector('[data-bond-reach]');
+    if (target) target.textContent = `Lv ${lv}`;
+  }
+
   function renderBond(html) {
     const el = $('#bond');
     if (!el) return;
@@ -4054,7 +4130,7 @@ window.BACalc = CALC.core;</script>
       </div>`;
 
     /* ---------- 好感度：总览 + 角色列表 + 单角色详情 ---------- */
-    const bondPlans = (r.bondPer || r.per || []).filter((p) => p.bond && p.bond.exp > 0).map((p) => {
+    const bondPlans = (r.bondPer || r.per || []).filter((p) => p.bond).map((p) => {
       const s = byId[p.id];
       if (!s) return null;
       const entry = state.plan.find((x) => x.id === p.id) || { cur: { bond: 1 }, tgt: { bond: 100 } };
@@ -4070,38 +4146,25 @@ window.BACalc = CALC.core;</script>
       const best = fs[0];
       const bestCount = best && left > 0 ? Math.ceil(left / best.value) : 0;
 
-      const giftData = [
-        ...fs.map((g) => ({
-          name: g.name, value: g.value, icon: g.icon, tierValue: g.tier,
-          tierLabel: `${g.tier}★`, matches: g.matches || 1,
-          owned: toCount(state.inv['gift:' + g.name]),
-        })),
-        { name: '一般紫礼', value: 120, cat: 'p', tierValue: 3, tierLabel: '3★ 通用', owned: toCount(state.inv['giftcat:p']) },
-        { name: '一般金礼', value: 20, cat: 'g', tierValue: 2, tierLabel: '2★ 通用', owned: toCount(state.inv['giftcat:g']) },
-      ].map((d) => {
-        const count = left > 0 ? Math.ceil(left / d.value) : 0;
-        return { ...d, count, gap: Math.max(0, count - d.owned), overflow: count ? count * d.value - left : 0 };
-      });
-      const bestGift = giftData.slice().sort((a, b) => b.value - a.value)[0] || null;
-      const minOverflow = Math.min(...giftData.filter((d) => d.count > 0).map((d) => d.overflow));
+      const nextNeed = curLv < 100 ? (T.bond.table[curLv - 1] || 0) : 0;
+      const enteredExp = fs.reduce((a, g) => a + toCount(state.inv['gift:' + g.name]) * g.value, 0);
+      const giftReachedLv = levelFromExp(enteredExp, T.bond.table, 100, curLv);
       return {
         p, s, entry, curLv, tgtLv, need, left, covered, done, pct, reachedLv,
-        fs, best, bestCount, giftData, bestGift, minOverflow,
+        fs, best, nextNeed, enteredExp, giftReachedLv,
       };
     }).filter(Boolean);
 
     const activeBond = bondPlans.find((x) => String(x.p.id) === String(selectedBondId)) || bondPlans[0] || null;
     selectedBondId = activeBond ? String(activeBond.p.id) : null;
 
-    const giftTileOf = (x) => (d) => {
-      const isBest = d === x.bestGift;
-      return `<button class="gift-tile ${isBest ? 'best' : ''} ${d.gap ? 'hasgap' : 'ok'}" data-giftcard="${esc(d.name)}" data-gval="${d.value}" data-need="${x.left}"${d.cat ? ` data-giftcat="${d.cat}"` : ''} title="${esc(d.name)} · 单个 +${d.value} · 持有 ${num(d.owned)} / 需求 ${d.count ? num(d.count) : '—'}${d.gap ? ` · 缺 ${num(d.gap)}` : ' · 已够'}">
-        <span class="gt-icon">
-          ${d.cat ? `<span class="gift-ico generic ${d.cat}" aria-hidden="true">${d.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(d.icon), 'gift-ico', d.name)}
-        </span>
-        <span class="gt-count"><b>${num(d.owned)}</b><i>/</i><b>${d.count ? num(d.count) : '—'}</b></span>
-        <span class="gt-value gval">+${d.value}</span>
-      </button>`;
+    const giftTileOf = (x) => (g) => {
+      const owned = toCount(state.inv['gift:' + g.name]);
+      return `<label class="gift-tile" title="${esc(g.name)} · 单个 +${g.value}">
+        <span class="gt-value gval">+${g.value}</span>
+        <span class="gt-icon">${img(iconUrl(g.icon), 'gift-ico', g.name)}</span>
+        <input type="number" min="0" inputmode="numeric" data-bond-gift="${esc(g.name)}" data-gift-value="${g.value}" value="${owned || ''}" placeholder="0" aria-label="${esc(g.name)} 库存数量">
+      </label>`;
     };
 
     const rosterHTML = bondPlans.map((x) => `<div class="broster-wrap ${x === activeBond ? 'active' : ''}">
@@ -4117,47 +4180,34 @@ window.BACalc = CALC.core;</script>
     const detailHTML = activeBond ? (() => {
       const x = activeBond;
       const giftTile = giftTileOf(x);
-      const t3 = x.giftData.filter((d) => d.tierValue === 3);
-      const t2 = x.giftData.filter((d) => d.tierValue === 2);
-      const group = (title, list) => list.length
-        ? `<section class="gift-group"><h4>${title}<small>${list.length} 种</small></h4><div class="gift-grid">${list.map(giftTile).join('')}</div></section>`
-        : '';
-      return `<section class="bond-detail" data-bond-id="${x.p.id}">
+      return `<section class="bond-detail" data-bond-id="${x.p.id}" data-bond-cur="${x.curLv}">
         <header class="bd-person">
           ${img(studentIcon(x.s.id), 'bd-ava', x.s.name)}
           <div class="bd-id">
             <span class="bd-eyebrow">AFFECTION TARGET</span>
             <h2>${esc(x.s.name)}</h2>
-            <small>Lv ${x.curLv} → Lv ${x.tgtLv} · 需求 ${num(x.need)} EXP · 库存已抵 ${num(x.covered)}</small>
+            <small>Lv ${x.curLv} → Lv ${x.tgtLv} · 库存已抵 ${num(x.covered)}</small>
           </div>
           <span class="bond-state ${x.done ? 'ok' : ''}">${x.done ? '✓ 已满足' : `还需 ${num(x.left)}`}</span>
-          <label class="bond-slider">
-            <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
-            <input type="range" min="${x.curLv}" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
-          </label>
+          <div class="bd-target">
+            <label class="bond-slider">
+              <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
+              <input type="range" min="1" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
+            </label>
+            <label class="bond-target-num">Lv
+              <input type="number" min="1" max="100" value="${x.tgtLv}" data-bond-target="${x.p.id}" aria-label="输入 ${esc(x.s.name)} 的好感目标等级">
+            </label>
+          </div>
         </header>
 
-        <div class="bd-progress"><i style="width:${x.pct}%"></i><span>${x.pct}% 库存覆盖</span></div>
-
-        <div class="bd-kpis">
-          <div class="bk"><b>${num(x.need)}</b><span>需求 EXP</span></div>
-          <div class="bk"><b>${num(x.covered)}</b><span>库存已抵</span></div>
-          <div class="bk"><b>${num(x.left)}</b><span>还需</span></div>
-          <div class="bk"><b>Lv ${x.reachedLv}</b><span>库存可达</span></div>
+        <div class="bond-statusbar">
+          <div><span>所需总经验</span><b>${num(x.need)}</b></div>
+          <div><span>升到下一级所需</span><b>${num(x.nextNeed)}</b></div>
+          <div><span>礼物可达等级</span><b data-bond-reach>Lv ${x.giftReachedLv}</b></div>
         </div>
 
-        ${x.best ? `<div class="best-banner">
-          <span class="bb-label">最高效率</span>
-          ${img(itemIcon(x.best.icon), 'bb-ico', x.best.name)}
-          <div class="bb-name"><b>${esc(x.best.name)}</b><small>单个 +${x.best.value} · 命中 ${x.best.matches || 1} 个标签</small></div>
-          <div class="bb-count"><b>${x.done ? '✓' : `×${num(x.bestCount)}`}</b><span>${x.done ? '已满足' : `可到 Lv ${levelFromExp(x.left, T.bond.table, 100, x.curLv)}`}</span></div>
-        </div>` : '<div class="best-banner empty"><span class="bb-empty">该角色暂无礼物偏好，可用下方通用礼物</span></div>'}
-
-        <div class="gift-title"><span>礼物效率</span><small>点击任一格填「已有」</small></div>
-        ${group('3★ 礼物', t3)}
-        ${group('2★ 礼物', t2)}
-
-        ${x.left > 0 ? mixerHTML('gift:' + x.p.id, GIFT_UNITS, x.left, { from: x.curLv, to: x.tgtLv }) : '<div class="hint">好感已满足，无需再喂礼物。</div>'}
+        <div class="bond-like-head"><span>喜欢礼物</span><small>库存数量可直接改</small></div>
+        ${x.fs.length ? `<div class="gift-grid">${x.fs.map(giftTile).join('')}</div>` : '<div class="hint">暂无礼物偏好数据</div>'}
       </section>`;
     })() : '';
 
@@ -4166,27 +4216,23 @@ window.BACalc = CALC.core;</script>
 
     const needGiftMap = new Map();
     for (const x of bondPlans) {
-      if (x.left <= 0) continue;
-      const g = x.best || { name: '一般紫礼', value: 120, cat: 'p' };
-      const n = Math.ceil(x.left / g.value);
-      const cur = needGiftMap.get(g.name) || { name: g.name, value: g.value, icon: g.icon, cat: g.cat, count: 0, who: new Set() };
-      cur.count += n;
+      if (x.left <= 0 || !x.best) continue;
+      const g = x.best;
+      const cur = needGiftMap.get(g.name) || { name: g.name, value: g.value, icon: g.icon, who: new Set() };
       cur.who.add(x.s.name);
       needGiftMap.set(g.name, cur);
     }
-    const needGifts = [...needGiftMap.values()].sort((a, b) => b.count - a.count);
-    const needGiftTotal = needGifts.reduce((a, g) => a + g.count, 0);
+    const needGifts = [...needGiftMap.values()].sort((a, b) => b.value - a.value);
     const giftSummaryHTML = bondChars ? `<section class="gift-summary">
       <div class="gs-head">
-        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>还需礼物汇总</h3><p>按每个角色最高效率礼物估算，库存已抵扣后的剩余需求。</p></div>
-        <div class="gs-total"><b>${num(needGiftTotal)}</b><span>件礼物</span></div>
+        <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>按每个角色的最高效率礼物估算；这里只看加值，数量直接在角色礼物格里填。</p></div>
       </div>
       ${needGifts.length ? `<div class="gs-grid">${needGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
-        ${g.cat ? `<span class="gift-ico generic ${g.cat}" aria-hidden="true">${g.cat === 'p' ? '紫' : '金'}</span>` : img(iconUrl(g.icon), 'gs-ico', g.name)}
+        ${img(iconUrl(g.icon), 'gs-ico', g.name)}
         <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
-        <b class="gs-count">×${num(g.count)}</b>
-      </div>`).join('')}</div>` : '<div class="gs-empty">当前所有好感目标都已满足，不需要再喂礼物。</div>'}
-      <div class="gs-foot"><span>合计 ${num(needGiftTotal)} 件</span><button class="tbtn" type="button" data-giftlib>打开礼物库 →</button></div>
+        <b class="gs-value">+${g.value}</b>
+      </div>`).join('')}</div>` : '<div class="gs-empty">当前没有需要额外保留的礼物。</div>'}
+      <div class="gs-foot"><span></span><button class="tbtn" type="button" data-giftlib>打开礼物库 →</button></div>
     </section>` : '';
 
     const bondHTML = bondChars ? `<section class="bond-dash">
@@ -4612,17 +4658,43 @@ window.BACalc = CALC.core;</script>
         });
       });
       bondEl.addEventListener('input', (e) => {
+        const gi = e.target.closest('[data-bond-gift]');
+        if (gi) {
+          setInv('gift:' + gi.dataset.bondGift, gi.value);
+          save();
+          updateBondReach(gi);
+          return;
+        }
         const br = e.target.closest('[data-bond-range]');
-        if (!br) return;
-        const label = br.closest('.bond-slider')?.querySelector('[data-bond-label]');
-        if (label) label.textContent = `Lv ${br.value}`;
+        if (br) {
+          const label = br.closest('.bond-slider')?.querySelector('[data-bond-label]');
+          if (label) label.textContent = `Lv ${br.value}`;
+          const numInput = br.closest('.bd-target')?.querySelector('[data-bond-target]');
+          if (numInput) numInput.value = br.value;
+          return;
+        }
+        const ti = e.target.closest('[data-bond-target]');
+        if (ti) {
+          const range = ti.closest('.bd-target')?.querySelector('[data-bond-range]');
+          if (range) range.value = ti.value;
+          const label = ti.closest('.bd-target')?.querySelector('[data-bond-label]');
+          if (label) label.textContent = `Lv ${ti.value}`;
+        }
       });
       bondEl.addEventListener('change', (e) => {
+        const gi = e.target.closest('[data-bond-gift]');
+        if (gi) {
+          renderResult();
+          return;
+        }
         const br = e.target.closest('[data-bond-range]');
-        if (!br) return;
-        const e0 = state.plan.find((p) => String(p.id) === br.dataset.bondRange);
+        const ti = e.target.closest('[data-bond-target]');
+        const el = br || ti;
+        if (!el) return;
+        const id = br ? br.dataset.bondRange : ti.dataset.bondTarget;
+        const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(id));
         if (!e0) return;
-        e0.tgt.bond = clampInt(br.value, e0.cur.bond, 100, e0.tgt.bond);
+        e0.tgt.bond = clampInt(br ? br.value : ti.value, 1, 100, e0.tgt.bond);
         save();
         renderPlan();
         renderResult();
