@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="3e4f055c15">
+<meta name="build" content="3b27dd6823">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2196,6 +2196,11 @@ body{background:transparent!important}
 .gs-ico.generic{width:30px;height:30px;border-radius:8px}
 @media (max-width:560px){.generic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-width:none}}
 @media print{.gt-generic{display:none!important}}
+
+/* v67.7: 说明页两段信息来源并排 */
+.intro-list li.intro-inline{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 22px}
+.intro-list li.intro-inline span:last-child{color:#8ee3d3}
+@media (max-width:600px){.intro-list li.intro-inline{gap:2px 12px}}
 </style>
 </head>
 <body class="intro-open">
@@ -2205,13 +2210,13 @@ body{background:transparent!important}
     <h2 id="introTitle">蔚蓝档案 · 养成差量计算器</h2>
     <p class="intro-lead">该网站仅用来学习技术实现和个人需求定制。</p>
     <ul class="intro-list">
-      <li>能满足你一切需求的只有 <b>arona.icu</b></li>
+      <li>能满足你一切需求的只有官方或者热门网站</li>
       <li>数据来源于公开的夏莱BD、图书馆以及部分的手动填入</li>
-      <li>如有侵权请联系</li>
       <li>该网站只是用于群友需求而制作的，主要针对好感系统</li>
+      <li class="intro-inline"><span>如有侵权请联系</span><span>手机浏览器请用pc页面食用</span></li>
     </ul>
     <button id="introEnter" class="intro-enter" type="button">已了解，进入网站</button>
-    <small>背景图由用户提供 · v67.1</small>
+    <small>背景图由用户提供 · v67.7</small>
   </div>
 </div>
 <a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
@@ -2239,8 +2244,8 @@ body{background:transparent!important}
   </div>
   <div class="topbar">
     <div class="tb-group">
-      <button id="btnExport" class="tbtn primary" title="导出本次配置 JSON">💾 导出配置</button>
-      <button id="btnImport" class="tbtn" title="导入上次的配置 JSON">📂 导入配置</button>
+      <button id="btnExport" class="tbtn primary" title="复制本次配置链接（可在另一台设备粘贴导入）">💾 导出配置</button>
+      <button id="btnImport" class="tbtn" title="粘贴配置链接或 JSON">📂 导入配置</button>
       <button id="btnShare" class="tbtn" title="复制分享链接">🔗 分享</button>
     </div>
     <div class="tb-group compact">
@@ -2270,7 +2275,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 3e4f055c15</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 3b27dd6823</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2371,8 +2376,8 @@ body{background:transparent!important}
 
 <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="box">
-    <h3 id="modalTitle">粘贴 / 编辑配置 JSON</h3>
-    <textarea id="ta" aria-label="配置 JSON" placeholder='{"plan":[...],"inv":{}}'></textarea>
+    <h3 id="modalTitle">粘贴配置链接 / JSON</h3>
+    <textarea id="ta" aria-label="配置链接或 JSON" placeholder="粘贴分享链接（含 #p=），或配置 JSON"></textarea>
     <div class="row"><button id="mClose" class="btn ghost" type="button">关闭</button><button id="mLoad" class="btn" type="button">载入</button></div>
   </div>
 </div>
@@ -5446,7 +5451,19 @@ window.BACalc = CALC.core;</script>
     };
 
     const btnExportEl = $('#btnExport');
-    if (btnExportEl) btnExportEl.addEventListener('click', () => {
+    if (btnExportEl) btnExportEl.addEventListener('click', async () => {
+      const share = shareUrl();
+      if (share) {
+        try {
+          await navigator.clipboard.writeText(share);
+          toast('配置链接已复制，导入时直接粘贴');
+        } catch {
+          if (typeof prompt === 'function') prompt('复制配置链接', share);
+          else toast('当前浏览器不支持自动复制，请用「分享」');
+        }
+        return;
+      }
+      /* 链接过长时保留 JSON 下载兜底 */
       const payload = { v: 2, savedAt: new Date().toISOString(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, mix: state.mix, gift: state.gift };
       const blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -5476,16 +5493,24 @@ window.BACalc = CALC.core;</script>
     $('#modal').addEventListener('click', (e) => { if (e.target.id === 'modal' || e.target.id === 'mClose') $('#modal').classList.remove('on'); });
     $('#mLoad').addEventListener('click', () => {
       try {
-        const parsed = parseSave($('#ta').value);
-        if (!parsed.plan.length && !Object.keys(parsed.inv).length) throw new Error('empty');
+        const raw = String($('#ta').value || '').trim();
+        let parsed;
+        const hit = raw.match(/#p=([A-Za-z0-9_-]+)/) || raw.match(/(?:^|[?&])p=([A-Za-z0-9_-]+)/);
+        if (hit) {
+          const d = decodeShare(hit[1]);
+          parsed = { plan: d.plan || [], bondOnly: d.bondOnly || [], inv: d.inv || {} };
+        } else {
+          parsed = parseSave(raw);
+        }
+        if (!parsed.plan.length && !Object.keys(parsed.inv || {}).length) throw new Error('empty');
         state.plan = parsed.plan;
         state.bondOnly = parsed.bondOnly || [];
-        state.inv = parsed.inv;
+        state.inv = parsed.inv || {};
         if (parsed.mix && typeof parsed.mix === 'object') state.mix = parsed.mix;
         $('#modal').classList.remove('on');
         renderCandidates(); renderPlan(); renderResult(); save();
-        toast(`已导入 ${parsed.plan.length} 个角色、${Object.keys(parsed.inv).length} 条库存`);
-      } catch { toast('未识别的存档格式，已保持原数据不变'); }
+        toast(`已导入 ${parsed.plan.length} 个角色、${Object.keys(state.inv).length} 条库存`);
+      } catch { toast('未识别的配置链接/存档，已保持原数据不变'); }
     });
 
     const intro = $('#intro');
