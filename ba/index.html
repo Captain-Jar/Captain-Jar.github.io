@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="338c6d0bf4">
+<meta name="build" content="4584c13ae6">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1746,6 +1746,203 @@ header.top,main,.foot{position:relative;z-index:2}
 .topbar .bgm-btn.playing{background:linear-gradient(135deg,#f472b6,#a855f7);color:#fff;border-color:transparent}
 .topbar .bgm-btn.missing{opacity:.4}
 @media print{.topbar .bgm-btn{display:none!important}}
+
+/* =====================================================================
+   v65 · 薄荷晴空
+   只改视觉与布局，不改计算逻辑
+   ===================================================================== */
+:root{
+  --bg:#F6FBFB;
+  --card:rgba(255,255,255,.90);
+  --ink:#243247;
+  --dim:#7D8CA3;
+  --line:#E5EEF3;
+  --blue:#5BB8A6;
+  --blue-d:#3A9B8B;
+  --green:#4CAF93;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(52,96,120,.06);
+  --shadow-h:0 14px 34px rgba(52,96,120,.10);
+}
+body{background:var(--bg);color:var(--ink)}
+header.top{
+  background:rgba(255,255,255,.78);border-bottom:1px solid rgba(229,238,243,.75);
+  box-shadow:none;padding:14px 22px 12px;
+}
+header.top h1::before{background:linear-gradient(180deg,#7FD6C7,#4CAF93)}
+main{max-width:1240px;padding:22px 16px 88px}
+.picker,.plan,.result{
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:20px;
+  box-shadow:0 18px 44px -38px rgba(41,88,99,.42);
+  backdrop-filter:blur(14px);
+}
+.picker{padding:20px 22px 16px;margin-bottom:16px}
+.plan{padding:20px 22px;margin-bottom:16px}
+.result{padding:22px 24px 26px}
+[data-step]::before{
+  display:inline-flex;align-items:center;height:22px;padding:0 10px;margin-bottom:12px;
+  border-radius:999px;background:#E9F8F4;color:#2F9B88;
+  font-size:10.5px;font-weight:800;letter-spacing:.12em;
+}
+.tools{gap:8px;margin-bottom:12px}
+#q{
+  height:44px;border:1px solid #E1ECEF;border-radius:12px;background-color:#F8FCFC;
+  font-size:13.5px;box-shadow:none;
+}
+#q:focus{border-color:#9BDCCF;box-shadow:0 0 0 4px rgba(91,184,166,.12)}
+.chips{gap:6px}
+.chip{
+  padding:6px 12px;border:1px solid #E1ECEF;border-radius:999px;
+  background:#fff;color:#5F7182;font-size:12px;
+}
+.chip:hover{border-color:#A9DED4;color:#2F9B88;background:#F5FCFA}
+.chip.on{
+  background:linear-gradient(135deg,#6BCBBC,#3FAE9D);border-color:transparent;color:#fff;
+  box-shadow:0 8px 18px -12px rgba(63,174,157,.9);
+}
+.cands{
+  grid-template-columns:repeat(auto-fill,minmax(156px,1fr));gap:8px;
+  max-height:none;overflow:visible;padding:0;
+  -webkit-mask-image:none;mask-image:none;
+}
+.cand{
+  min-height:64px;padding:7px 9px;border:1px solid #E7EFF2;border-radius:12px;
+  background:rgba(255,255,255,.92);box-shadow:none;gap:8px;
+}
+.cand:hover{
+  transform:none;border-color:#A9DED4;background:#fff;
+  box-shadow:0 10px 22px -18px rgba(63,174,157,.55);
+}
+.cand-ava{width:40px;height:40px;border-radius:10px}
+.cand .nm{font-size:13.5px}
+.cand .meta{font-size:10.5px;color:#8B9AAA}
+.cand-plus{
+  margin-left:auto;width:22px;height:22px;border-radius:50%;flex:0 0 auto;
+  display:grid;place-items:center;background:#EDF9F5;color:#2F9B88;
+  font-size:14px;font-weight:800;line-height:1;
+}
+.cand:hover .cand-plus{background:#5BB8A6;color:#fff}
+.cand-note{
+  grid-column:1/-1;background:transparent;border:0;border-radius:0;
+  padding:4px 2px 0;text-align:left;font-size:11px;color:#8B9AAA;
+}
+.morewrap{padding-top:8px;text-align:center}
+.morewrap .tbtn{
+  border:1px solid #DDEBEE;background:rgba(255,255,255,.8);color:#4E7180;
+  border-radius:999px;padding:7px 16px;font-size:12px;
+}
+.morewrap .tbtn:hover{border-color:#A9DED4;color:#2F9B88;background:#F5FCFA}
+.plan .card{
+  border:1px solid #E7EFF2;border-radius:16px;padding:16px;
+  background:rgba(255,255,255,.94);box-shadow:none;margin-bottom:12px;
+}
+.plan .card:hover{transform:none;border-color:#D7EAE7;box-shadow:0 18px 38px -34px rgba(41,88,99,.45)}
+.plan .card header{margin-bottom:10px;align-items:flex-start}
+.plan .ava{width:50px;height:50px;border-radius:14px;box-shadow:none}
+.ttl-txt b{font-size:17px}
+.ttl-sub .tag{border-radius:7px;background:#F2F7F8;color:#688091;font-size:10px}
+.ttl-sub .tag.star{background:#FFF5E5;color:#B78A2E}
+.acts{gap:6px;align-items:center}
+.mini{
+  padding:6px 11px;border:1px solid #E1ECEF;border-radius:999px;background:#fff;
+  color:#5F7182;font-size:12px;box-shadow:none;
+}
+.mini:hover{border-color:#A9DED4;color:#2F9B88;background:#F5FCFA}
+.mini.primary{
+  background:linear-gradient(135deg,#6BCBBC,#3FAE9D);border-color:transparent;color:#fff;
+  box-shadow:0 8px 18px -12px rgba(63,174,157,.85);
+}
+.mini.primary:hover{color:#fff;background:linear-gradient(135deg,#5BBFAF,#349B8B)}
+.plan .card .acts .mini.danger{
+  color:#B56A7B;background:transparent;border-color:transparent;padding-right:4px;
+}
+.plan .card .acts .mini.danger:hover{color:#A8445A;background:#FFF4F6;border-color:#F4D5DD}
+.opts{gap:6px;margin:8px 0}
+.opt,.tag,.opt.off{font-size:10.5px}
+.favrow{margin:8px 0 10px;gap:7px}
+.favico{width:30px;height:30px}
+.favimg{width:100%;height:100%}
+
+/* 03 当前/目标三列表格 */
+.plan-levels{margin-top:10px}
+.ptable{
+  border:1px solid #E7EFF2;border-radius:14px;overflow:hidden;background:#fff;
+}
+.pt-head,.pt-row{
+  display:grid;grid-template-columns:72px minmax(0,1fr) minmax(0,1fr) 64px;
+  gap:8px;align-items:center;padding:7px 12px;
+}
+.pt-head{
+  background:#F7FBFA;color:#8B9AAA;font-size:10px;font-weight:700;
+  letter-spacing:.08em;border-bottom:1px solid #EDF4F5;
+}
+.pt-head span:nth-child(3){color:#2F9B88}
+.pt-row{border-top:1px solid #F1F6F7;min-height:40px}
+.pt-head + .pt-row{border-top:0}
+.pt-label{font-size:11.5px;color:#64748B;font-weight:600;white-space:nowrap}
+.pt-cell{min-width:0;display:flex;flex-direction:column;gap:2px}
+.pt-cell.tgt{
+  background:#F0FAF7;border-radius:8px;padding:3px 5px;
+}
+.pt-cell input,.pt-cell select{
+  width:100%;height:30px;padding:0 7px;border:1px solid #E0ECEF;border-radius:7px;
+  background:#fff;color:#304357;font-size:12px;outline:none;
+}
+.pt-cell input:focus,.pt-cell select:focus{
+  border-color:#9BDCCF;box-shadow:0 0 0 3px rgba(91,184,166,.12);
+}
+.pt-cell .pt-preview{font-size:9px;color:#94A3B8;line-height:1.1;padding-left:2px}
+.pt-cell .pt-preview.bad{color:#D25A6A}
+.pt-delta{font-size:10px;color:#2F9B88;text-align:right;white-space:nowrap;font-weight:700}
+.pt-eqcell{flex-direction:row;gap:4px}
+.pt-eqcell select{flex:1 1 0;min-width:0;padding:0 4px}
+.pt-group{
+  grid-column:1/-1;padding:5px 12px;background:#F7FBFA;color:#8B9AAA;
+  font-size:9.5px;font-weight:800;letter-spacing:.14em;border-top:1px solid #EDF4F5;
+}
+@media (max-width:760px){
+  .picker{padding:16px 14px 12px}
+  .plan{padding:16px 14px}
+  [data-step]::before{margin-bottom:10px}
+  #schools{flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+  #schools .chip{flex:0 0 auto}
+  .cands{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .cand{min-height:58px;padding:6px 7px}
+  .cand-ava{width:36px;height:36px}
+  .cand .nm{font-size:12.5px}
+  .cand .meta{font-size:9.5px}
+  .cand-plus{width:20px;height:20px;font-size:12px}
+  .plan .card{padding:12px}
+  .plan .card header{gap:8px}
+  .acts{width:100%}
+  .pt-head,.pt-row{grid-template-columns:48px minmax(0,1fr) minmax(0,1fr) 42px;gap:5px;padding:6px 8px}
+  .pt-cell input,.pt-cell select{height:28px;font-size:11px;padding:0 4px}
+  .pt-delta{font-size:9px}
+  .pt-label{font-size:10.5px}
+}
+@media print{.bgm-btn,.snow{display:none!important}}
+
+[hidden]{display:none!important}
+
+
+/* v65: 好感总览融入薄荷底，不再整块粉色 */
+.bond-dash{
+  border-color:#E7EFF2;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F7FCFB 52%,#FFF8FB 100%);
+  box-shadow:0 18px 44px -38px rgba(41,88,99,.38);
+}
+.bd-eyebrow{color:#D982A9}
+.bd-head h2{color:#243247}
+.bd-head p{color:#7D8CA3}
+.bd-stats>div{background:rgba(255,255,255,.9);border-color:#E7EFF2}
+.bd-stats b{color:#243247}
+.bd-stats span{color:#8B9AAA}
+.bd-actions .tbtn{background:#fff;border-color:#E1ECEF;color:#5F7182}
+.bd-actions .tbtn:hover{border-color:#A9DED4;color:#2F9B88;background:#F5FCFA}
+.bd-actions .tbtn.primary{background:linear-gradient(135deg,#6BCBBC,#3FAE9D);border-color:transparent;color:#fff}
+.plan .card .acts .mini.danger{color:#B56A7B}
 </style>
 </head>
 <body>
@@ -1788,7 +1985,7 @@ header.top,main,.foot{position:relative;z-index:2}
       <div id="stars" class="chips"></div>
     </div>
     <div id="candidates" class="cands"></div>
-    <div class="morewrap"><button id="moreBtn" class="tbtn">展开全部 194 人 ▾</button></div>
+    <div class="morewrap"><button id="moreBtn" class="tbtn">加载更多 ▾</button></div>
   </section>
 
   <section id="plan" class="plan" data-step="03 · 规划与目标"></section>
@@ -1799,7 +1996,7 @@ header.top,main,.foot{position:relative;z-index:2}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 338c6d0bf4</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 4584c13ae6</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2759,54 +2956,72 @@ window.BACalc = CALC.core;</script>
       return (s.name + s.nameJp + s.schoolCn).toLowerCase().includes(q);
     });
     const expanded = $('#candidates').classList.contains('expanded');
-    const shown = expanded || q ? list : list.slice(0, 6);
-    const note = !expanded && !q && list.length > shown.length
-      ? `<div class="cand-note">只显示一行 ${shown.length} 人，共 ${list.length} 人；搜索或点「展开全部」继续</div>` : '';
+    const shown = expanded || q ? list : list.slice(0, 12);
+    const note = list.length
+      ? `<div class="cand-note">${q || expanded ? `共 ${list.length} 名` : `还可加入 ${list.length} 名 · 当前显示 ${shown.length} 名`}</div>`
+      : '';
     $('#candidates').innerHTML = (shown.length
-      ? shown.map((s) => `<button class="cand" data-add="${s.id}">
+      ? shown.map((s) => `<button class="cand" data-add="${s.id}" title="加入 ${esc(s.name)}">
            ${img(studentIcon(s.id), 'cand-ava', s.name)}
            <span class="cand-txt"><span class="nm">${esc(s.name)}</span>
            <span class="meta">${esc(s.schoolCn)} · ${'★'.repeat(s.initialStar)}</span></span>
+           <span class="cand-plus" aria-hidden="true">＋</span>
          </button>`).join('')
       : '<div class="empty">没有可添加的角色（换关键词或清空筛选）</div>') + note;
+    const mb = $('#moreBtn');
+    if (mb) {
+      const canMore = !q && (list.length > 12 || expanded);
+      mb.hidden = !canMore;
+      mb.textContent = expanded ? '收起列表 ▴' : '加载更多 ▾';
+    }
   }
 
   /* ---------------- 渲染：规划卡片 ---------------- */
-  function cfgHTML(e, which) {
+  function planTableHTML(e) {
     const s = byId[e.id];
-    const c = e[which];
-    const p = lv2cfg(c);
-    const starOpts = [1, 2, 3, 4, 5, 6, 7, 8].map((v) => {
-      const dis = v < s.initialStar ? ' disabled' : '';
-      return `<option value="${v}"${c.star === v ? ' selected' : ''}${dis}>${T.starName[v]}</option>`;
-    }).join('');
-    const eq = s.equipment.map((slot, i) => {
-      const t = c.equips[i] || { tier: 1, level: 1 };
-      const tOpts = Array.from({ length: 10 }, (_, k) => k + 1)
-        .map((v) => `<option value="${v}"${t.tier === v ? ' selected' : ''}>T${v}</option>`).join('');
-      const lOpts = Array.from({ length: 10 }, (_, k) => k + 1)
-        .map((v) => `<option value="${v}"${t.level === v ? ' selected' : ''}>Lv${v}</option>`).join('');
-      return `<div class="eqrow">
-        <span class="eqname">${esc(slot.slotCn)}</span>
-        <select data-eq-tier="${i}" data-side="${which}">${tOpts}</select>
-        <select data-eq-level="${i}" data-side="${which}">${lOpts}</select>
+    const cur = e.cur;
+    const tgt = e.tgt;
+    const cp = lv2cfg(cur);
+    const tp = lv2cfg(tgt);
+    const starSel = (cfg, side) => `<select data-f="star" data-side="${side}">${
+      [1, 2, 3, 4, 5, 6, 7, 8].map((v) => `<option value="${v}"${cfg.star === v ? ' selected' : ''}${v < s.initialStar ? ' disabled' : ''}>${T.starName[v]}</option>`).join('')
+    }</select>`;
+    const skillCell = (cfg, side) => `<div class="pt-cell">
+      <input data-f="skill" data-side="${side}" value="${esc(cfg.skill)}" maxlength="4" placeholder="5MMM / 5777 / m">
+      <small class="preview pt-preview">${CALC.formatSkillLevels(side === 'cur' ? cp : tp)}</small>
+    </div>`;
+    const numCell = (f, cfg, side, max) => `<div class="pt-cell">
+      <input type="number" min="1" max="${max}" data-f="${f}" data-side="${side}" value="${cfg[f]}">
+    </div>`;
+    const dStar = tgt.star > cur.star ? `+${tgt.star - cur.star}★` : '—';
+    const dLevel = tgt.level > cur.level ? `+${tgt.level - cur.level} 级` : '—';
+    const dBond = tgt.bond > cur.bond ? `+${tgt.bond - cur.bond}` : '—';
+    const eqRows = s.equipment.map((slot, i) => {
+      const c = cur.equips[i] || { tier: 1, level: 1 };
+      const t = tgt.equips[i] || { tier: 1, level: 1 };
+      const opt = (n, selected, prefix) => `<option value="${n}"${selected === n ? ' selected' : ''}>${prefix}${n}</option>`;
+      return `<div class="pt-row pt-eq">
+        <span class="pt-label">${esc(slot.slotCn)}</span>
+        <div class="pt-cell pt-eqcell">
+          <select data-eq-tier="${i}" data-side="cur">${Array.from({ length: 10 }, (_, k) => opt(k + 1, c.tier, 'T')).join('')}</select>
+          <select data-eq-level="${i}" data-side="cur">${Array.from({ length: 10 }, (_, k) => opt(k + 1, c.level, 'Lv')).join('')}</select>
+        </div>
+        <div class="pt-cell pt-eqcell tgt">
+          <select data-eq-tier="${i}" data-side="tgt">${Array.from({ length: 10 }, (_, k) => opt(k + 1, t.tier, 'T')).join('')}</select>
+          <select data-eq-level="${i}" data-side="tgt">${Array.from({ length: 10 }, (_, k) => opt(k + 1, t.level, 'Lv')).join('')}</select>
+        </div>
+        <span class="pt-delta">${c.tier === t.tier && c.level === t.level ? '—' : `T${c.tier}→T${t.tier}`}</span>
       </div>`;
     }).join('');
-
-    return `
-      <div class="cfg">
-        <div class="fld"><label>星级</label>
-          <select data-f="star" data-side="${which}">${starOpts}</select></div>
-        <div class="fld"><label>技能</label>
-          <input data-f="skill" data-side="${which}" value="${esc(c.skill)}" maxlength="4"
-                 placeholder="5MMM / 5777 / m">
-          <span class="preview">${CALC.formatSkillLevels(p)}</span></div>
-        <div class="fld"><label>等级</label>
-          <input type="number" min="1" max="90" data-f="level" data-side="${which}" value="${c.level}"></div>
-        <div class="fld"><label>好感</label>
-          <input type="number" min="1" max="100" data-f="bond" data-side="${which}" value="${c.bond}"></div>
-        ${eq}
-      </div>`;
+    return `<div class="ptable">
+      <div class="pt-head"><span>项目</span><span>当前</span><span>目标</span><span>变化</span></div>
+      <div class="pt-row"><span class="pt-label">星级</span><div class="pt-cell">${starSel(cur, 'cur')}</div><div class="pt-cell tgt">${starSel(tgt, 'tgt')}</div><span class="pt-delta">${dStar}</span></div>
+      <div class="pt-row"><span class="pt-label">技能</span>${skillCell(cur, 'cur')}${skillCell(tgt, 'tgt')}<span class="pt-delta">${cur.skill === tgt.skill ? '—' : '变更'}</span></div>
+      <div class="pt-row"><span class="pt-label">等级</span>${numCell('level', cur, 'cur', 90)}${numCell('level', tgt, 'tgt', 90)}<span class="pt-delta">${dLevel}</span></div>
+      <div class="pt-row"><span class="pt-label">好感</span>${numCell('bond', cur, 'cur', 100)}${numCell('bond', tgt, 'tgt', 100)}<span class="pt-delta">${dBond}</span></div>
+      <div class="pt-group">装备</div>
+      ${eqRows}
+    </div>`;
   }
 
   function renderPlan() {
@@ -2829,8 +3044,8 @@ window.BACalc = CALC.core;</script>
             </div>
           </div>
           <div class="acts">
-            <button class="mini" data-act="full">目标全满</button>
-            <button class="mini" data-act="same" title="把目标设置成和当前一样，该角色不产生缺口">跳过此角色（目标=当前）</button>
+            <button class="mini primary" data-act="full">目标全满</button>
+            <button class="mini" data-act="same" title="把目标设置成和当前一样，该角色不产生缺口">跳过此角色</button>
             <button class="mini danger" data-act="del">移除</button>
           </div>
         </header>
@@ -2848,9 +3063,8 @@ window.BACalc = CALC.core;</script>
             ${img(itemIcon(g.icon), 'favimg', g.name)}<i>${g.value >= 240 ? '💖' : '❤'}</i></span>`).join('')
             || '<span class="opt off">暂无礼物偏好数据</span>'}
         </div>
-        <div class="cols">
-          <div class="col"><h4>当前</h4>${cfgHTML(e, 'cur')}</div>
-          <div class="col tgt"><h4>目标</h4>${cfgHTML(e, 'tgt')}</div>
+        <div class="plan-levels">
+          ${planTableHTML(e)}
         </div>
       </article>`;
     }).join('');
@@ -4951,8 +5165,7 @@ window.BACalc = CALC.core;</script>
 
     const moreBtn = $('#moreBtn');
     if (moreBtn) moreBtn.addEventListener('click', () => {
-      const open = $('#candidates').classList.toggle('expanded');
-      moreBtn.textContent = open ? '收起列表 ▴' : `展开全部 ${S.length} 人 ▾`;
+      $('#candidates').classList.toggle('expanded');
       renderCandidates();
     });
 
