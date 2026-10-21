@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="06c37f7a7f">
+<meta name="build" content="a0f4ce31a3">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -130,9 +130,9 @@ main{max-width:1240px;margin:0 auto;padding:18px 16px 90px}
 .repo-item input{width:74px;flex:0 0 auto;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;
   text-align:right;font-weight:700;font-size:13.5px;outline:none;font-variant-numeric:tabular-nums}
 .repo-item input:focus{border-color:var(--blue)}
-html[data-theme="dark"] .repo-box{background:#161d29}
-html[data-theme="dark"] .repo-item{background:#1b2431;border-color:#263246}
-html[data-theme="dark"] .repo-item input{background:#131a25;color:#e6ebf3;border-color:#2a3648}
+
+
+
 @media (max-width:760px){
   .repo{padding:0}
   .repo-box{max-height:100vh;border-radius:0;height:100%}
@@ -146,8 +146,8 @@ html[data-theme="dark"] .repo-item input{background:#131a25;color:#e6ebf3;border
   font-size:12.5px;color:#5c6b82;cursor:pointer}
 .vtab.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
 .vtab i{font-style:normal;margin-left:5px;background:rgba(0,0,0,.12);border-radius:999px;padding:0 5px;font-size:11px}
-html[data-theme="dark"] .vtab{background:#1b2431;border-color:#263246;color:#a9b8cc}
-html[data-theme="dark"] .vtab.on{background:var(--blue);color:#fff}
+
+
 
 /* ================= 截图导入 ================= */
 .shot-adjust{background:#0f1724;border-radius:14px;padding:12px;margin-bottom:16px;color:#dfe8f5}
@@ -178,10 +178,10 @@ html[data-theme="dark"] .vtab.on{background:var(--blue);color:#fff}
 .shot-card.done img{filter:grayscale(.7)}
 .shot-card.done .done-tag{position:absolute;top:6px;right:6px;background:#5b6b82;color:#fff;
   font-size:10px;padding:1px 6px;border-radius:999px;letter-spacing:.5px}
-html[data-theme="dark"] .mchip{background:#1b2431;border-color:#2a3648;color:#a9b8cc}
-html[data-theme="dark"] .shot-card.done{background:#161d29;border-color:#232d3d}
-html[data-theme="dark"] .shot-card{background:#1b2431;border-color:#263246}
-html[data-theme="dark"] .shot-card select,html[data-theme="dark"] .shot-card input{background:#131a25;color:#e6ebf3;border-color:#2a3648}
+
+
+
+
 .cands::-webkit-scrollbar{width:8px}
 .cands::-webkit-scrollbar-thumb{background:#d9e3f0;border-radius:4px}
 .cand{
@@ -219,7 +219,7 @@ html[data-theme="dark"] .shot-card select,html[data-theme="dark"] .shot-card inp
 .col h4{font-size:12.5px;color:var(--dim);font-weight:600;margin-bottom:8px;letter-spacing:1px}
 .col.tgt{background:#f4f9ff;border:1.5px solid #e3eefb;border-radius:14px;padding:12px 12px 10px}
 .col.tgt h4{color:var(--blue)}
-html[data-theme="dark"] .col.tgt{background:#14202e;border-color:#22354b}
+
 
 /* 礼物卡：上方好感值 */
 .gval{position:absolute;left:7px;top:7px;font-size:11px;font-weight:800;color:#b46ad0;background:#f7ecff;
@@ -250,11 +250,11 @@ html[data-theme="dark"] .col.tgt{background:#14202e;border-color:#22354b}
 .cico.generic b{font-weight:700;letter-spacing:.5px}
 .cico.generic.p{background:linear-gradient(160deg,#b47ae0,#7c4fc0)}
 .cico.generic.g{background:linear-gradient(160deg,#e8c063,#c08a1e)}
-html[data-theme="dark"] .mx{background:#1b2431;border-color:#263246}
-html[data-theme="dark"] .mx input{background:#131a25;color:#e6ebf3;border-color:#2a3648}
-html[data-theme="dark"] .mcard.empty{background:repeating-linear-gradient(45deg,#171f2b,#171f2b 8px,#1b2431 8px,#1b2431 16px)}
-html[data-theme="dark"] .mix{background:#16202e;border-color:#26364a}
-html[data-theme="dark"] .mix span{color:#a9b8cc}
+
+
+
+
+
 .cfg{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
 .fld{display:flex;flex-direction:column;gap:4px}
 .fld label{font-size:11.5px;color:var(--dim)}
@@ -451,44 +451,27 @@ body.folded .picker,body.folded .plan{display:none}
 @media (max-width:760px){#foldBtn{display:inline-block}}
 
 /* ---------- 夜间模式 ---------- */
-html[data-theme="dark"]{
-  --bg:#0f1520; --card:#161d29; --ink:#e6ebf3; --dim:#8d9ab0; --line:#243044;
-  --shadow:0 4px 14px rgba(0,0,0,.4); --shadow-h:0 12px 26px rgba(0,0,0,.5);
-}
-html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
-html[data-theme="dark"] header.top{background:rgba(18,25,36,.9)}
-html[data-theme="dark"] .picker,
-html[data-theme="dark"] .plan,
-html[data-theme="dark"] .resultbar,
-html[data-theme="dark"] .result,
-html[data-theme="dark"] .card{background:var(--card)}
-html[data-theme="dark"] .plan .card,
-html[data-theme="dark"] .mrow,
-html[data-theme="dark"] .box,
-html[data-theme="dark"] .plans .plan{background:#1b2431;border-color:#263246}
-html[data-theme="dark"] .mrow.hasgap{background:#2a1c22;border-color:#43262e}
-html[data-theme="dark"] .mrow.hasgap:hover{background:#321f26}
-html[data-theme="dark"] .mrow.ok{background:#161d29;border-color:#232c3b}
-html[data-theme="dark"] #q,
-html[data-theme="dark"] .fld input,
-html[data-theme="dark"] .fld select,
-html[data-theme="dark"] .eqrow select,
-html[data-theme="dark"] .cand,
-html[data-theme="dark"] .bk,
-html[data-theme="dark"] .mini,
-html[data-theme="dark"] .modal .box{background:#1b2431;color:var(--ink);border-color:#2a3648}
-html[data-theme="dark"] .chip{background:#1b2431;color:#9fb0c8;border-color:#2a3648}
-html[data-theme="dark"] .hint{background:#182a3f;color:#7cc0ff}
-html[data-theme="dark"] .concl{background:#182a3f;color:#dbe7f6}
-html[data-theme="dark"] .advice{background:linear-gradient(90deg,#152437,#17202e);color:#a9c6e8;border-left-color:#3f7fbe}
-html[data-theme="dark"] .opt{background:#1e2939;color:#a9b8cc}
-html[data-theme="dark"] .opt.role{background:#16301f;color:#7fd3a1}
-html[data-theme="dark"] .pillinv{background:#1f2a3a}
-html[data-theme="dark"] .pillinv input{color:#e6ebf3}
-html[data-theme="dark"] .subhint{background:#182333;color:#9fb0c8}
-html[data-theme="dark"] .mrow.ok .mname{color:#6b7891}
-html[data-theme="dark"] .note{color:#7c8aa0}
-html[data-theme="dark"] .modal{background:rgba(0,0,0,.6)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ================= 信用点消耗 ================= */
 .creditbox{background:linear-gradient(135deg,#16233a,#1d3557);border-radius:16px;padding:18px 20px;color:#fff;
@@ -511,13 +494,13 @@ html[data-theme="dark"] .modal{background:rgba(0,0,0,.6)}
 .crow.c-equip b{color:#a3e8c1}
 .crow.c-skill b{color:#ffd88a}
 .crow.c-star b{color:#e0aeff}
-html[data-theme="dark"] .creditbox{background:linear-gradient(135deg,#101a28,#182a42)}
+
 .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px;margin-bottom:6px}
 /* “或者”分隔的横向卡组：任选其一即可满足 */
 .mgrid.orlist{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .mgrid.orlist .mcard{width:104px;flex:0 0 auto}
 .or{font-size:11.5px;color:#9aa6b8;font-weight:600;padding:0 2px;white-space:nowrap}
-html[data-theme="dark"] .or{color:#7d8ca1}
+
 .mcard{
   position:relative;aspect-ratio:1/1;border-radius:16px;cursor:pointer;outline:none;
   display:flex;align-items:center;justify-content:center;
@@ -584,14 +567,14 @@ html[data-theme="dark"] .or{color:#7d8ca1}
 .pop-inp input{flex:1;border:0;background:transparent;font-size:17px;font-weight:800;text-align:right;outline:none;color:#1c2430}
 .pop-tip{margin-top:10px;font-size:11.5px;color:#9aa6b8}
 
-html[data-theme="dark"] .mcard{background:linear-gradient(180deg,#1b2431,#182130);border-color:#263246}
-html[data-theme="dark"] .mcard.hasgap{background:linear-gradient(180deg,#241c22,#2a1e24);border-color:#42262e}
-html[data-theme="dark"] .popup{background:#161d29;box-shadow:0 20px 50px rgba(0,0,0,.6)}
-html[data-theme="dark"] .pop-x{background:#232c3b;color:#a9b8cc}
-html[data-theme="dark"] .pop-row{color:#93a2b8}
-html[data-theme="dark"] .pop-row b{color:#e6ebf3}
-html[data-theme="dark"] .pop-inp{background:#1f2a3a}
-html[data-theme="dark"] .pop-inp input{color:#e6ebf3}
+
+
+
+
+
+
+
+
 
 @media (max-width:760px){
   .mgrid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:9px}
@@ -645,10 +628,10 @@ html,body{max-width:100%;overflow-x:hidden}
 .pop-h b{font-size:16px;line-height:1.45;padding-top:4px}
 .pop-acts{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
 .pop-acts .btn{padding:9px 20px;font-size:13.5px;border-radius:10px}
-html[data-theme="dark"] .tbtn{background:#1b2431;border-color:#2a3648;color:#9fb0c8}
-html[data-theme="dark"] .tbtn:hover{background:#1f2b3c;color:#7cc0ff;border-color:#128afa}
-html[data-theme="dark"] .giftsel{background:#1e2939}
-html[data-theme="dark"] .giftsel select{color:#dbe7f6}
+
+
+
+
 
 /* ================= 最爱礼物 ================= */
 .favrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
@@ -673,11 +656,11 @@ html[data-theme="dark"] .giftsel select{color:#dbe7f6}
 .gimg{width:30px;height:30px;border-radius:9px;object-fit:contain}
 .bgift i{font-style:normal;font-weight:800;font-size:13.5px;color:#7a5bb0}
 .bwhy{font-size:12px;color:#8b98ad;flex:1 1 160px;text-align:right}
-html[data-theme="dark"] .favlabel{background:#1e2939;color:#93a2b8}
-html[data-theme="dark"] .favico{background:#1b2431;border-color:#2a3648}
-html[data-theme="dark"] .brow{background:#1a1826;border-color:#2b2540}
-html[data-theme="dark"] .bgift{background:#1b2431;border-color:#3a3155}
-html[data-theme="dark"] .bwhy{color:#8b98ad}
+
+
+
+
+
 
 /* ================= 公共素材图标（无文字色块） ================= */
 .cico.noicon{
@@ -695,9 +678,9 @@ html[data-theme="dark"] .bwhy{color:#8b98ad}
 .ctotal small{font-size:11.5px;opacity:.66;text-align:right;margin-left:auto}
 :focus-visible{outline:2px solid #0b6fd4;outline-offset:2px;border-radius:6px}
 .mcard:focus-visible,.mcard:focus{outline:2px solid #0b6fd4;outline-offset:3px}
-html[data-theme="dark"] .foot{color:#9aa7ba}
-html[data-theme="dark"] .foot div+div{color:#7d8aa0}
-html[data-theme="dark"] .cand-note{background:#182333;border-color:#2a3a50;color:#9fb0c8}
+
+
+
 
 @media (max-width:760px){
   input,select,textarea{font-size:16px}
@@ -966,41 +949,23 @@ main{max-width:1240px;padding:20px 16px 80px}
 .foot div+div{margin-top:0;color:inherit}
 
 /* ---------- dark ---------- */
-html[data-theme="dark"]{
-  --bg:#070b14;--card:rgba(15,23,42,.92);--ink:#e5edf8;--dim:#94a3b8;
-  --line:#1e293b;--blue:#60a5fa;--blue-d:#3b82f6;
-  --shadow:0 24px 50px -36px rgba(0,0,0,.7);
-}
-html[data-theme="dark"] body{
-  background:
-    radial-gradient(1000px 520px at 8% -10%, rgba(37,99,235,.28), transparent 62%),
-    radial-gradient(800px 420px at 100% 0%, rgba(6,182,212,.16), transparent 58%),
-    var(--bg);
-}
-html[data-theme="dark"] header.top{background:rgba(15,23,42,.82);border-color:#1e293b}
-html[data-theme="dark"] .tb-group{background:#111c2e;border-color:#1e293b}
-html[data-theme="dark"] .tbtn{color:#cbd5e1}
-html[data-theme="dark"] .tbtn:hover{background:#1e293b;color:#93c5fd}
-html[data-theme="dark"] .picker,
-html[data-theme="dark"] .plan,
-html[data-theme="dark"] .result{background:rgba(15,23,42,.9);border-color:#1e293b}
-html[data-theme="dark"] .cand,
-html[data-theme="dark"] .plan .card,
-html[data-theme="dark"] .col,
-html[data-theme="dark"] .bondsec,
-html[data-theme="dark"] .mcard{background:#111c2e;border-color:#1e293b}
-html[data-theme="dark"] .col.tgt{background:#0f2038;border-color:#1e3a5f}
-html[data-theme="dark"] #q{background-color:#0b1220;border-color:#1e293b;color:#e5edf8}
-html[data-theme="dark"] .chip{background:#111c2e;border-color:#1e293b;color:#a9b8cc}
-html[data-theme="dark"] .chip.on{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
-html[data-theme="dark"] .fld input,
-html[data-theme="dark"] .fld select,
-html[data-theme="dark"] .eqrow select{background:#0b1220;border-color:#1e293b;color:#e5edf8}
-html[data-theme="dark"] .mix{background:#0f1b2c;border-color:#1e3a5f}
-html[data-theme="dark"] .empty,
-html[data-theme="dark"] .empty-big{background:#0d1726;border-color:#1e293b;color:#94a3b8}
-html[data-theme="dark"] .foot{color:#7d8aa0}
-html[data-theme="dark"] .foot-brand{color:#cbd5e1}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ---------- responsive ---------- */
 @media (max-width:1100px){
@@ -1144,29 +1109,26 @@ html[data-theme="dark"] .foot-brand{color:#cbd5e1}
 .bond-mixer summary{cursor:pointer;font-size:10.5px;color:#a855f7;font-weight:700}
 
 /* dark */
-html[data-theme="dark"] .bond-dash{
-  background:linear-gradient(135deg,#1d1026 0%,#171126 55%,#0e1a2b 100%);
-  border-color:#3b1f3a;box-shadow:0 24px 46px -36px rgba(0,0,0,.8);
-}
-html[data-theme="dark"] .bd-head h2{color:#fbcfe8}
-html[data-theme="dark"] .bd-head p{color:#b7a4c4}
-html[data-theme="dark"] .bd-ring::before{background:#111827}
-html[data-theme="dark"] .bd-ring small{color:#c4b5fd}
-html[data-theme="dark"] .bd-stats>div{background:rgba(17,24,39,.72);border-color:#3b1f3a}
-html[data-theme="dark"] .bd-stats b{color:#fbcfe8}
-html[data-theme="dark"] .bd-bar{background:#2a1b35}
-html[data-theme="dark"] .bondsec{background:#111827;border-color:#31233a;box-shadow:0 18px 36px -34px rgba(0,0,0,.8)}
-html[data-theme="dark"] .bondsec .bmeta small{color:#a78bfa}
-html[data-theme="dark"] .bk{background:#1a1226;border-color:#31233a}
-html[data-theme="dark"] .bk b{color:#e9d5ff}
-html[data-theme="dark"] .bond-best{background:linear-gradient(135deg,#241226,#1b1630);border-color:#4c1d4d}
-html[data-theme="dark"] .bb-name{color:#f5d0fe}
-html[data-theme="dark"] .gift-row{background:#0f172a;border-color:#1e293b;color:#e9d5ff}
-html[data-theme="dark"] .gift-row:hover{background:#1a1226;border-color:#7e22ce}
-html[data-theme="dark"] .gift-row.hasgap{background:#1a1220}
-html[data-theme="dark"] .gift-row.ok{background:#0c1f19;border-color:#14532d}
-html[data-theme="dark"] .gift-head{color:#7e6b8a}
-html[data-theme="dark"] .bond-mixer{border-color:#31233a}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width:760px){
   .bond-dash{padding:16px;border-radius:18px}
@@ -1246,15 +1208,15 @@ html[data-theme="dark"] .bond-mixer{border-color:#31233a}
 .gt-gap i{display:block;font-style:normal;font-size:7.5px;font-weight:500;color:#a78bfa}
 .gt-low{font-size:7.5px;font-weight:700;color:#059669}
 
-html[data-theme="dark"] .bond-empty{background:linear-gradient(135deg,#1d1026,#171126 60%,#0e1a2b);border-color:#3b1f3a}
-html[data-theme="dark"] .bond-empty b{color:#fbcfe8}
-html[data-theme="dark"] .bond-empty p{color:#b7a4c4}
-html[data-theme="dark"] .gift-tile{background:linear-gradient(180deg,#0f172a,#111827);border-color:#31233a;color:#e9d5ff}
-html[data-theme="dark"] .gift-tile:hover{background:#1a1226;border-color:#7e22ce}
-html[data-theme="dark"] .gift-tile.hasgap{background:#1a1220}
-html[data-theme="dark"] .gift-tile.ok{background:#0c1f19;border-color:#14532d}
-html[data-theme="dark"] .gt-tier{background:#1a1226;color:#c4b5fd}
-html[data-theme="dark"] .gift-title span{color:#b7a4c4}
+
+
+
+
+
+
+
+
+
 
 @media (max-width:760px){
   .bond-empty{padding:16px;border-radius:18px}
@@ -1349,24 +1311,22 @@ html[data-theme="dark"] .gift-title span{color:#b7a4c4}
 .gt-foot{font-size:8px;color:#b09bbd;margin-top:auto}
 .bond-detail .bond-mixer{margin-top:14px}
 
-html[data-theme="dark"] .bond-roster,
-html[data-theme="dark"] .bond-detail{background:#111827;border-color:#31233a;box-shadow:0 20px 40px -36px rgba(0,0,0,.85)}
-html[data-theme="dark"] .broster{background:#0f172a;color:#e9d5ff}
-html[data-theme="dark"] .broster:hover{background:#1a1226;border-color:#31233a}
-html[data-theme="dark"] .broster.active{background:linear-gradient(135deg,#241226,#1b1630);border-color:#7e22ce}
-html[data-theme="dark"] .broster-main small{color:#a78bfa}
-html[data-theme="dark"] .broster-need{color:#fda4af}
-html[data-theme="dark"] .broster-bar{background:#2a1b35}
-html[data-theme="dark"] .broster-foot{border-color:#31233a;color:#7e6b8a}
-html[data-theme="dark"] .bd-id h2{color:#fbcfe8}
-html[data-theme="dark"] .bd-id small{color:#a78bfa}
-html[data-theme="dark"] .bd-progress{background:#2a1b35}
-html[data-theme="dark"] .gift-group h4{color:#b7a4c4}
-html[data-theme="dark"] .gift-tile .gt-value small{color:#7e6b8a}
-html[data-theme="dark"] .gt-stats{border-color:#31233a}
-html[data-theme="dark"] .gt-stats b{color:#e9d5ff}
-html[data-theme="dark"] .gt-stats i,
-html[data-theme="dark"] .gt-foot{color:#7e6b8a}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width:1100px){
   .bond-shell{grid-template-columns:230px minmax(0,1fr)}
@@ -1393,7 +1353,7 @@ html[data-theme="dark"] .gt-foot{color:#7e6b8a}
 .bd-actions .tbtn{background:rgba(255,255,255,.72);border:1px solid rgba(236,72,153,.18);color:#9d174d;font-size:11px;padding:7px 11px}
 .bd-actions .tbtn:hover{background:#fff;color:#be185d;border-color:#f9a8d4}
 .bd-actions .tbtn.primary{background:linear-gradient(135deg,#ec4899,#a855f7);border-color:transparent;color:#fff}
-html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4d;color:#fbcfe8}
+
 
 
 /* =====================================================================
@@ -1448,11 +1408,11 @@ html[data-theme="dark"] .bd-actions .tbtn{background:#1a1226;border-color:#4c1d4
   background:#fff;color:#4c1d95;text-align:right;font-weight:700;font-size:12px;outline:none;
 }
 .giftlib-item input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
-html[data-theme="dark"] .giftlib-item{background:#0f172a;border-color:#1e293b}
-html[data-theme="dark"] .giftlib-item input{background:#0b1220;border-color:#1e293b;color:#fbcfe8}
-html[data-theme="dark"] .giftlib-name b{color:#e9d5ff}
-html[data-theme="dark"] .bond-add{background:#1a1226;border-color:#4c1d4d;color:#fbcfe8}
-html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
+
+
+
+
+
 
 @media (max-width:760px){
   .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px}
@@ -1508,14 +1468,14 @@ html[data-theme="dark"] .broster-del{background:#1a1226;color:#c4b5fd}
 .gs-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px dashed #f3e8ff;padding-top:9px;font-size:10px;color:#b09bbd}
 .gs-foot .tbtn{font-size:10px;padding:5px 9px;border:1px solid #f3d9ea;background:#fffafd;color:#be185d;border-radius:999px}
 
-html[data-theme="dark"] .bondadd-item{background:#0f172a;border-color:#1e293b;color:#e9d5ff}
-html[data-theme="dark"] .bondadd-item:hover{background:#1a1226;border-color:#7e22ce}
-html[data-theme="dark"] .gift-summary{background:linear-gradient(180deg,#111827,#151022);border-color:#31233a}
-html[data-theme="dark"] .gs-head h3{color:#fbcfe8}
-html[data-theme="dark"] .gs-head p{color:#a78bfa}
-html[data-theme="dark"] .gs-item{background:#0f172a;border-color:#31233a}
-html[data-theme="dark"] .gs-name b{color:#e9d5ff}
-html[data-theme="dark"] .gs-count{color:#fda4af}
+
+
+
+
+
+
+
+
 
 @media (max-width:760px){
   .bond-detail .gift-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px}
@@ -1572,13 +1532,12 @@ html[data-theme="dark"] .gs-count{color:#fda4af}
 .gift-summary .gs-value{margin-left:auto;font-size:12px;font-weight:800;color:#db2777;white-space:nowrap}
 .gift-summary .gs-foot{justify-content:flex-end}
 
-html[data-theme="dark"] .bond-statusbar>div{background:#1a1226;border-color:#31233a}
-html[data-theme="dark"] .bond-statusbar b{color:#e9d5ff}
-html[data-theme="dark"] .bond-statusbar b[data-bond-reach]{color:#f9a8d4}
-html[data-theme="dark"] .bond-target-num input,
-html[data-theme="dark"] .gift-tile input[data-bond-gift]{background:#0b1220;border-color:#31233a;color:#fbcfe8}
-html[data-theme="dark"] .gift-tile .gt-value{color:#f9a8d4}
-html[data-theme="dark"] .bond-like-head span{color:#b7a4c4}
+
+
+
+
+
+
 
 @media (max-width:760px){
   .bond-statusbar{grid-template-columns:repeat(3,1fr);gap:6px}
@@ -1661,7 +1620,7 @@ header.top,main,.foot{position:relative;z-index:1}
 .bondadd-start input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
 .gs-head .gs-print{flex:0 0 auto;align-self:flex-start;margin-top:4px;font-size:10px;padding:6px 10px;border:1px solid #f3d9ea;background:#fffafd;color:#be185d;border-radius:999px}
 .gs-head .gs-print:hover{background:#fff1f7;border-color:#f9a8d4}
-html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31233a;color:#fbcfe8}
+
 
 /* v58: 用户提供的壁纸背景 + 缓慢运镜 */
 .bg-art{
@@ -1698,6 +1657,13 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
 @media (max-width:760px){
   .bg-art{background-image:url("bg-wallpaper-portrait.webp");background-position:center 30%}
 }
+.bd-target{display:flex!important;flex-direction:column;gap:6px;align-items:stretch}
+.bd-level-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
+.bd-level-row .bond-slider{flex:1 1 240px;min-width:0}
+.bd-level-row .bond-level-range{flex:1 1 240px;min-width:0;height:18px;accent-color:#a855f7;cursor:pointer}
+.bd-level-row .bond-current-num,
+.bd-level-row .bond-target-num{flex:0 0 auto}
+.bondadd-start input[type="range"]{width:86px;height:16px;accent-color:#a855f7;cursor:pointer;padding:0;border:0;background:transparent}
 </style>
 </head>
 <body>
@@ -1725,7 +1691,6 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
       <button id="foldBtn" class="tbtn" title="折叠配置区">▴ 收起</button>
     </div>
   </div>
-  <div class="sub" id="summary" aria-live="polite" hidden></div>
 </header>
 <main>
   <section id="bond" class="bond-root" data-step="01 · 好感度养成" aria-live="polite"></section>
@@ -1749,7 +1714,7 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 06c37f7a7f</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 a0f4ce31a3</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1819,7 +1784,7 @@ html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31
       </div>
       <div class="repo-acts">
         <input id="bondAddSearch" class="vault-search" aria-label="搜索角色" placeholder="搜角色名…">
-        <label class="bondadd-start">起始 Lv <input id="bondAddStart" type="number" min="1" max="100" value="1" aria-label="起始好感等级"></label>
+        <label class="bondadd-start">起始 Lv <input id="bondAddStart" type="number" min="1" max="99" value="1" aria-label="起始好感等级"><input id="bondAddStartRange" type="range" min="1" max="99" value="1" aria-label="拖动起始好感等级"></label>
         <button id="bondAddClose" class="btn" type="button">关闭</button>
       </div>
     </header>
@@ -2401,7 +2366,6 @@ window.BACalc = CALC.core;</script>
     school: 'all',
     star: 'all',
     gift: '3★最爱礼物',
-    theme: null,
   };
 
   /** 好感系统的目标角色 = 养成计划 + 仅好感的角色（去重，plan 优先） */
@@ -2535,6 +2499,7 @@ window.BACalc = CALC.core;</script>
     for (const raw of Array.isArray(list) ? list : []) {
       const e = sanitizeEntry(raw);
       if (!e || seen.has(e.id)) continue;
+      if (e.tgt.bond <= e.cur.bond) e.tgt.bond = Math.min(100, e.cur.bond + 1);
       seen.add(e.id);
       out.push(e);
     }
@@ -2977,6 +2942,8 @@ window.BACalc = CALC.core;</script>
     if (q) q.value = '';
     const st = $('#bondAddStart');
     if (st) st.value = '1';
+    const sr = $('#bondAddStartRange');
+    if (sr) sr.value = '1';
     renderBondAdd();
     $('#bondadd').classList.add('on');
     setTimeout(() => { const i = $('#bondAddSearch'); if (i && i.focus) i.focus(); }, 30);
@@ -4001,22 +3968,6 @@ window.BACalc = CALC.core;</script>
     openAlignShot(img);
   }
 
-  async function autoImport(img) {
-    let out;
-    try { out = detectShots(img); } catch (e) { toast('识别失败：' + e.message); return; }
-    let oob = 0;
-    const rows = out.cells.map((c) => {
-      const ic = iconThumb(out.canvas, c.cx, c.cy, c.size);
-      if (ic.outOfBounds) oob++;
-      return { thumb: ic, count: c.count, feat: ic.feat };
-    });
-    appendShot(rows, img);
-    toast(rows.length ? `识别到 ${rows.length} 项` : '这张图没找到数量文字');
-    if (oob) toast(`${oob} 项超出图片范围，建议换一张完整的仓库截图`);
-    if (!SIG_CACHE.size) toast('首次使用：正在加载图标库，候选稍后出现');
-    await ensureShotSigs();
-  }
-
   function updateShotCount() {
     const cards = $$('#shotBody .shot-card');
     const filled = cards.filter((c) => Number(c.querySelector('[data-shot-num]').value) > 0
@@ -4076,13 +4027,6 @@ window.BACalc = CALC.core;</script>
   let SYNTH = new Map();            // 合成卡片（强化珠/经验书按稀有度拆开）
   const byRarity = (a, b) => (RARITY_ORDER[a.rarity] ?? 9) - (RARITY_ORDER[b.rarity] ?? 9) || b.need - a.need;
   const byTierDesc = (a, b) => (parseInt(String(b.rarity).replace('T', ''), 10) || 0) - (parseInt(String(a.rarity).replace('T', ''), 10) || 0) || b.need - a.need;
-
-  /** 1 级到 level 级的累计经验（table[i] = i+1 级升 i+2 级） */
-  function cumExp(table, level) {
-    let s = 0;
-    for (let i = 0; i < Math.min(level - 1, table.length); i++) s += table[i] || 0;
-    return s;
-  }
 
   /** 从 startLevel 起，多给 exp 经验能到几级（exp 表语义：第 i 项 = i 级升 i+1 级） */
   function levelFromExp(exp, table, max, startLevel = 1) {
@@ -4162,7 +4106,6 @@ window.BACalc = CALC.core;</script>
     LAST = r;
     if (!state.plan.length && !state.bondOnly.length) {
       $('#result').innerHTML = '<div class="empty-big">先把角色加入上方的规划列表，这里会显示材料缺口</div>';
-      $('#summary').textContent = '把角色加入规划后自动计算';
       renderBond('');
       return;
     }
@@ -4242,22 +4185,21 @@ window.BACalc = CALC.core;</script>
       if (!s) return null;
       const entry = state.plan.concat(state.bondOnly).find((x) => String(x.id) === String(p.id)) || { cur: { bond: 1 }, tgt: { bond: 100 } };
       const curLv = Math.min(100, Math.max(1, Number(entry.cur.bond) || 1));
-      const tgtLv = Math.min(100, Math.max(1, Number(entry.tgt.bond) || 100));
+      let tgtLv = Math.min(100, Math.max(1, Number(entry.tgt.bond) || 100));
+      if (tgtLv <= curLv) tgtLv = Math.min(100, curLv + 1);
       const need = p.bond.exp;
       const left = Math.max(0, p.bondLeft ?? need);
       const covered = Math.max(0, p.giftHave || 0);
       const done = left <= 0;
       const pct = need > 0 ? Math.min(100, Math.round((covered / need) * 100)) : 100;
-      const reachedLv = done ? tgtLv : levelFromExp(covered, T.bond.table, 100, curLv);
       const fs = favGifts(s);
       const best = fs[0];
-      const bestCount = best && left > 0 ? Math.ceil(left / best.value) : 0;
 
       const nextNeed = curLv < 100 ? (T.bond.table[curLv - 1] || 0) : 0;
       const enteredExp = fs.reduce((a, g) => a + toCount(state.inv['gift:' + g.name]) * g.value, 0);
       const giftReachedLv = levelFromExp(enteredExp, T.bond.table, 100, curLv);
       return {
-        p, s, entry, curLv, tgtLv, need, left, covered, done, pct, reachedLv,
+        p, s, entry, curLv, tgtLv, need, left, covered, done, pct,
         fs, best, nextNeed, enteredExp, giftReachedLv,
       };
     }).filter(Boolean);
@@ -4287,6 +4229,8 @@ window.BACalc = CALC.core;</script>
     const detailHTML = activeBond ? (() => {
       const x = activeBond;
       const giftTile = giftTileOf(x);
+      const curMax = x.curLv >= 100 ? 100 : Math.max(1, x.tgtLv - 1);
+      const tgtMin = x.curLv >= 100 ? 100 : Math.min(100, x.curLv + 1);
       return `<section class="bond-detail" data-bond-id="${x.p.id}" data-bond-cur="${x.curLv}">
         <header class="bd-person">
           ${img(studentIcon(x.s.id), 'bd-ava', x.s.name)}
@@ -4297,16 +4241,21 @@ window.BACalc = CALC.core;</script>
           </div>
           <span class="bond-state ${x.done ? 'ok' : ''}">${x.done ? '✓ 已满足' : `还需 ${num(x.left)}`}</span>
           <div class="bd-target">
-            <label class="bond-current-num">当前 Lv
-              <input type="number" min="1" max="100" value="${x.curLv}" data-bond-cur="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的当前好感等级">
-            </label>
-            <label class="bond-slider">
-              <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
-              <input type="range" min="1" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
-            </label>
-            <label class="bond-target-num">目标 Lv
-              <input type="number" min="1" max="100" value="${x.tgtLv}" data-bond-target="${x.p.id}" aria-label="输入 ${esc(x.s.name)} 的好感目标等级">
-            </label>
+            <div class="bd-level-row">
+              <label class="bond-current-num">当前 Lv
+                <input type="number" min="1" max="${curMax}" value="${x.curLv}" data-bond-cur="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的当前好感等级">
+              </label>
+              <input type="range" class="bond-level-range" min="1" max="${curMax}" value="${x.curLv}" data-bond-cur-range="${x.p.id}" aria-label="拖动 ${esc(x.s.name)} 的当前好感等级">
+            </div>
+            <div class="bd-level-row">
+              <label class="bond-slider">
+                <span>目标 <b data-bond-label>Lv ${x.tgtLv}</b></span>
+                <input type="range" min="${tgtMin}" max="100" value="${x.tgtLv}" data-bond-range="${x.p.id}" aria-label="设置 ${esc(x.s.name)} 的好感目标等级">
+              </label>
+              <label class="bond-target-num">目标 Lv
+                <input type="number" min="${tgtMin}" max="100" value="${x.tgtLv}" data-bond-target="${x.p.id}" aria-label="输入 ${esc(x.s.name)} 的好感目标等级">
+              </label>
+            </div>
           </div>
         </header>
 
@@ -4419,23 +4368,6 @@ window.BACalc = CALC.core;</script>
       ${rows.length ? creditHTML : ''}
       ${warnHTML}` : '<div class="empty-big">好感规划里的角色只算好感；把角色加入下面的养成计划后，这里才显示材料缺口。</div>';
     renderBond(bondHTML);
-
-    const gapRows = rows.filter((m) => !m.satisfied).length;
-    const hasInv = Object.keys(state.inv).length > 0;
-    const creditNeed = r.rows.credit.need;
-    const creditGap = r.rows.credit.gap;
-    const matText = hasInv
-      ? `材料 ${rows.length} 项 · ${gapRows ? `缺 ${gapRows} 项` : '全部满足'}`
-      : `材料 ${rows.length} 项`;
-    const creditText = hasInv
-      ? `信用点 ${num(creditNeed)} · ${creditGap ? `缺 ${num(creditGap)}` : '已满足'}`
-      : `信用点 ${num(r.credit)}`;
-    const bondText = bondChars
-      ? ` · 好感 ${r.bondLeft ? `还需 ${num(r.bondLeft)}` : '已满足'}${r.giftUsed ? `（库存抵 ${num(r.giftUsed)}）` : ''}`
-      : '';
-    $('#summary').textContent = state.plan.length
-      ? `${state.plan.length} 名角色 · ${matText} · ${creditText}${bondText}`
-      : `${bondChars} 名好感角色 · 仅好感规划${bondText}`;
   }
 
   /* ---------------- 库存弹层 ---------------- */
@@ -4767,15 +4699,7 @@ window.BACalc = CALC.core;</script>
         if (sel) {
           selectedBondId = sel.dataset.bondSelect;
           renderResult();
-          return;
         }
-        const gc = e.target.closest('[data-giftcard]');
-        if (!gc) return;
-        openPop('gift', gc.dataset.giftcard, {
-          value: Number(gc.dataset.gval),
-          need: Number(gc.dataset.need),
-          cat: gc.dataset.giftcat,
-        });
       });
       bondEl.addEventListener('input', (e) => {
         const gi = e.target.closest('[data-bond-gift]');
@@ -4783,6 +4707,18 @@ window.BACalc = CALC.core;</script>
           setInv('gift:' + gi.dataset.bondGift, gi.value);
           save();
           updateBondReach(gi);
+          return;
+        }
+        const cr = e.target.closest('[data-bond-cur-range]');
+        if (cr) {
+          const num = cr.closest('.bd-level-row')?.querySelector('[data-bond-cur]');
+          if (num) num.value = cr.value;
+          return;
+        }
+        const ci = e.target.closest('[data-bond-cur]');
+        if (ci) {
+          const range = ci.closest('.bd-level-row')?.querySelector('[data-bond-cur-range]');
+          if (range) range.value = ci.value;
           return;
         }
         const br = e.target.closest('[data-bond-range]');
@@ -4802,11 +4738,15 @@ window.BACalc = CALC.core;</script>
         }
       });
       bondEl.addEventListener('change', (e) => {
+        const cr = e.target.closest('[data-bond-cur-range]');
         const ci = e.target.closest('[data-bond-cur]');
-        if (ci) {
-          const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(ci.dataset.bondCur));
+        if (cr || ci) {
+          const id = cr ? cr.dataset.bondCurRange : ci.dataset.bondCur;
+          const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(id));
           if (!e0) return;
-          e0.cur.bond = clampInt(ci.value, 1, 100, e0.cur.bond);
+          const c = clampInt(cr ? cr.value : ci.value, 1, 100, e0.cur.bond);
+          e0.cur.bond = c;
+          if (e0.tgt.bond <= c) e0.tgt.bond = Math.min(100, c + 1);
           save();
           renderPlan();
           renderResult();
@@ -4824,7 +4764,9 @@ window.BACalc = CALC.core;</script>
         const id = br ? br.dataset.bondRange : ti.dataset.bondTarget;
         const e0 = state.plan.concat(state.bondOnly).find((p) => String(p.id) === String(id));
         if (!e0) return;
-        e0.tgt.bond = clampInt(br ? br.value : ti.value, 1, 100, e0.tgt.bond);
+        let t = clampInt(br ? br.value : ti.value, 1, 100, e0.tgt.bond);
+        if (t <= e0.cur.bond) t = Math.min(100, e0.cur.bond + 1);
+        e0.tgt.bond = t;
         save();
         renderPlan();
         renderResult();
@@ -4844,16 +4786,7 @@ window.BACalc = CALC.core;</script>
 
     $('#result').addEventListener('click', (e) => {
       const card = e.target.closest('[data-card]');
-      if (card) { openPop(card.dataset.card === 'credit' ? 'credit' : 'mat', card.dataset.card); return; }
-      const gc = e.target.closest('[data-giftcard]');
-      if (gc) {
-        openPop('gift', gc.dataset.giftcard, {
-          value: Number(gc.dataset.gval),
-          need: Number(gc.dataset.need),
-          cat: gc.dataset.giftcat,
-        });
-        return;
-      }
+      if (card) openPop(card.dataset.card === 'credit' ? 'credit' : 'mat', card.dataset.card);
     });
 
     // 弹层：确认 / 取消 / 点外部关闭
@@ -4861,7 +4794,7 @@ window.BACalc = CALC.core;</script>
       if (e.target.closest('[data-pop-ok]')) { applyPop(); return; }
       if (e.target.closest('[data-pop-close]')) { closePop(); return; }
       if (!POP) return;
-      if (e.target.closest('.popup') || e.target.closest('[data-card]') || e.target.closest('[data-giftcard]')) return;
+      if (e.target.closest('.popup') || e.target.closest('[data-card]')) return;
       closePop();
     });
     document.addEventListener('keydown', (e) => {
@@ -4877,7 +4810,7 @@ window.BACalc = CALC.core;</script>
       if (e.key === 'Enter' && POP && e.target.closest && e.target.closest('.popup')) { e.preventDefault(); applyPop(); return; }
       // 材料卡/礼物卡是 div[tabindex]，补上键盘 Enter/Space 激活
       if ((e.key === 'Enter' || e.key === ' ') && !POP) {
-        const card = e.target.closest && e.target.closest('[data-card],[data-giftcard]');
+        const card = e.target.closest && e.target.closest('[data-card]');
         if (card && !e.target.closest('button,input,select,textarea')) {
           e.preventDefault();
           card.click();
@@ -4892,12 +4825,6 @@ window.BACalc = CALC.core;</script>
       setTimeout(() => { if (ta && ta.focus) ta.focus(); }, 30);
     };
 
-    const btnCopyEl = $('#btnCopy');
-    if (btnCopyEl) btnCopyEl.addEventListener('click', async () => {
-      const txt = buildText();
-      try { await navigator.clipboard.writeText(txt); toast('已复制到剪贴板'); }
-      catch { openModal(txt); }
-    });
     const btnExportEl = $('#btnExport');
     if (btnExportEl) btnExportEl.addEventListener('click', () => {
       const payload = { v: 2, savedAt: new Date().toISOString(), plan: state.plan, bondOnly: state.bondOnly, inv: state.inv, mix: state.mix, gift: state.gift };
@@ -4954,8 +4881,6 @@ window.BACalc = CALC.core;</script>
       renderCandidates();
     });
 
-    const repoBtn = $('#btnRepo');
-    if (repoBtn) repoBtn.addEventListener('click', openRepo);
     const repoDone = $('#repoDone');
     if (repoDone) repoDone.addEventListener('click', closeRepo);
     const repoClear = $('#repoClear');
@@ -4973,8 +4898,6 @@ window.BACalc = CALC.core;</script>
     });
 
     /* 我的仓库 */
-    const vaultBtn = $('#btnVault');
-    if (vaultBtn) vaultBtn.addEventListener('click', openVault);
     const vaultClose = $('#vaultClose');
     if (vaultClose) vaultClose.addEventListener('click', closeVault);
     const vaultBody = $('#vaultBody');
@@ -5010,8 +4933,6 @@ window.BACalc = CALC.core;</script>
     });
 
     /* 礼物库 */
-    const giftLibBtn = $('#btnGiftLib');
-    if (giftLibBtn) giftLibBtn.addEventListener('click', openGiftLib);
     const giftlibClose = $('#giftlibClose');
     if (giftlibClose) giftlibClose.addEventListener('click', closeGiftLib);
     const giftlib = $('#giftlib');
@@ -5025,6 +4946,12 @@ window.BACalc = CALC.core;</script>
       bondAddQ = bondAddSearch.value;
       renderBondAdd();
     });
+    const bondAddStart = $('#bondAddStart');
+    const bondAddStartRange = $('#bondAddStartRange');
+    if (bondAddStart && bondAddStartRange) {
+      bondAddStart.addEventListener('input', () => { bondAddStartRange.value = bondAddStart.value; });
+      bondAddStartRange.addEventListener('input', () => { bondAddStart.value = bondAddStartRange.value; });
+    }
     const bondAddBody = $('#bondAddBody');
     if (bondAddBody) bondAddBody.addEventListener('click', (e) => {
       const b = e.target.closest('[data-bond-add-id]');
@@ -5037,7 +4964,7 @@ window.BACalc = CALC.core;</script>
         return;
       }
       const entry = mkEntry(id);
-      entry.cur.bond = clampInt($('#bondAddStart')?.value, 1, 100, 1);
+      entry.cur.bond = clampInt($('#bondAddStart')?.value, 1, 99, 1);
       entry.tgt.bond = 100;
       state.bondOnly.push(entry);
       selectedBondId = String(id);
@@ -5095,8 +5022,6 @@ window.BACalc = CALC.core;</script>
     }
 
     /* 截图导入 */
-    const shotBtn = $('#btnShot');
-    if (shotBtn) shotBtn.addEventListener('click', openShot);
     const shotClose = $('#shotClose');
     if (shotClose) shotClose.addEventListener('click', closeShot);
     const shotPick = $('#shotPick');
@@ -5220,14 +5145,6 @@ window.BACalc = CALC.core;</script>
     return { plan, bondOnly, inv: normalizeInv(invRaw), mix: (d.mix && typeof d.mix === 'object' ? d.mix : {}), version: Number(d.v) || 0 };
   }
 
-  function setTheme(t) {
-    document.documentElement.dataset.theme = t;
-    state.theme = t;
-    try { localStorage.setItem('ba-theme', t); } catch {}
-    const b = $('#themeBtn');
-    if (b) b.textContent = t === 'dark' ? '☀️ 日间' : '🌙 夜间';
-  }
-
   /** 只打印「需要保留的礼物」这一块 */
   function printGiftSummary() {
     const section = document.querySelector('.gift-summary');
@@ -5304,7 +5221,7 @@ window.BACalc = CALC.core;</script>
       .map((s) => `<button class="chip${s === 'all' ? ' on' : ''}" data-star="${s}">${s === 'all' ? '全部星级' : s + '★'}</button>`).join('');
     load();
     loadShareFromHash();
-    setTheme('light');
+    document.documentElement.dataset.theme = 'light';
     try { localStorage.removeItem('ba-theme'); } catch {}
 
     bind();
@@ -5328,6 +5245,7 @@ window.BACalc = CALC.core;</script>
     window.__baDebug = { state, computeAll, renderResult, setInv, invKey, parseSave, sanitizePlan, encodeShare, decodeShare, save };
   }
 })();
+
 
 
 
