@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="c97119a77c">
+<meta name="build" content="b451fd6ff8">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -1651,10 +1651,46 @@ header.top,main,.foot{position:relative;z-index:1}
   .bond-shell{display:block!important}
   .gift-summary{break-before:auto!important}
 }
+
+/* v58: 好感添加起始等级 / 礼物汇总打印 */
+.bondadd-start{display:flex;align-items:center;gap:5px;font-size:10px;color:#8b7a95;white-space:nowrap}
+.bondadd-start input{
+  width:58px;padding:5px 7px;border:1.5px solid #e4eaf3;border-radius:8px;
+  background:#fff;color:#4c1d95;text-align:center;font-weight:800;font-size:11px;outline:none;
+}
+.bondadd-start input:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(236,72,153,.1)}
+.gs-head .gs-print{flex:0 0 auto;align-self:flex-start;margin-top:4px;font-size:10px;padding:6px 10px;border:1px solid #f3d9ea;background:#fffafd;color:#be185d;border-radius:999px}
+.gs-head .gs-print:hover{background:#fff1f7;border-color:#f9a8d4}
+html[data-theme="dark"] .bondadd-start input{background:#0b1220;border-color:#31233a;color:#fbcfe8}
+
+/* v58: 用户提供的壁纸背景 + 缓慢运镜 */
+.bg-art{
+  position:fixed;inset:-4%;z-index:0;pointer-events:none;
+  background:url("bg-wallpaper.webp") center 38%/cover no-repeat;
+  filter:saturate(1.05) contrast(1.02);
+  animation:wallpaperDrift 28s ease-in-out infinite alternate;
+  will-change:transform;
+}
+.bg-art::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(248,250,255,.74) 0%,rgba(243,247,253,.68) 38%,rgba(240,246,255,.86) 100%),
+    radial-gradient(900px 520px at 20% 12%,rgba(255,255,255,.55),transparent 65%);
+}
+.bg-anim .orb{opacity:.2!important}
+.bg-anim .bg-grid{opacity:.1!important}
+.bg-anim .bg-stars{opacity:.24!important}
+@keyframes wallpaperDrift{
+  from{transform:scale(1.03) translate3d(-.6%,-.4%,0)}
+  to{transform:scale(1.1) translate3d(.8%,.8%,0)}
+}
+@media (max-width:760px){.bg-art{background-position:center 32%}}
+@media print{.bg-art{display:none!important}}
 </style>
 </head>
 <body>
 <a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
+<div class="bg-art" aria-hidden="true"></div>
 <div class="bg-anim" aria-hidden="true">
   <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
   <span class="bg-grid"></span><span class="bg-stars"></span>
@@ -1677,7 +1713,7 @@ header.top,main,.foot{position:relative;z-index:1}
       <button id="foldBtn" class="tbtn" title="折叠配置区">▴ 收起</button>
     </div>
   </div>
-  <div class="sub" id="summary" aria-live="polite"></div>
+  <div class="sub" id="summary" aria-live="polite" hidden></div>
 </header>
 <main>
   <section id="bond" class="bond-root" data-step="01 · 好感度养成" aria-live="polite"></section>
@@ -1701,7 +1737,7 @@ header.top,main,.foot{position:relative;z-index:1}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 c97119a77c</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB / bluearchive.wiki · 收录 194 名角色 · 构建 b451fd6ff8</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -1771,6 +1807,7 @@ header.top,main,.foot{position:relative;z-index:1}
       </div>
       <div class="repo-acts">
         <input id="bondAddSearch" class="vault-search" aria-label="搜索角色" placeholder="搜角色名…">
+        <label class="bondadd-start">起始 Lv <input id="bondAddStart" type="number" min="1" max="100" value="1" aria-label="起始好感等级"></label>
         <button id="bondAddClose" class="btn" type="button">关闭</button>
       </div>
     </header>
@@ -2926,6 +2963,8 @@ window.BACalc = CALC.core;</script>
     bondAddQ = '';
     const q = $('#bondAddSearch');
     if (q) q.value = '';
+    const st = $('#bondAddStart');
+    if (st) st.value = '1';
     renderBondAdd();
     $('#bondadd').classList.add('on');
     setTimeout(() => { const i = $('#bondAddSearch'); if (i && i.focus) i.focus(); }, 30);
@@ -4284,6 +4323,7 @@ window.BACalc = CALC.core;</script>
     const giftSummaryHTML = bondChars ? `<section class="gift-summary">
       <div class="gs-head">
         <div><span class="bd-eyebrow">GIFT SHORTLIST</span><h3>需要保留的礼物</h3><p>所有目标角色喜欢的礼物；不显示数量，库存直接在角色礼物格里填。</p></div>
+        <button class="tbtn gs-print" type="button" data-print-gifts>🖨 打印</button>
       </div>
       ${allGifts.length ? `<div class="gs-grid">${allGifts.map((g) => `<div class="gs-item" title="${esc(g.name)} · 涉及 ${[...g.who].length} 名角色">
         ${img(iconUrl(g.icon), 'gs-ico', g.name)}
@@ -4296,7 +4336,6 @@ window.BACalc = CALC.core;</script>
         <span class="gs-name"><b>${esc(g.name)}</b><small>${[...g.who].length} 名角色</small></span>
         <b class="gs-value">+${g.value}</b>
       </div>`).join('')}</div>` : '<div class="gs-empty">暂无共同需要的礼物。</div>'}
-      <div class="gs-foot"><span></span><button class="tbtn" type="button" data-giftlib>打开礼物库 →</button></div>
     </section>` : '';
 
     const bondHTML = bondChars ? `<section class="bond-dash">
@@ -4318,7 +4357,6 @@ window.BACalc = CALC.core;</script>
       <div class="bd-actions">
         <button class="tbtn primary" type="button" data-bond-all="100">全部 Lv100</button>
         <button class="tbtn" type="button" data-giftlib>🎁 礼物库</button>
-        <button class="tbtn" type="button" data-bond-pdf>🖨 导出 PDF</button>
         <button class="tbtn" type="button" data-bond-clear>清空礼物库存</button>
       </div>
     </section>
@@ -4664,6 +4702,8 @@ window.BACalc = CALC.core;</script>
     const bondEl = $('#bond');
     if (bondEl) {
       bondEl.addEventListener('click', (e) => {
+        const pr = e.target.closest('[data-print-gifts]');
+        if (pr) { printGiftSummary(); return; }
         const rm = e.target.closest('[data-bond-remove]');
         if (rm) {
           const id = rm.dataset.bondRemove;
@@ -4687,8 +4727,6 @@ window.BACalc = CALC.core;</script>
         }
         const gl = e.target.closest('[data-giftlib]');
         if (gl) { openGiftLib(); return; }
-        const pdf = e.target.closest('[data-bond-pdf]');
-        if (pdf) { exportPDF(); return; }
         const allBtn = e.target.closest('[data-bond-all]');
         if (allBtn) {
           const lv = Math.min(100, Math.max(1, Number(allBtn.dataset.bondAll) || 100));
@@ -4974,6 +5012,7 @@ window.BACalc = CALC.core;</script>
         return;
       }
       const entry = mkEntry(id);
+      entry.cur.bond = clampInt($('#bondAddStart')?.value, 1, 100, 1);
       entry.tgt.bond = 100;
       state.bondOnly.push(entry);
       selectedBondId = String(id);
@@ -5164,16 +5203,34 @@ window.BACalc = CALC.core;</script>
     if (b) b.textContent = t === 'dark' ? '☀️ 日间' : '🌙 夜间';
   }
 
-  function exportPDF() {
-    if (typeof window === 'undefined' || typeof window.print !== 'function') {
-      toast('当前浏览器不支持打印，请用浏览器菜单导出 PDF');
+  /** 只打印「需要保留的礼物」这一块 */
+  function printGiftSummary() {
+    const section = document.querySelector('.gift-summary');
+    if (!section) { toast('没有可打印的礼物汇总'); return; }
+    if (typeof window === 'undefined' || typeof window.open !== 'function') {
+      toast('当前浏览器不支持打印');
       return;
     }
-    try {
-      window.print();
-    } catch {
-      toast('打印失败，请用浏览器菜单导出 PDF');
-    }
+    const w = window.open('', '_blank', 'width=980,height=760');
+    if (!w) { toast('打印窗口被拦截，请允许弹窗后重试'); return; }
+    const css = [...document.querySelectorAll('style')].map((s) => s.textContent).join('\n');
+    const base = typeof location !== 'undefined' ? location.href : '';
+    const html = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+      <base href="${base}"><title>需要保留的礼物</title>
+      <style>${css}
+        body{background:#fff!important;padding:24px;color:#101828}
+        .gift-summary{border:0!important;box-shadow:none!important;background:#fff!important;padding:0!important;margin:0!important}
+        .gs-head{padding:0 0 8px!important}
+        .gs-print,.gs-foot{display:none!important}
+        .gs-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+        .gs-item{break-inside:avoid;background:#fff!important}
+        @page{size:A4;margin:12mm}
+      </style></head><body>${section.outerHTML}
+      <script>window.addEventListener('load',function(){setTimeout(function(){window.print()},250)});<\/script>
+      </body></html>`;
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
   }
 
   function toast(msg) {
