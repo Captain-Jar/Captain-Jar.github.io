@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="f861364753">
+<meta name="build" content="933e40cc9a">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2216,7 +2216,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 f861364753</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 Arona CN / 公开夏莱BD / 图书馆 · 国服 232/232 · 日服 232 · 国际服 232 · 同步 2026-10-21 · 构建 933e40cc9a</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -4711,12 +4711,19 @@ window.BACalc = CALC.core;</script>
       const fs = favGifts(s);
       const best = fs[0];
 
-      const nextNeed = curLv < 100 ? (T.bond.table[curLv - 1] || 0) : 0;
       const enteredExp = fs.reduce((a, g) => a + toCount(state.inv['gift:' + g.name]) * g.value, 0);
+      const totalTo = (lv) => {
+        let sum = 0;
+        for (let i = 0; i < Math.min(lv - 1, T.bond.table.length); i++) sum += T.bond.table[i] || 0;
+        return sum;
+      };
       const giftReachedLv = levelFromExp(enteredExp, T.bond.table, 100, curLv);
+      const actualExp = totalTo(curLv) + enteredExp;
+      const nextTotalExp = totalTo(Math.min(100, giftReachedLv + 1));
+      const nextGap = Math.abs(actualExp - nextTotalExp);
       return {
         p, s, entry, curLv, tgtLv, need, left, covered, done, pct,
-        fs, best, nextNeed, enteredExp, giftReachedLv,
+        fs, best, enteredExp, giftReachedLv, nextGap,
       };
     }).filter(Boolean);
 
@@ -4775,7 +4782,7 @@ window.BACalc = CALC.core;</script>
 
         <div class="bond-statusbar">
           <div><span>所需总经验</span><b>${num(x.need)}</b></div>
-          <div><span>升到下一级所需</span><b>${num(x.nextNeed)}</b></div>
+          <div><span>升到下一级所需</span><b>${num(x.nextGap)}</b></div>
           <div><span>礼物可达等级</span><b data-bond-reach>Lv ${x.giftReachedLv}</b></div>
         </div>
 
