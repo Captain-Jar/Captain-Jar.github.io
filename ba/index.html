@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>蔚蓝档案 · 养成差量计算器</title>
 <meta name="description" content="蔚蓝档案养成计算器：批量计算角色升星、技能、装备、等级、好感度所需材料与信用点，支持库存抵扣、截图导入与离线使用。">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="303364f379">
-<link rel="canonical" href="https://captain-jar.github.io/ba/">
+<meta name="build" content="13b3d875ec">
+
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
 <meta property="og:description" content="一次算清多个角色的养成缺口，自动扣库存。">
-<meta property="og:url" content="https://captain-jar.github.io/ba/">
-<meta property="og:image" content="https://captain-jar.github.io/ba/og.png">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.json">
@@ -2244,6 +2244,13 @@ body{background:transparent!important}
 }
 .gift-tile.other-tile{border-color:#e8eef5;background:linear-gradient(180deg,#fff,#fafcff)}
 .gift-tile.other-tile .gt-value{color:#64748b}
+
+.intro-gate{display:flex;gap:8px;align-items:center;justify-content:center;margin:12px 0 2px;font-size:13px;opacity:.85}
+.intro-gate[hidden]{display:none}
+.intro-gate input{width:140px;padding:7px 10px;border:1px solid rgba(18,138,250,.35);border-radius:9px;background:rgba(255,255,255,.9);font:inherit;font-size:13px}
+.intro-gate input:focus{outline:2px solid rgba(18,138,250,.45);outline-offset:1px}
+.intro-gate-hint{display:block;min-height:1.2em;margin:0 0 6px;font-size:12px;color:#d0483f;text-align:center}
+.intro-enter[disabled]{opacity:.45;cursor:not-allowed}
 </style>
 </head>
 <body class="intro-open">
@@ -2257,21 +2264,25 @@ body{background:transparent!important}
       <li>数据来源于公开的夏莱BD、图书馆以及部分的手动填入</li>
       <li>该网站只是用于群友需求而制作的，主要针对好感系统</li>
       <li class="intro-inline"><span>如有侵权请联系</span><span>手机浏览器请用pc页面食用</span></li>
+      <li>群内分享，请勿转发到其他群或公开平台</li>
     </ul>
+    <div class="intro-gate" id="gateRow">
+      <label for="gatePass">群口令</label>
+      <input id="gatePass" type="password" autocomplete="off" spellcheck="false" placeholder="问群主要">
+    </div>
+    <span class="intro-gate-hint" id="gateHint"></span>
     <button id="introEnter" class="intro-enter" type="button">已了解，进入网站</button>
-    <small>背景图由用户提供 · v67.7</small>
+    <small>背景图由用户提供 · v67.12</small>
   </div>
 </div>
-<a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
+
 <div class="bg-art" aria-hidden="true"></div>
 <div class="bg-anim" aria-hidden="true">
   <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
   <span class="bg-grid"></span><span class="bg-stars"></span>
 </div>
 <div class="snow" aria-hidden="true"></div>
-<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
-<div class="edge-controls" aria-label="背景音乐与界面透明度">
-  <button id="bgmBtn" class="bgm-btn" type="button" title="背景音乐">♪</button>
+<div class="edge-controls" aria-label="界面透明度">
   <label class="edge-opacity">透明度
     <input id="uiOpacity" type="range" min="1" max="100" value="1" step="1" aria-label="界面透明度，1 为不透明，100 为全透明">
     <b id="uiOpacityVal">1</b>
@@ -2325,9 +2336,10 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 303364f379</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 13b3d875ec</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
+  <div class="foot-legal">群内分享，请勿外传；本站不索引、不收录。</div>
 </footer>
 
 <noscript><div class="empty-big">本工具需要启用 JavaScript 才能计算。</div></noscript>
@@ -5619,8 +5631,6 @@ window.BACalc = CALC.core;</script>
       introEnter.addEventListener('click', () => {
         intro.classList.add('out');
         document.body.classList.remove('intro-open');
-        const bgm = $('#bgm');
-        if (bgm && bgm.paused) { const p = bgm.play(); if (p && p.catch) p.catch(() => {}); }
         setTimeout(() => intro.remove(), 380);
       });
     }
@@ -5923,29 +5933,6 @@ window.BACalc = CALC.core;</script>
     w.document.close();
   }
 
-  function initBGM() {
-    const a = $('#bgm');
-    const b = $('#bgmBtn');
-    if (!a || !b || typeof a.play !== 'function') return;
-    a.volume = 0.3;
-    const sync = () => b.classList.toggle('playing', !a.paused);
-    const play = () => { const p = a.play(); if (p && p.catch) p.catch(() => {}); };
-    a.addEventListener('play', sync);
-    a.addEventListener('pause', sync);
-    a.addEventListener('error', () => { b.classList.add('missing'); b.title = '未找到 bgm.mp3'; });
-    a.addEventListener('canplay', () => { b.classList.remove('missing'); });
-    b.addEventListener('click', () => { if (a.paused) play(); else a.pause(); });
-    play();
-    const once = (ev) => {
-      if (ev.target && ev.target.closest && ev.target.closest('#bgmBtn')) return;
-      if (a.paused) play();
-      document.removeEventListener('pointerdown', once);
-      document.removeEventListener('keydown', once);
-    };
-    document.addEventListener('pointerdown', once, { once: true });
-    document.addEventListener('keydown', once, { once: true });
-  }
-
   function initOpacity() {
     const s = $('#uiOpacity');
     const v = $('#uiOpacityVal');
@@ -6022,7 +6009,6 @@ window.BACalc = CALC.core;</script>
     try { localStorage.removeItem('ba-theme'); } catch {}
 
     bind();
-    initBGM();
     initOpacity();
     renderCandidates(); renderPlan(); renderResult();
 
@@ -6048,6 +6034,33 @@ window.BACalc = CALC.core;</script>
 
 
 
+</script>
+<script>
+(function(){
+  var HASH='7704059115652041';
+  var row=document.getElementById('gateRow');
+  var input=document.getElementById('gatePass');
+  var hint=document.getElementById('gateHint');
+  var btn=document.getElementById('introEnter');
+  if(!row||!input||!btn||!hint) return;
+  function h(s,seed){
+    var h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;
+    for(var i=0;i<s.length;i++){var ch=s.charCodeAt(i);
+      h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+    return 4294967296*(2097151&h2)+(h1>>>0);
+  }
+  function pass(v){return String(h('ba-gate:'+v,7))===HASH;}
+  var saved=null;try{saved=localStorage.getItem('ba-gate');}catch(e){}
+  if(saved===HASH){row.hidden=true;btn.disabled=false;return;}
+  btn.disabled=true;
+  input.addEventListener('input',function(){
+    var v=input.value.trim();
+    if(pass(v)){try{localStorage.setItem('ba-gate',HASH);}catch(e){}row.hidden=true;btn.disabled=false;hint.textContent='';}
+    else{btn.disabled=true;hint.textContent=v?'口令不对':'口令见群公告';}
+  });
+})();
 </script>
 </body>
 </html>

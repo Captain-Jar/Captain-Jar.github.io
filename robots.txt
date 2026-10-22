@@ -1,4 +1,3 @@
+# group-only: no indexing, no sitemap
 User-agent: *
-Allow: /
-
-Sitemap: https://captain-jar.github.io/ba/sitemap.xml
+Disallow: /ba/
