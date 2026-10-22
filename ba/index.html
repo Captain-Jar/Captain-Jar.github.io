@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="13b3d875ec">
+<meta name="build" content="477184bcdd">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2011,66 +2011,6 @@ main{max-width:1240px;padding:22px 16px 88px}
   .ctop{align-items:flex-start}
 }
 
-/* v66: 右侧悬浮音乐 + 透明度控制 */
-header.top,main,.foot{opacity:var(--ui-opacity,1);transition:opacity .14s ease}
-.edge-controls{
-  position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:60;
-  width:136px;display:flex;flex-direction:column;align-items:center;gap:10px;
-  pointer-events:none;
-}
-.edge-controls>*{pointer-events:auto}
-.edge-controls .bgm-btn{
-  position:relative;width:46px;height:46px;flex:0 0 auto;border-radius:50%;
-  border:1px solid rgba(255,255,255,.8);background:rgba(255,255,255,.82);
-  color:#2F9B88;font-size:18px;box-shadow:0 12px 28px -16px rgba(41,88,99,.6);
-  backdrop-filter:blur(12px);display:grid;place-items:center;
-}
-.edge-controls .bgm-btn:hover{background:#fff;color:#238C7B;transform:none}
-.edge-controls .bgm-btn.playing{
-  background:linear-gradient(135deg,#6BCBBC,#3FAE9D);color:#fff;border-color:transparent;
-}
-.edge-controls .bgm-btn::before,.edge-controls .bgm-btn::after{
-  content:"";position:absolute;inset:-1px;border-radius:50%;
-  border:1px solid rgba(91,184,166,.5);opacity:0;pointer-events:none;
-  animation:bgmRipple 2.8s ease-out infinite;animation-play-state:paused;
-}
-.edge-controls .bgm-btn::after{animation-delay:1.4s}
-.edge-controls .bgm-btn.playing::before,
-.edge-controls .bgm-btn.playing::after{animation-play-state:running}
-@keyframes bgmRipple{
-  0%{transform:scale(1);opacity:.55}
-  70%{opacity:.12}
-  100%{transform:scale(2.25);opacity:0}
-}
-.edge-opacity{
-  width:136px;display:flex;flex-direction:column;align-items:center;gap:1px;
-  padding:6px 10px 5px;border:1px solid rgba(255,255,255,.7);border-radius:12px;
-  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);
-  color:#7D8CA3;font-size:9px;line-height:1.2;box-shadow:0 10px 24px -22px rgba(41,88,99,.6);
-}
-.edge-opacity input{width:116px;height:14px;margin:0;accent-color:#5BB8A6;cursor:pointer}
-.edge-opacity b{font-size:9px;color:#2F9B88;font-variant-numeric:tabular-nums}
-.edge-controls .bgm-btn.missing{opacity:.42}
-@media (max-width:760px){
-  .edge-controls{right:4px;width:100px}
-  .edge-opacity{width:100px;padding:5px 7px}
-  .edge-opacity input{width:84px}
-  .edge-controls .bgm-btn{width:42px;height:42px}
-}
-@media (prefers-reduced-motion:reduce){.edge-controls .bgm-btn::before,.edge-controls .bgm-btn::after{animation:none}}
-
-.edge-controls .bgm-btn{right:auto;bottom:auto;left:auto;top:auto}
-
-
-.edge-controls{right:10px;width:110px}
-.edge-opacity{width:110px;padding:5px 8px}
-.edge-opacity input{width:92px}
-@media (max-width:760px){
-  .edge-controls{right:4px;width:96px}
-  .edge-opacity{width:96px;padding:5px 6px}
-  .edge-opacity input{width:80px}
-}
-
 /* v67: 日服进度标记 */
 .server-pill{
   display:inline-flex;align-items:center;height:18px;margin-left:6px;padding:0 8px;
@@ -2272,22 +2212,16 @@ body{background:transparent!important}
     </div>
     <span class="intro-gate-hint" id="gateHint"></span>
     <button id="introEnter" class="intro-enter" type="button">已了解，进入网站</button>
-    <small>背景图由用户提供 · v67.12</small>
+    <small>背景图由用户提供 · v67.15</small>
   </div>
 </div>
-
+<a href="../" title="返回我的主页" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:9px 15px;border-radius:999px;background:rgba(18,138,250,.94);color:#fff;font:600 13px/1 system-ui,-apple-system,'Microsoft YaHei',sans-serif;text-decoration:none;box-shadow:0 6px 18px rgba(18,138,250,.35)">← 返回主页</a>
 <div class="bg-art" aria-hidden="true"></div>
 <div class="bg-anim" aria-hidden="true">
   <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
   <span class="bg-grid"></span><span class="bg-stars"></span>
 </div>
 <div class="snow" aria-hidden="true"></div>
-<div class="edge-controls" aria-label="界面透明度">
-  <label class="edge-opacity">透明度
-    <input id="uiOpacity" type="range" min="1" max="100" value="1" step="1" aria-label="界面透明度，1 为不透明，100 为全透明">
-    <b id="uiOpacityVal">1</b>
-  </label>
-</div>
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true"><img src="brand-face.webp" alt=""></div>
@@ -2336,7 +2270,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 13b3d875ec</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 477184bcdd</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
   <div class="foot-legal">群内分享，请勿外传；本站不索引、不收录。</div>
@@ -5933,25 +5867,6 @@ window.BACalc = CALC.core;</script>
     w.document.close();
   }
 
-  function initOpacity() {
-    const s = $('#uiOpacity');
-    const v = $('#uiOpacityVal');
-    if (!s) return;
-    const apply = (raw) => {
-      const n = clampInt(raw, 1, 100, 1);
-      const opacity = 1 - (n - 1) / 99;
-      const root = document.documentElement;
-      if (root.style && root.style.setProperty) root.style.setProperty('--ui-opacity', String(Math.max(0, opacity)));
-      s.value = n;
-      if (v) v.textContent = n;
-      try { localStorage.setItem('ba-ui-opacity', String(n)); } catch {}
-    };
-    let saved = 1;
-    try { saved = Number(localStorage.getItem('ba-ui-opacity')) || 1; } catch {}
-    apply(saved);
-    s.addEventListener('input', () => apply(s.value));
-  }
-
   function toast(msg) {
     const t = document.createElement('div');
     t.className = 'toast';
@@ -6009,7 +5924,6 @@ window.BACalc = CALC.core;</script>
     try { localStorage.removeItem('ba-theme'); } catch {}
 
     bind();
-    initOpacity();
     renderCandidates(); renderPlan(); renderResult();
 
     // PWA：只有 http(s) 下才注册（file:// 双击打开时自动跳过）
@@ -6052,12 +5966,11 @@ window.BACalc = CALC.core;</script>
     return 4294967296*(2097151&h2)+(h1>>>0);
   }
   function pass(v){return String(h('ba-gate:'+v,7))===HASH;}
-  var saved=null;try{saved=localStorage.getItem('ba-gate');}catch(e){}
-  if(saved===HASH){row.hidden=true;btn.disabled=false;return;}
+  try{localStorage.removeItem('ba-gate');}catch(e){}
   btn.disabled=true;
   input.addEventListener('input',function(){
     var v=input.value.trim();
-    if(pass(v)){try{localStorage.setItem('ba-gate',HASH);}catch(e){}row.hidden=true;btn.disabled=false;hint.textContent='';}
+    if(pass(v)){row.hidden=true;btn.disabled=false;hint.textContent='';}
     else{btn.disabled=true;hint.textContent=v?'口令不对':'口令见群公告';}
   });
 })();
