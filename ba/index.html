@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1520" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="build" content="43d8a5d3b4">
+<meta name="build" content="303364f379">
 <link rel="canonical" href="https://captain-jar.github.io/ba/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="蔚蓝档案 · 养成差量计算器">
@@ -2232,6 +2232,18 @@ body{background:transparent!important}
 .cand-scroll::-webkit-scrollbar{width:8px}
 .cand-scroll::-webkit-scrollbar-thumb{background:#d9e3f0;border-radius:4px}
 @media (max-width:600px){.cand-scroll{max-height:55vh}}
+
+/* v67.11: 礼物库其他礼物同步进好感详情 */
+.other-head{margin-top:14px;border-top:1px dashed #f1e6f5;padding-top:12px}
+.other-head small{color:#b09bbd}
+.other-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+.gt-other{
+  position:absolute;left:8px;top:8px;z-index:2;
+  padding:2px 6px;border-radius:999px;background:#fff;color:#8B9AAA;
+  font-size:8px;font-weight:800;letter-spacing:.5px;box-shadow:0 2px 8px -4px rgba(100,116,139,.35);
+}
+.gift-tile.other-tile{border-color:#e8eef5;background:linear-gradient(180deg,#fff,#fafcff)}
+.gift-tile.other-tile .gt-value{color:#64748b}
 </style>
 </head>
 <body class="intro-open">
@@ -2313,7 +2325,7 @@ body{background:transparent!important}
 <footer class="foot">
   <div class="foot-brand"><span class="dot"></span> 蔚蓝档案 · 养成差量计算器</div>
   <div>非官方粉丝工具，与 NEXON / Yostar 无关；角色与素材版权归原权利方所有。</div>
-  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 43d8a5d3b4</div>
+  <div class="foot-meta">纯前端 · 本地计算 · 无需登录 · 数据来源 SchaleDB CN/JP / 公开夏莱BD / 图书馆 · 全部 278 · 国服 267 · 日服 278 · 国际服 212 · 含 11 名日服限定 · 同步 2026-10-22 · 构建 303364f379</div>
   <div class="foot-legal">技术原因，不支持图片识别。</div>
   <div class="foot-legal">如有侵权，请联系删除。</div>
 </footer>
@@ -2960,9 +2972,15 @@ window.BACalc = CALC.core;</script>
     return out.sort((a, b) => b.value - a.value || a.id - b.id);
   }
 
-  /** 好感详情：喜欢礼物在前，通用紫礼/金礼固定在后 */
+  /** 好感详情：喜欢礼物在前，通用紫礼/金礼固定，礼物库中其余有库存的礼物最后 */
   function bondGifts(s) {
-    return favGifts(s).concat(GENERIC_GIFTS);
+    const favs = favGifts(s);
+    const favNames = new Set(favs.map((g) => g.name));
+    const others = GIFTS
+      .filter((g) => !favNames.has(g.name) && toCount(state.inv['gift:' + g.name]) > 0)
+      .map((g) => ({ ...g, value: (GIFT_RULE[g.tier] || GIFT_RULE[2]).base, other: true }))
+      .sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, 'zh-CN'));
+    return favs.concat(GENERIC_GIFTS, others);
   }
 
   const state = {
@@ -4884,10 +4902,12 @@ window.BACalc = CALC.core;</script>
       const ico = g.generic
         ? `<span class="gift-ico generic ${g.generic}" aria-hidden="true"><i></i></span>`
         : img(iconUrl(g.icon), 'gift-ico', g.name);
-      return `<label class="gift-tile ${g.generic ? 'generic-tile' : ''}" title="${esc(g.name)} · 单个 +${g.value}${g.generic ? ' · 不挑角色' : ''}">
+      const cls = [g.generic ? 'generic-tile' : '', g.other ? 'other-tile' : ''].filter(Boolean).join(' ');
+      return `<label class="gift-tile ${cls}" title="${esc(g.name)} · 单个 +${g.value}${g.generic ? ' · 不挑角色' : g.other ? ' · 不匹配偏好，按基础值' : ''}">
         <span class="gt-value gval">+${g.value}</span>
         <span class="gt-icon">${ico}</span>
         ${g.generic ? '<span class="gt-generic">通用</span>' : ''}
+        ${g.other ? '<span class="gt-other">其他</span>' : ''}
         <input type="number" min="0" inputmode="numeric" data-bond-gift="${esc(g.name)}" data-gift-value="${g.value}" value="${owned || ''}" placeholder="0" aria-label="${esc(g.name)} 库存数量">
       </label>`;
     };
@@ -4905,8 +4925,9 @@ window.BACalc = CALC.core;</script>
     const detailHTML = activeBond ? (() => {
       const x = activeBond;
       const giftTile = giftTileOf(x);
-      const favs = x.fs.filter((g) => !g.generic);
+      const favs = x.fs.filter((g) => !g.generic && !g.other);
       const gens = x.fs.filter((g) => g.generic);
+      const others = x.fs.filter((g) => g.other);
       const curMax = x.curLv >= 100 ? 100 : Math.max(1, x.tgtLv - 1);
       const tgtMin = x.curLv >= 100 ? 100 : Math.min(100, x.curLv + 1);
       return `<section class="bond-detail" data-bond-id="${x.p.id}" data-bond-cur="${x.curLv}">
@@ -4945,6 +4966,8 @@ window.BACalc = CALC.core;</script>
         ${favs.length ? `<div class="gift-grid">${favs.map(giftTile).join('')}</div>` : '<div class="hint">暂无礼物偏好数据</div>'}
         <div class="bond-like-head generic-head"><span>通用礼物</span><small>不挑角色 · 紫礼 +120 / 金礼 +20</small></div>
         <div class="gift-grid generic-grid">${gens.map(giftTile).join('')}</div>
+        ${others.length ? `<div class="bond-like-head other-head"><span>其他礼物</span><small>来自礼物库 · 不匹配偏好按基础好感</small></div>
+        <div class="gift-grid other-grid">${others.map(giftTile).join('')}</div>` : ''}
       </section>`;
     })() : '';
 
